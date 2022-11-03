@@ -1,6 +1,59 @@
-type ExampleEntity @entity {
+type CushionDownEvent @entity @immutable {
   id: ID!
-  count: BigInt!
-  high_: Boolean! # bool
-  timestamp_: BigInt! # uint256
+  block: BigInt!
+  date: String!
+  isHigh: Boolean!
+  timestamp: BigInt!
+}
+
+type CushionUpEvent @entity @immutable {
+  id: ID!
+  block: BigInt!
+  date: String!
+  isHigh: Boolean!
+  timestamp: BigInt!
+  capacity: BigDecimal!
+}
+
+type PricesChangedEvent @entity @immutable {
+  id: ID!
+  block: BigInt!
+  date: String!
+  cushionHighPrice: BigDecimal!
+  cushionLowPrice: BigDecimal!
+  wallHighPrice: BigDecimal!
+  wallLowPrice: BigDecimal!
+}
+
+type SpreadsChangedEvent @entity @immutable {
+  id: ID!
+  block: BigInt!
+  date: String!
+  cushionSpread: BigDecimal!
+  wallSpread: BigDecimal!
+}
+
+type ThresholdFactorChangedEvent @entity @immutable {
+  id: ID!
+  block: BigInt!
+  date: String!
+  thresholdFactor: BigDecimal!
+}
+
+type WallDownEvent @entity @immutable {
+  id: ID!
+  block: BigInt!
+  date: String!
+  isHigh: Boolean!
+  timestamp: BigInt!
+  capacity: BigDecimal!
+}
+
+type WallUpEvent @entity @immutable {
+  id: ID!
+  block: BigInt!
+  date: String!
+  isHigh: Boolean!
+  timestamp: BigInt!
+  capacity: BigDecimal!
 }
