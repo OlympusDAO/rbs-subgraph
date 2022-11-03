@@ -1,4 +1,5 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
+import { Price } from "../generated/Price/Price";
 import {
     Range,
     CushionDown,
@@ -9,74 +10,92 @@ import {
     WallDown,
     WallUp
 } from "../generated/Range/Range"
-import { ExampleEntity } from "../generated/schema"
+import { PriceEvent, PricesChangedEvent, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
+import { PRICE_CONTRACT } from "./constants";
+import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
+import { toDecimal } from "./helpers/decimalHelper";
+import { getUnixTimestamp } from "./helpers/numberHelper";
 
-export function handleCushionDown(event: CushionDown): void {
-    // Entities can be loaded from the store using a string ID; this ID
-    // needs to be unique across all entities of the same type
-    let entity = ExampleEntity.load(event.transaction.from.toHex())
+function createPriceEvent(transaction: ethereum.Transaction, block: ethereum.Block, logIndex: BigInt, type: string, isHigh: boolean, timestamp: BigInt, capacity: BigInt | null): void {
+    const unixTimestamp: BigInt = getUnixTimestamp(timestamp);
+    const priceContract = Price.bind(Address.fromString(PRICE_CONTRACT));
+    const decimals = priceContract.decimals();
 
-    // Entities only exist after they have been saved to the store;
-    // `null` checks allow to create entities on demand
-    if (!entity) {
-        entity = new ExampleEntity(event.transaction.from.toHex())
+    const entity = new PriceEvent(`${transaction.hash.toHexString()}/${logIndex.toString()}`);
+    entity.block = block.number;
+    entity.transaction = transaction.hash;
+    entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+    entity.type = type;
+    entity.isHigh = isHigh;
+    entity.timestamp = unixTimestamp;
+    entity.capacityOhm = capacity ? toDecimal(capacity, decimals) : null;
 
-        // Entity fields can be set using simple assignments
-        entity.count = BigInt.fromI32(0)
+    const priceResult = priceContract.try_getCurrentPrice();
+    if (!priceResult.reverted) {
+        entity.price = toDecimal(priceResult.value, decimals);
     }
 
-    // BigInt and BigDecimal math are supported
-    entity.count = entity.count + BigInt.fromI32(1)
+    const priceMovingAverageResult = priceContract.try_getMovingAverage();
+    if (!priceMovingAverageResult.reverted) {
+        entity.priceMovingAverage = toDecimal(priceMovingAverageResult.value, decimals);
+    }
 
-    // Entity fields can be set based on event parameters
-    entity.high_ = event.params.high_
-    entity.timestamp_ = event.params.timestamp_
-
-    // Entities can be written to the store with `.save()`
-    entity.save()
-
-    // Note: If a handler doesn't require existing field values, it is faster
-    // _not_ to load the entity from the store. Instead, create it fresh with
-    // `new Entity(...)`, set the fields that should be updated and save the
-    // entity back to the store. Fields that were not set or unset remain
-    // unchanged, allowing for partial updates to be applied.
-
-    // It is also possible to access smart contracts from mappings. For
-    // example, the contract that has emitted the event can be connected to
-    // with:
-    //
-    // let contract = Contract.bind(event.address)
-    //
-    // The following functions can then be called on this contract to access
-    // state variables and other data:
-    //
-    // - contract.KEYCODE(...)
-    // - contract.ONE_HUNDRED_PERCENT(...)
-    // - contract.ONE_PERCENT(...)
-    // - contract.VERSION(...)
-    // - contract.active(...)
-    // - contract.capacity(...)
-    // - contract.kernel(...)
-    // - contract.lastActive(...)
-    // - contract.market(...)
-    // - contract.ohm(...)
-    // - contract.price(...)
-    // - contract.range(...)
-    // - contract.reserve(...)
-    // - contract.spread(...)
-    // - contract.thresholdFactor(...)
+    entity.save();
 }
 
-export function handleCushionUp(event: CushionUp): void { }
+export function handleCushionDown(event: CushionDown): void {
+    createPriceEvent(event.transaction, event.block, event.logIndex, "CushionDown", event.params.high_, event.params.timestamp_, null);
+}
 
-export function handlePricesChanged(event: PricesChanged): void { }
+export function handleCushionUp(event: CushionUp): void {
+    createPriceEvent(event.transaction, event.block, event.logIndex, "CushionUp", event.params.high_, event.params.timestamp_, event.params.capacity_);
+}
 
-export function handleSpreadsChanged(event: SpreadsChanged): void { }
+export function handleWallDown(event: WallDown): void {
+    createPriceEvent(event.transaction, event.block, event.logIndex, "WallDown", event.params.high_, event.params.timestamp_, event.params.capacity_);
+}
+
+export function handleWallUp(event: WallUp): void {
+    createPriceEvent(event.transaction, event.block, event.logIndex, "WallUp", event.params.high_, event.params.timestamp_, event.params.capacity_);
+}
+
+export function handlePricesChanged(event: PricesChanged): void {
+    const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
+    const priceContract = Price.bind(Address.fromString(PRICE_CONTRACT));
+    const decimals = priceContract.decimals();
+
+    const entity = new PricesChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    entity.block = event.block.number;
+    entity.transaction = event.transaction.hash;
+    entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+    entity.cushionHighPrice = toDecimal(event.params.cushionHighPrice_, decimals);
+    entity.cushionLowPrice = toDecimal(event.params.cushionLowPrice_, decimals);
+    entity.wallHighPrice = toDecimal(event.params.wallHighPrice_, decimals);
+    entity.wallLowPrice = toDecimal(event.params.wallLowPrice_, decimals);
+    entity.save();
+}
+
+export function handleSpreadsChanged(event: SpreadsChanged): void {
+    const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
+
+    const entity = new SpreadsChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    entity.block = event.block.number;
+    entity.transaction = event.transaction.hash;
+    entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+    entity.cushionSpread = toDecimal(event.params.cushionSpread_, 2);
+    entity.wallSpread = toDecimal(event.params.wallSpread_, 2);
+    entity.save();
+}
 
 export function handleThresholdFactorChanged(
     event: ThresholdFactorChanged
-): void { }
+): void {
+    const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
-export function handleWallDown(event: WallDown): void { }
-
-export function handleWallUp(event: WallUp): void { }
+    const entity = new ThresholdFactorChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    entity.block = event.block.number;
+    entity.transaction = event.transaction.hash;
+    entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+    entity.thresholdFactor = toDecimal(event.params.thresholdFactor_, 2);
+    entity.save();
+}

@@ -1,23 +1,28 @@
-type CushionDownEvent @entity @immutable {
-  id: ID!
-  block: BigInt!
-  date: String!
-  isHigh: Boolean!
-  timestamp: BigInt!
+# Range
+enum PriceEventType {
+  CushionDown
+  CushionUp
+  WallDown
+  WallUp
 }
 
-type CushionUpEvent @entity @immutable {
+type PriceEvent @entity(immutable: true) {
   id: ID!
   block: BigInt!
+  transaction: Bytes!
   date: String!
+  type: PriceEventType!
   isHigh: Boolean!
   timestamp: BigInt!
-  capacity: BigDecimal!
+  capacityOhm: BigDecimal
+  price: BigDecimal
+  priceMovingAverage: BigDecimal
 }
 
-type PricesChangedEvent @entity @immutable {
+type PricesChangedEvent @entity(immutable: true) {
   id: ID!
   block: BigInt!
+  transaction: Bytes!
   date: String!
   cushionHighPrice: BigDecimal!
   cushionLowPrice: BigDecimal!
@@ -25,35 +30,55 @@ type PricesChangedEvent @entity @immutable {
   wallLowPrice: BigDecimal!
 }
 
-type SpreadsChangedEvent @entity @immutable {
+type SpreadsChangedEvent @entity(immutable: true) {
   id: ID!
   block: BigInt!
+  transaction: Bytes!
   date: String!
-  cushionSpread: BigDecimal!
-  wallSpread: BigDecimal!
+  cushionSpread: BigDecimal! # > 0.01 && < 1.0
+  wallSpread: BigDecimal! # > 0.01 && < 1.0
 }
 
-type ThresholdFactorChangedEvent @entity @immutable {
+type ThresholdFactorChangedEvent @entity(immutable: true) {
   id: ID!
   block: BigInt!
+  transaction: Bytes!
   date: String!
-  thresholdFactor: BigDecimal!
+  thresholdFactor: BigDecimal! # > 0.01 && < 1.0
 }
 
-type WallDownEvent @entity @immutable {
+# Price
+type MovingAverageDurationChanged @entity(immutable: true) {
   id: ID!
   block: BigInt!
+  transaction: Bytes!
   date: String!
-  isHigh: Boolean!
-  timestamp: BigInt!
-  capacity: BigDecimal!
+  movingAverageDuration: BigInt!
 }
 
-type WallUpEvent @entity @immutable {
+type NewObservation @entity(immutable: true) {
   id: ID!
   block: BigInt!
+  transaction: Bytes!
   date: String!
-  isHigh: Boolean!
-  timestamp: BigInt!
-  capacity: BigDecimal!
+  timestamp: BigInt! # uint256
+  price: BigDecimal! # uint256
+  priceMovingAverage: BigDecimal! # uint256
+}
+
+type ObservationFrequencyChanged @entity(immutable: true) {
+  id: ID!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  observationFrequencySeconds: BigInt! # uint48
+}
+
+type UpdateThresholdsChanged @entity(immutable: true) {
+  id: ID!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  ohmEthUpdateThresholdSeconds: BigInt! # uint48
+  reserveEthUpdateThresholdSeconds: BigInt! # uint48
 }

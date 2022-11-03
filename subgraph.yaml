@@ -8,21 +8,21 @@ dataSources:
     source:
       address: "0x9ECDA630626a3aa9EF24A53c4Faca1Ce76a1A508"
       abi: Range
+      startBlock: 7838435
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - CushionDown
-        - CushionUp
+        - PriceEvent
         - PricesChanged
         - SpreadsChanged
         - ThresholdFactorChanged
-        - WallDown
-        - WallUp
       abis:
         - name: Range
           file: ./abis/Range.json
+        - name: Price
+          file: ./abis/Price.json
       eventHandlers:
         - event: CushionDown(bool,uint256)
           handler: handleCushionDown
@@ -39,3 +39,32 @@ dataSources:
         - event: WallUp(bool,uint256,uint256)
           handler: handleWallUp
       file: ./src/range.ts
+  - kind: ethereum
+    name: Price
+    network: goerli
+    source:
+      address: "0x6d39cdfa180974c5e1ac6fd325a1718f2fd4412f"
+      abi: Price
+      startBlock: 7838434
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - MovingAverageDurationChanged
+        - NewObservation
+        - ObservationFrequencyChanged
+        - UpdateThresholdsChanged
+      abis:
+        - name: Price
+          file: ./abis/Price.json
+      eventHandlers:
+        - event: MovingAverageDurationChanged(uint48)
+          handler: handleMovingAverageDurationChanged
+        - event: NewObservation(uint256,uint256,uint256)
+          handler: handleNewObservation
+        - event: ObservationFrequencyChanged(uint48)
+          handler: handleObservationFrequencyChanged
+        - event: UpdateThresholdsChanged(uint48,uint48)
+          handler: handleUpdateThresholdsChanged
+      file: ./src/price.ts

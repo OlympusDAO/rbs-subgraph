@@ -10,7 +10,7 @@ import {
   Value,
   ValueKind} from "@graphprotocol/graph-ts";
 
-export class CushionDownEvent extends Entity {
+export class PriceEvent extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -18,20 +18,18 @@ export class CushionDownEvent extends Entity {
 
   save(): void {
     const id = this.get("id");
-    assert(id != null, "Cannot save CushionDownEvent entity without an ID");
+    assert(id != null, "Cannot save PriceEvent entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type CushionDownEvent must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type PriceEvent must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("CushionDownEvent", id.toString(), this);
+      store.set("PriceEvent", id.toString(), this);
     }
   }
 
-  static load(id: string): CushionDownEvent | null {
-    return changetype<CushionDownEvent | null>(
-      store.get("CushionDownEvent", id)
-    );
+  static load(id: string): PriceEvent | null {
+    return changetype<PriceEvent | null>(store.get("PriceEvent", id));
   }
 
   get id(): string {
@@ -52,6 +50,15 @@ export class CushionDownEvent extends Entity {
     this.set("block", Value.fromBigInt(value));
   }
 
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
   get date(): string {
     const value = this.get("date");
     return value!.toString();
@@ -59,6 +66,15 @@ export class CushionDownEvent extends Entity {
 
   set date(value: string) {
     this.set("date", Value.fromString(value));
+  }
+
+  get type(): string {
+    const value = this.get("type");
+    return value!.toString();
+  }
+
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
   }
 
   get isHigh(): boolean {
@@ -78,82 +94,56 @@ export class CushionDownEvent extends Entity {
   set timestamp(value: BigInt) {
     this.set("timestamp", Value.fromBigInt(value));
   }
-}
 
-export class CushionUpEvent extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    const id = this.get("id");
-    assert(id != null, "Cannot save CushionUpEvent entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type CushionUpEvent must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("CushionUpEvent", id.toString(), this);
+  get capacityOhm(): BigDecimal | null {
+    const value = this.get("capacityOhm");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
     }
   }
 
-  static load(id: string): CushionUpEvent | null {
-    return changetype<CushionUpEvent | null>(store.get("CushionUpEvent", id));
+  set capacityOhm(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("capacityOhm");
+    } else {
+      this.set("capacityOhm", Value.fromBigDecimal(<BigDecimal>value));
+    }
   }
 
-  get id(): string {
-    const value = this.get("id");
-    return value!.toString();
+  get price(): BigDecimal | null {
+    const value = this.get("price");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set price(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("price");
+    } else {
+      this.set("price", Value.fromBigDecimal(<BigDecimal>value));
+    }
   }
 
-  get block(): BigInt {
-    const value = this.get("block");
-    return value!.toBigInt();
+  get priceMovingAverage(): BigDecimal | null {
+    const value = this.get("priceMovingAverage");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
   }
 
-  set block(value: BigInt) {
-    this.set("block", Value.fromBigInt(value));
-  }
-
-  get date(): string {
-    const value = this.get("date");
-    return value!.toString();
-  }
-
-  set date(value: string) {
-    this.set("date", Value.fromString(value));
-  }
-
-  get isHigh(): boolean {
-    const value = this.get("isHigh");
-    return value!.toBoolean();
-  }
-
-  set isHigh(value: boolean) {
-    this.set("isHigh", Value.fromBoolean(value));
-  }
-
-  get timestamp(): BigInt {
-    const value = this.get("timestamp");
-    return value!.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
-  }
-
-  get capacity(): BigDecimal {
-    const value = this.get("capacity");
-    return value!.toBigDecimal();
-  }
-
-  set capacity(value: BigDecimal) {
-    this.set("capacity", Value.fromBigDecimal(value));
+  set priceMovingAverage(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("priceMovingAverage");
+    } else {
+      this.set("priceMovingAverage", Value.fromBigDecimal(<BigDecimal>value));
+    }
   }
 }
 
@@ -197,6 +187,15 @@ export class PricesChangedEvent extends Entity {
 
   set block(value: BigInt) {
     this.set("block", Value.fromBigInt(value));
+  }
+
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
   }
 
   get date(): string {
@@ -287,6 +286,15 @@ export class SpreadsChangedEvent extends Entity {
     this.set("block", Value.fromBigInt(value));
   }
 
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
   get date(): string {
     const value = this.get("date");
     return value!.toString();
@@ -360,6 +368,15 @@ export class ThresholdFactorChangedEvent extends Entity {
     this.set("block", Value.fromBigInt(value));
   }
 
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
   get date(): string {
     const value = this.get("date");
     return value!.toString();
@@ -379,7 +396,7 @@ export class ThresholdFactorChangedEvent extends Entity {
   }
 }
 
-export class WallDownEvent extends Entity {
+export class MovingAverageDurationChanged extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -387,18 +404,23 @@ export class WallDownEvent extends Entity {
 
   save(): void {
     const id = this.get("id");
-    assert(id != null, "Cannot save WallDownEvent entity without an ID");
+    assert(
+      id != null,
+      "Cannot save MovingAverageDurationChanged entity without an ID"
+    );
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type WallDownEvent must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type MovingAverageDurationChanged must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("WallDownEvent", id.toString(), this);
+      store.set("MovingAverageDurationChanged", id.toString(), this);
     }
   }
 
-  static load(id: string): WallDownEvent | null {
-    return changetype<WallDownEvent | null>(store.get("WallDownEvent", id));
+  static load(id: string): MovingAverageDurationChanged | null {
+    return changetype<MovingAverageDurationChanged | null>(
+      store.get("MovingAverageDurationChanged", id)
+    );
   }
 
   get id(): string {
@@ -419,6 +441,15 @@ export class WallDownEvent extends Entity {
     this.set("block", Value.fromBigInt(value));
   }
 
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
   get date(): string {
     const value = this.get("date");
     return value!.toString();
@@ -428,35 +459,17 @@ export class WallDownEvent extends Entity {
     this.set("date", Value.fromString(value));
   }
 
-  get isHigh(): boolean {
-    const value = this.get("isHigh");
-    return value!.toBoolean();
-  }
-
-  set isHigh(value: boolean) {
-    this.set("isHigh", Value.fromBoolean(value));
-  }
-
-  get timestamp(): BigInt {
-    const value = this.get("timestamp");
+  get movingAverageDuration(): BigInt {
+    const value = this.get("movingAverageDuration");
     return value!.toBigInt();
   }
 
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
-  }
-
-  get capacity(): BigDecimal {
-    const value = this.get("capacity");
-    return value!.toBigDecimal();
-  }
-
-  set capacity(value: BigDecimal) {
-    this.set("capacity", Value.fromBigDecimal(value));
+  set movingAverageDuration(value: BigInt) {
+    this.set("movingAverageDuration", Value.fromBigInt(value));
   }
 }
 
-export class WallUpEvent extends Entity {
+export class NewObservation extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -464,18 +477,18 @@ export class WallUpEvent extends Entity {
 
   save(): void {
     const id = this.get("id");
-    assert(id != null, "Cannot save WallUpEvent entity without an ID");
+    assert(id != null, "Cannot save NewObservation entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type WallUpEvent must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type NewObservation must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("WallUpEvent", id.toString(), this);
+      store.set("NewObservation", id.toString(), this);
     }
   }
 
-  static load(id: string): WallUpEvent | null {
-    return changetype<WallUpEvent | null>(store.get("WallUpEvent", id));
+  static load(id: string): NewObservation | null {
+    return changetype<NewObservation | null>(store.get("NewObservation", id));
   }
 
   get id(): string {
@@ -496,6 +509,15 @@ export class WallUpEvent extends Entity {
     this.set("block", Value.fromBigInt(value));
   }
 
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
   get date(): string {
     const value = this.get("date");
     return value!.toString();
@@ -503,15 +525,6 @@ export class WallUpEvent extends Entity {
 
   set date(value: string) {
     this.set("date", Value.fromString(value));
-  }
-
-  get isHigh(): boolean {
-    const value = this.get("isHigh");
-    return value!.toBoolean();
-  }
-
-  set isHigh(value: boolean) {
-    this.set("isHigh", Value.fromBoolean(value));
   }
 
   get timestamp(): BigInt {
@@ -523,12 +536,176 @@ export class WallUpEvent extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get capacity(): BigDecimal {
-    const value = this.get("capacity");
+  get price(): BigDecimal {
+    const value = this.get("price");
     return value!.toBigDecimal();
   }
 
-  set capacity(value: BigDecimal) {
-    this.set("capacity", Value.fromBigDecimal(value));
+  set price(value: BigDecimal) {
+    this.set("price", Value.fromBigDecimal(value));
+  }
+
+  get priceMovingAverage(): BigDecimal {
+    const value = this.get("priceMovingAverage");
+    return value!.toBigDecimal();
+  }
+
+  set priceMovingAverage(value: BigDecimal) {
+    this.set("priceMovingAverage", Value.fromBigDecimal(value));
+  }
+}
+
+export class ObservationFrequencyChanged extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save ObservationFrequencyChanged entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type ObservationFrequencyChanged must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("ObservationFrequencyChanged", id.toString(), this);
+    }
+  }
+
+  static load(id: string): ObservationFrequencyChanged | null {
+    return changetype<ObservationFrequencyChanged | null>(
+      store.get("ObservationFrequencyChanged", id)
+    );
+  }
+
+  get id(): string {
+    const value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    const value = this.get("block");
+    return value!.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
+  get date(): string {
+    const value = this.get("date");
+    return value!.toString();
+  }
+
+  set date(value: string) {
+    this.set("date", Value.fromString(value));
+  }
+
+  get observationFrequencySeconds(): BigInt {
+    const value = this.get("observationFrequencySeconds");
+    return value!.toBigInt();
+  }
+
+  set observationFrequencySeconds(value: BigInt) {
+    this.set("observationFrequencySeconds", Value.fromBigInt(value));
+  }
+}
+
+export class UpdateThresholdsChanged extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save UpdateThresholdsChanged entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type UpdateThresholdsChanged must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("UpdateThresholdsChanged", id.toString(), this);
+    }
+  }
+
+  static load(id: string): UpdateThresholdsChanged | null {
+    return changetype<UpdateThresholdsChanged | null>(
+      store.get("UpdateThresholdsChanged", id)
+    );
+  }
+
+  get id(): string {
+    const value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    const value = this.get("block");
+    return value!.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
+  get date(): string {
+    const value = this.get("date");
+    return value!.toString();
+  }
+
+  set date(value: string) {
+    this.set("date", Value.fromString(value));
+  }
+
+  get ohmEthUpdateThresholdSeconds(): BigInt {
+    const value = this.get("ohmEthUpdateThresholdSeconds");
+    return value!.toBigInt();
+  }
+
+  set ohmEthUpdateThresholdSeconds(value: BigInt) {
+    this.set("ohmEthUpdateThresholdSeconds", Value.fromBigInt(value));
+  }
+
+  get reserveEthUpdateThresholdSeconds(): BigInt {
+    const value = this.get("reserveEthUpdateThresholdSeconds");
+    return value!.toBigInt();
+  }
+
+  set reserveEthUpdateThresholdSeconds(value: BigInt) {
+    this.set("reserveEthUpdateThresholdSeconds", Value.fromBigInt(value));
   }
 }
