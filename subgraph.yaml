@@ -1,0 +1,41 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Range
+    network: goerli
+    source:
+      address: "0x9ECDA630626a3aa9EF24A53c4Faca1Ce76a1A508"
+      abi: Range
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - CushionDown
+        - CushionUp
+        - PricesChanged
+        - SpreadsChanged
+        - ThresholdFactorChanged
+        - WallDown
+        - WallUp
+      abis:
+        - name: Range
+          file: ./abis/Range.json
+      eventHandlers:
+        - event: CushionDown(bool,uint256)
+          handler: handleCushionDown
+        - event: CushionUp(bool,uint256,uint256)
+          handler: handleCushionUp
+        - event: PricesChanged(uint256,uint256,uint256,uint256)
+          handler: handlePricesChanged
+        - event: SpreadsChanged(uint256,uint256)
+          handler: handleSpreadsChanged
+        - event: ThresholdFactorChanged(uint256)
+          handler: handleThresholdFactorChanged
+        - event: WallDown(bool,uint256,uint256)
+          handler: handleWallDown
+        - event: WallUp(bool,uint256,uint256)
+          handler: handleWallUp
+      file: ./src/range.ts

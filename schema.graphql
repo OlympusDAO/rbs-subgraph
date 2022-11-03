@@ -1,0 +1,6 @@
+type ExampleEntity @entity {
+  id: ID!
+  count: BigInt!
+  high_: Boolean! # bool
+  timestamp_: BigInt! # uint256
+}
