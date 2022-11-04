@@ -14,3 +14,7 @@ This subgraph indexes events from the following contracts:
 Where relevant, additional data/context from the contract is included in the indexed data.
 
 It currently indexes the contracts on the Goerli testnet. However, it will be shifted to Ethereum mainnet upon final deployment.
+
+## Subgraph
+
+It is published at: <https://thegraph.com/hosted-service/subgraph/olympusdao/rbs>
