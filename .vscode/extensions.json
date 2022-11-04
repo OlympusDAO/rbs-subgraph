@@ -1,5 +1,11 @@
 {
     "recommendations": [
-        "graphql.vscode-graphql"
+        "graphql.vscode-graphql",
+        "dbaeumer.vscode-eslint",
+        "mquandalle.graphql",
+        "davidanson.vscode-markdownlint",
+        "rvest.vs-code-prettier-eslint",
+        "gruntfuggly.todo-tree",
+        "redhat.vscode-yaml"
     ]
 }

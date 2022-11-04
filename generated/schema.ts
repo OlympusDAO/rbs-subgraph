@@ -145,6 +145,74 @@ export class PriceEvent extends Entity {
       this.set("priceMovingAverage", Value.fromBigDecimal(<BigDecimal>value));
     }
   }
+
+  get cushionHighPrice(): BigDecimal | null {
+    const value = this.get("cushionHighPrice");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set cushionHighPrice(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("cushionHighPrice");
+    } else {
+      this.set("cushionHighPrice", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get cushionLowPrice(): BigDecimal | null {
+    const value = this.get("cushionLowPrice");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set cushionLowPrice(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("cushionLowPrice");
+    } else {
+      this.set("cushionLowPrice", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get wallHighPrice(): BigDecimal | null {
+    const value = this.get("wallHighPrice");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set wallHighPrice(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("wallHighPrice");
+    } else {
+      this.set("wallHighPrice", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get wallLowPrice(): BigDecimal | null {
+    const value = this.get("wallLowPrice");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set wallLowPrice(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("wallLowPrice");
+    } else {
+      this.set("wallLowPrice", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
 }
 
 export class PricesChangedEvent extends Entity {

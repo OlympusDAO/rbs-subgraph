@@ -1,17 +1,18 @@
 import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
+
 import { Price } from "../generated/Price/Price";
 import {
-    Range,
     CushionDown,
     CushionUp,
     PricesChanged,
+    Range,
     SpreadsChanged,
     ThresholdFactorChanged,
     WallDown,
     WallUp
 } from "../generated/Range/Range"
 import { PriceEvent, PricesChangedEvent, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
-import { PRICE_CONTRACT } from "./constants";
+import { PRICE_CONTRACT, RANGE_CONTRACT } from "./constants";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
@@ -38,6 +39,16 @@ function createPriceEvent(transaction: ethereum.Transaction, block: ethereum.Blo
     const priceMovingAverageResult = priceContract.try_getMovingAverage();
     if (!priceMovingAverageResult.reverted) {
         entity.priceMovingAverage = toDecimal(priceMovingAverageResult.value, decimals);
+    }
+
+    const rangeContract = Range.bind(Address.fromString(RANGE_CONTRACT));
+    const rangeResult = rangeContract.try_range();
+    if (!rangeResult.reverted) {
+        const result = rangeResult.value;
+        entity.cushionHighPrice = toDecimal(result.cushion.high.price, 18);
+        entity.cushionLowPrice = toDecimal(result.cushion.low.price, 18);
+        entity.wallHighPrice = toDecimal(result.wall.high.price, 18);
+        entity.wallLowPrice = toDecimal(result.wall.low.price, 18);
     }
 
     entity.save();

@@ -17,6 +17,10 @@ type PriceEvent @entity(immutable: true) {
   capacityOhm: BigDecimal
   price: BigDecimal
   priceMovingAverage: BigDecimal
+  cushionHighPrice: BigDecimal
+  cushionLowPrice: BigDecimal
+  wallHighPrice: BigDecimal
+  wallLowPrice: BigDecimal
 }
 
 type PricesChangedEvent @entity(immutable: true) {
