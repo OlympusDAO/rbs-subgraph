@@ -8,6 +8,7 @@ enum PriceEventType {
 
 type PriceEvent @entity(immutable: true) {
   id: ID!
+  blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
@@ -25,6 +26,7 @@ type PriceEvent @entity(immutable: true) {
 
 type PricesChangedEvent @entity(immutable: true) {
   id: ID!
+  blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
@@ -36,6 +38,7 @@ type PricesChangedEvent @entity(immutable: true) {
 
 type SpreadsChangedEvent @entity(immutable: true) {
   id: ID!
+  blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
@@ -45,6 +48,7 @@ type SpreadsChangedEvent @entity(immutable: true) {
 
 type ThresholdFactorChangedEvent @entity(immutable: true) {
   id: ID!
+  blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
@@ -54,6 +58,7 @@ type ThresholdFactorChangedEvent @entity(immutable: true) {
 # Price
 type MovingAverageDurationChanged @entity(immutable: true) {
   id: ID!
+  blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
@@ -62,6 +67,7 @@ type MovingAverageDurationChanged @entity(immutable: true) {
 
 type NewObservation @entity(immutable: true) {
   id: ID!
+  blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
@@ -72,6 +78,7 @@ type NewObservation @entity(immutable: true) {
 
 type ObservationFrequencyChanged @entity(immutable: true) {
   id: ID!
+  blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
@@ -80,6 +87,7 @@ type ObservationFrequencyChanged @entity(immutable: true) {
 
 type UpdateThresholdsChanged @entity(immutable: true) {
   id: ID!
+  blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!

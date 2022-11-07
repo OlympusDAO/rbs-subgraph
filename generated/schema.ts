@@ -41,6 +41,15 @@ export class PriceEvent extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
   get block(): BigInt {
     const value = this.get("block");
     return value!.toBigInt();
@@ -248,6 +257,15 @@ export class PricesChangedEvent extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
   get block(): BigInt {
     const value = this.get("block");
     return value!.toBigInt();
@@ -345,6 +363,15 @@ export class SpreadsChangedEvent extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
   get block(): BigInt {
     const value = this.get("block");
     return value!.toBigInt();
@@ -427,6 +454,15 @@ export class ThresholdFactorChangedEvent extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
   get block(): BigInt {
     const value = this.get("block");
     return value!.toBigInt();
@@ -500,6 +536,15 @@ export class MovingAverageDurationChanged extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
   get block(): BigInt {
     const value = this.get("block");
     return value!.toBigInt();
@@ -566,6 +611,15 @@ export class NewObservation extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
   }
 
   get block(): BigInt {
@@ -659,6 +713,15 @@ export class ObservationFrequencyChanged extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
   get block(): BigInt {
     const value = this.get("block");
     return value!.toBigInt();
@@ -730,6 +793,15 @@ export class UpdateThresholdsChanged extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
   }
 
   get block(): BigInt {

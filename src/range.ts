@@ -1,4 +1,4 @@
-import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
+import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts"
 
 import { Price } from "../generated/Price/Price";
 import {
@@ -13,16 +13,18 @@ import {
 } from "../generated/Range/Range"
 import { PriceEvent, PricesChangedEvent, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
 import { PRICE_CONTRACT, RANGE_CONTRACT } from "./constants";
+import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
 
-function createPriceEvent(transaction: ethereum.Transaction, block: ethereum.Block, logIndex: BigInt, type: string, isHigh: boolean, timestamp: BigInt, capacity: BigInt | null): void {
+function createPriceEvent(contractAddress: Address, transaction: ethereum.Transaction, block: ethereum.Block, logIndex: BigInt, type: string, isHigh: boolean, timestamp: BigInt, capacity: BigInt | null): void {
     const unixTimestamp: BigInt = getUnixTimestamp(timestamp);
     const priceContract = Price.bind(Address.fromString(PRICE_CONTRACT));
     const decimals = priceContract.decimals();
 
     const entity = new PriceEvent(`${transaction.hash.toHexString()}/${logIndex.toString()}`);
+    entity.blockchain = getChain(contractAddress);
     entity.block = block.number;
     entity.transaction = transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -55,19 +57,19 @@ function createPriceEvent(transaction: ethereum.Transaction, block: ethereum.Blo
 }
 
 export function handleCushionDown(event: CushionDown): void {
-    createPriceEvent(event.transaction, event.block, event.logIndex, "CushionDown", event.params.high_, event.params.timestamp_, null);
+    createPriceEvent(event.address, event.transaction, event.block, event.logIndex, "CushionDown", event.params.high_, event.params.timestamp_, null);
 }
 
 export function handleCushionUp(event: CushionUp): void {
-    createPriceEvent(event.transaction, event.block, event.logIndex, "CushionUp", event.params.high_, event.params.timestamp_, event.params.capacity_);
+    createPriceEvent(event.address, event.transaction, event.block, event.logIndex, "CushionUp", event.params.high_, event.params.timestamp_, event.params.capacity_);
 }
 
 export function handleWallDown(event: WallDown): void {
-    createPriceEvent(event.transaction, event.block, event.logIndex, "WallDown", event.params.high_, event.params.timestamp_, event.params.capacity_);
+    createPriceEvent(event.address, event.transaction, event.block, event.logIndex, "WallDown", event.params.high_, event.params.timestamp_, event.params.capacity_);
 }
 
 export function handleWallUp(event: WallUp): void {
-    createPriceEvent(event.transaction, event.block, event.logIndex, "WallUp", event.params.high_, event.params.timestamp_, event.params.capacity_);
+    createPriceEvent(event.address, event.transaction, event.block, event.logIndex, "WallUp", event.params.high_, event.params.timestamp_, event.params.capacity_);
 }
 
 export function handlePricesChanged(event: PricesChanged): void {
@@ -76,6 +78,7 @@ export function handlePricesChanged(event: PricesChanged): void {
     const decimals = priceContract.decimals();
 
     const entity = new PricesChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    entity.blockchain = getChain(event.address);
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -90,6 +93,7 @@ export function handleSpreadsChanged(event: SpreadsChanged): void {
     const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
     const entity = new SpreadsChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    entity.blockchain = getChain(event.address);
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -104,6 +108,7 @@ export function handleThresholdFactorChanged(
     const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
     const entity = new ThresholdFactorChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    entity.blockchain = getChain(event.address);
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());

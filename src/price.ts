@@ -1,3 +1,5 @@
+import { Address, BigInt } from "@graphprotocol/graph-ts"
+
 import {
   MovingAverageDurationChanged as MovingAverageDurationChangedEvent,
   NewObservation as NewObservationEvent,
@@ -11,11 +13,11 @@ import {
   ObservationFrequencyChanged,
   UpdateThresholdsChanged
 } from "../generated/schema"
-import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
-import { getUnixTimestamp } from "./helpers/numberHelper";
-import { Address, BigInt } from "@graphprotocol/graph-ts"
-import { toDecimal } from "./helpers/decimalHelper";
 import { PRICE_CONTRACT } from "./constants";
+import { getChain } from "./helpers/contractHelper";
+import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
+import { toDecimal } from "./helpers/decimalHelper";
+import { getUnixTimestamp } from "./helpers/numberHelper";
 
 export function handleMovingAverageDurationChanged(
   event: MovingAverageDurationChangedEvent
@@ -25,6 +27,7 @@ export function handleMovingAverageDurationChanged(
   const entity = new MovingAverageDurationChanged(
     `${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`
   );
+  entity.blockchain = getChain(event.address);
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -40,6 +43,7 @@ export function handleNewObservation(event: NewObservationEvent): void {
   const entity = new NewObservation(
     `${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`
   );
+  entity.blockchain = getChain(event.address);
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -66,6 +70,7 @@ export function handleObservationFrequencyChanged(
   const entity = new ObservationFrequencyChanged(
     `${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`
   );
+  entity.blockchain = getChain(event.address);
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -81,6 +86,7 @@ export function handleUpdateThresholdsChanged(
   const entity = new UpdateThresholdsChanged(
     `${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`
   );
+  entity.blockchain = getChain(event.address);
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
