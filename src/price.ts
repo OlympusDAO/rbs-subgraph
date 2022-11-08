@@ -7,13 +7,14 @@ import {
   Price,
   UpdateThresholdsChanged as UpdateThresholdsChangedEvent
 } from "../generated/Price/Price"
+import { Range } from "../generated/Range/Range";
 import {
   MovingAverageDurationChanged,
   NewObservation,
   ObservationFrequencyChanged,
   UpdateThresholdsChanged
 } from "../generated/schema"
-import { PRICE_CONTRACT } from "./constants";
+import { PRICE_CONTRACT, RANGE_CONTRACT } from "./constants";
 import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
@@ -57,6 +58,16 @@ export function handleNewObservation(event: NewObservationEvent): void {
   const priceMovingAverageResult = priceContract.try_getMovingAverage();
   if (!priceMovingAverageResult.reverted) {
     entity.priceMovingAverage = toDecimal(priceMovingAverageResult.value, decimals);
+  }
+
+  const rangeContract = Range.bind(Address.fromString(RANGE_CONTRACT));
+  const rangeResult = rangeContract.try_range();
+  if (!rangeResult.reverted) {
+      const result = rangeResult.value;
+      entity.cushionHighPrice = toDecimal(result.cushion.high.price, 18);
+      entity.cushionLowPrice = toDecimal(result.cushion.low.price, 18);
+      entity.wallHighPrice = toDecimal(result.wall.high.price, 18);
+      entity.wallLowPrice = toDecimal(result.wall.low.price, 18);
   }
 
   entity.save();

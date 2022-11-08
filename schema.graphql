@@ -74,6 +74,10 @@ type NewObservation @entity(immutable: true) {
   timestamp: BigInt! # uint256
   price: BigDecimal! # uint256
   priceMovingAverage: BigDecimal! # uint256
+  cushionHighPrice: BigDecimal
+  cushionLowPrice: BigDecimal
+  wallHighPrice: BigDecimal
+  wallLowPrice: BigDecimal
 }
 
 type ObservationFrequencyChanged @entity(immutable: true) {
