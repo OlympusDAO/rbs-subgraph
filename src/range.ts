@@ -1,4 +1,4 @@
-import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts"
+import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import { Price } from "../generated/Price/Price";
 import {
@@ -11,9 +11,9 @@ import {
     WallDown,
     WallUp
 } from "../generated/Range/Range"
-import { PriceEvent, PricesChangedEvent, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
+import { PriceEvent, PricesChangedEvent, RangeSnapshot, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
 import { PRICE_CONTRACT, RANGE_CONTRACT } from "./constants";
-import { getChain } from "./helpers/contractHelper";
+import { CHAIN_MAINNET, getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
@@ -113,5 +113,31 @@ export function handleThresholdFactorChanged(
     entity.transaction = event.transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
     entity.thresholdFactor = toDecimal(event.params.thresholdFactor_, 2);
+    entity.save();
+}
+
+export function handleBlock(block: ethereum.Block): void {
+    const unixTimestamp: BigInt = getUnixTimestamp(block.timestamp);
+
+    const priceContract = Price.bind(Address.fromString(PRICE_CONTRACT));
+    const decimals = priceContract.decimals();
+    const rangeContract = Range.bind(Address.fromString(RANGE_CONTRACT));
+
+    const priceResult = priceContract.try_getCurrentPrice();
+    const movingAveragePriceResult = priceContract.try_getMovingAverage();
+
+    const entity = new RangeSnapshot(`${block.number.toString()}`);
+    entity.blockchain = CHAIN_MAINNET;
+    entity.block = block.number;
+    entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+    entity.timestamp = unixTimestamp;
+    entity.ohmPrice = priceResult.reverted ? null : toDecimal(priceContract.getCurrentPrice(), decimals);
+    entity.ohmMovingAveragePrice = movingAveragePriceResult.reverted ? null : toDecimal(priceContract.getMovingAverage(), decimals);
+    entity.cushionHighPrice = toDecimal(rangeContract.price(false, true), decimals);
+    entity.cushionHighCapacityOhm = toDecimal(rangeContract.capacity(true), decimals);
+    entity.wallHighPrice = toDecimal(rangeContract.price(true, true), decimals);
+    entity.cushionLowPrice = toDecimal(rangeContract.price(false, false), decimals);
+    entity.cushionLowCapacityOhm = toDecimal(rangeContract.capacity(false), decimals);
+    entity.wallLowPrice = toDecimal(rangeContract.price(true, false), decimals);
     entity.save();
 }

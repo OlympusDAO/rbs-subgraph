@@ -1,3 +1,19 @@
+type RangeSnapshot @entity(immutable: true) {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  date: String!
+  timestamp: BigInt!
+  ohmPrice: BigDecimal
+  ohmMovingAveragePrice: BigDecimal
+  cushionHighPrice: BigDecimal!
+  cushionHighCapacityOhm: BigDecimal!
+  wallHighPrice: BigDecimal!
+  cushionLowPrice: BigDecimal!
+  cushionLowCapacityOhm: BigDecimal!
+  wallLowPrice: BigDecimal!
+}
+
 # Range
 enum PriceEventType {
   CushionDown

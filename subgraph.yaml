@@ -18,6 +18,7 @@ dataSources:
         - PricesChanged
         - SpreadsChanged
         - ThresholdFactorChanged
+        - RangeSnapshot
       abis:
         - name: Range
           file: ./abis/Range.json
@@ -38,6 +39,8 @@ dataSources:
           handler: handleWallDown
         - event: WallUp(bool,uint256,uint256)
           handler: handleWallUp
+      blockHandlers:
+        - handler: handleBlock
       file: ./src/range.ts
   - kind: ethereum
     name: Price

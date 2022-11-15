@@ -1,7 +1,7 @@
 import { Address } from "@graphprotocol/graph-ts";
 
-const CHAIN_GOERLI = "Goerli";
-const CHAIN_MAINNET = "Mainnet";
+export const CHAIN_GOERLI = "Goerli";
+export const CHAIN_MAINNET = "Mainnet";
 
 const ADDRESS_CHAIN_MAPPING = new Map<string, string>();
 ADDRESS_CHAIN_MAPPING.set("0x9ecda630626a3aa9ef24a53c4faca1ce76a1a508".toLowerCase(), CHAIN_GOERLI);

@@ -10,6 +10,165 @@ import {
   Value,
   ValueKind} from "@graphprotocol/graph-ts";
 
+export class RangeSnapshot extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(id != null, "Cannot save RangeSnapshot entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type RangeSnapshot must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("RangeSnapshot", id.toString(), this);
+    }
+  }
+
+  static load(id: string): RangeSnapshot | null {
+    return changetype<RangeSnapshot | null>(store.get("RangeSnapshot", id));
+  }
+
+  get id(): string {
+    const value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    const value = this.get("block");
+    return value!.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get date(): string {
+    const value = this.get("date");
+    return value!.toString();
+  }
+
+  set date(value: string) {
+    this.set("date", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    const value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get ohmPrice(): BigDecimal | null {
+    const value = this.get("ohmPrice");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set ohmPrice(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("ohmPrice");
+    } else {
+      this.set("ohmPrice", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get ohmMovingAveragePrice(): BigDecimal | null {
+    const value = this.get("ohmMovingAveragePrice");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set ohmMovingAveragePrice(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("ohmMovingAveragePrice");
+    } else {
+      this.set(
+        "ohmMovingAveragePrice",
+        Value.fromBigDecimal(<BigDecimal>value)
+      );
+    }
+  }
+
+  get cushionHighPrice(): BigDecimal {
+    const value = this.get("cushionHighPrice");
+    return value!.toBigDecimal();
+  }
+
+  set cushionHighPrice(value: BigDecimal) {
+    this.set("cushionHighPrice", Value.fromBigDecimal(value));
+  }
+
+  get cushionHighCapacityOhm(): BigDecimal {
+    const value = this.get("cushionHighCapacityOhm");
+    return value!.toBigDecimal();
+  }
+
+  set cushionHighCapacityOhm(value: BigDecimal) {
+    this.set("cushionHighCapacityOhm", Value.fromBigDecimal(value));
+  }
+
+  get wallHighPrice(): BigDecimal {
+    const value = this.get("wallHighPrice");
+    return value!.toBigDecimal();
+  }
+
+  set wallHighPrice(value: BigDecimal) {
+    this.set("wallHighPrice", Value.fromBigDecimal(value));
+  }
+
+  get cushionLowPrice(): BigDecimal {
+    const value = this.get("cushionLowPrice");
+    return value!.toBigDecimal();
+  }
+
+  set cushionLowPrice(value: BigDecimal) {
+    this.set("cushionLowPrice", Value.fromBigDecimal(value));
+  }
+
+  get cushionLowCapacityOhm(): BigDecimal {
+    const value = this.get("cushionLowCapacityOhm");
+    return value!.toBigDecimal();
+  }
+
+  set cushionLowCapacityOhm(value: BigDecimal) {
+    this.set("cushionLowCapacityOhm", Value.fromBigDecimal(value));
+  }
+
+  get wallLowPrice(): BigDecimal {
+    const value = this.get("wallLowPrice");
+    return value!.toBigDecimal();
+  }
+
+  set wallLowPrice(value: BigDecimal) {
+    this.set("wallLowPrice", Value.fromBigDecimal(value));
+  }
+}
+
 export class PriceEvent extends Entity {
   constructor(id: string) {
     super();

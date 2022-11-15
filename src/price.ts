@@ -6,7 +6,7 @@ import {
   ObservationFrequencyChanged as ObservationFrequencyChangedEvent,
   Price,
   UpdateThresholdsChanged as UpdateThresholdsChangedEvent
-} from "../generated/Price/Price"
+} from "../generated/Range/Price"
 import { Range } from "../generated/Range/Range";
 import {
   MovingAverageDurationChanged,
