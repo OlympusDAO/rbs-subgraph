@@ -6,12 +6,24 @@ type RangeSnapshot @entity(immutable: true) {
   timestamp: BigInt!
   ohmPrice: BigDecimal
   ohmMovingAveragePrice: BigDecimal
-  cushionHighPrice: BigDecimal!
-  cushionHighCapacityOhm: BigDecimal!
-  wallHighPrice: BigDecimal!
-  cushionLowPrice: BigDecimal!
-  cushionLowCapacityOhm: BigDecimal!
-  wallLowPrice: BigDecimal!
+  # Definitions (from https://github.com/OlympusDAO/bophades2/blob/master/src/modules/RANGE/RANGE.v1.sol)
+  # Capacity: Amount of tokens that can be used to defend the side of the range. Specified in OHM tokens on the high side and Reserve tokens on the low side.
+  # Threshold: Determines how much of the capacity must be spent before the side is taken down.
+  thresholdFactor: BigDecimal! # 10% = 0.1
+  cushionSpread: BigDecimal! # 10% = 0.1
+  wallSpread: BigDecimal! # 10% = 0.1
+  highActive: Boolean!
+  lowActive: Boolean!
+  highLastActiveTimestamp: BigInt! # Milliseconds
+  lowLastActiveTimestamp: BigInt! # Milliseconds
+  highCapacityOhm: BigDecimal!
+  lowCapacityOhm: BigDecimal!
+  highCushionPrice: BigDecimal!
+  lowCushionPrice: BigDecimal!
+  highMarketId: BigInt
+  lowMarketId: BigInt
+  highWallPrice: BigDecimal!
+  lowWallPrice: BigDecimal!
 }
 
 # Range

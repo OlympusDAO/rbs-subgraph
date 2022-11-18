@@ -114,58 +114,155 @@ export class RangeSnapshot extends Entity {
     }
   }
 
-  get cushionHighPrice(): BigDecimal {
-    const value = this.get("cushionHighPrice");
+  get thresholdFactor(): BigDecimal {
+    const value = this.get("thresholdFactor");
     return value!.toBigDecimal();
   }
 
-  set cushionHighPrice(value: BigDecimal) {
-    this.set("cushionHighPrice", Value.fromBigDecimal(value));
+  set thresholdFactor(value: BigDecimal) {
+    this.set("thresholdFactor", Value.fromBigDecimal(value));
   }
 
-  get cushionHighCapacityOhm(): BigDecimal {
-    const value = this.get("cushionHighCapacityOhm");
+  get cushionSpread(): BigDecimal {
+    const value = this.get("cushionSpread");
     return value!.toBigDecimal();
   }
 
-  set cushionHighCapacityOhm(value: BigDecimal) {
-    this.set("cushionHighCapacityOhm", Value.fromBigDecimal(value));
+  set cushionSpread(value: BigDecimal) {
+    this.set("cushionSpread", Value.fromBigDecimal(value));
   }
 
-  get wallHighPrice(): BigDecimal {
-    const value = this.get("wallHighPrice");
+  get wallSpread(): BigDecimal {
+    const value = this.get("wallSpread");
     return value!.toBigDecimal();
   }
 
-  set wallHighPrice(value: BigDecimal) {
-    this.set("wallHighPrice", Value.fromBigDecimal(value));
+  set wallSpread(value: BigDecimal) {
+    this.set("wallSpread", Value.fromBigDecimal(value));
   }
 
-  get cushionLowPrice(): BigDecimal {
-    const value = this.get("cushionLowPrice");
+  get highActive(): boolean {
+    const value = this.get("highActive");
+    return value!.toBoolean();
+  }
+
+  set highActive(value: boolean) {
+    this.set("highActive", Value.fromBoolean(value));
+  }
+
+  get lowActive(): boolean {
+    const value = this.get("lowActive");
+    return value!.toBoolean();
+  }
+
+  set lowActive(value: boolean) {
+    this.set("lowActive", Value.fromBoolean(value));
+  }
+
+  get highLastActiveTimestamp(): BigInt {
+    const value = this.get("highLastActiveTimestamp");
+    return value!.toBigInt();
+  }
+
+  set highLastActiveTimestamp(value: BigInt) {
+    this.set("highLastActiveTimestamp", Value.fromBigInt(value));
+  }
+
+  get lowLastActiveTimestamp(): BigInt {
+    const value = this.get("lowLastActiveTimestamp");
+    return value!.toBigInt();
+  }
+
+  set lowLastActiveTimestamp(value: BigInt) {
+    this.set("lowLastActiveTimestamp", Value.fromBigInt(value));
+  }
+
+  get highCapacityOhm(): BigDecimal {
+    const value = this.get("highCapacityOhm");
     return value!.toBigDecimal();
   }
 
-  set cushionLowPrice(value: BigDecimal) {
-    this.set("cushionLowPrice", Value.fromBigDecimal(value));
+  set highCapacityOhm(value: BigDecimal) {
+    this.set("highCapacityOhm", Value.fromBigDecimal(value));
   }
 
-  get cushionLowCapacityOhm(): BigDecimal {
-    const value = this.get("cushionLowCapacityOhm");
+  get lowCapacityOhm(): BigDecimal {
+    const value = this.get("lowCapacityOhm");
     return value!.toBigDecimal();
   }
 
-  set cushionLowCapacityOhm(value: BigDecimal) {
-    this.set("cushionLowCapacityOhm", Value.fromBigDecimal(value));
+  set lowCapacityOhm(value: BigDecimal) {
+    this.set("lowCapacityOhm", Value.fromBigDecimal(value));
   }
 
-  get wallLowPrice(): BigDecimal {
-    const value = this.get("wallLowPrice");
+  get highCushionPrice(): BigDecimal {
+    const value = this.get("highCushionPrice");
     return value!.toBigDecimal();
   }
 
-  set wallLowPrice(value: BigDecimal) {
-    this.set("wallLowPrice", Value.fromBigDecimal(value));
+  set highCushionPrice(value: BigDecimal) {
+    this.set("highCushionPrice", Value.fromBigDecimal(value));
+  }
+
+  get lowCushionPrice(): BigDecimal {
+    const value = this.get("lowCushionPrice");
+    return value!.toBigDecimal();
+  }
+
+  set lowCushionPrice(value: BigDecimal) {
+    this.set("lowCushionPrice", Value.fromBigDecimal(value));
+  }
+
+  get highMarketId(): BigInt | null {
+    const value = this.get("highMarketId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set highMarketId(value: BigInt | null) {
+    if (!value) {
+      this.unset("highMarketId");
+    } else {
+      this.set("highMarketId", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get lowMarketId(): BigInt | null {
+    const value = this.get("lowMarketId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set lowMarketId(value: BigInt | null) {
+    if (!value) {
+      this.unset("lowMarketId");
+    } else {
+      this.set("lowMarketId", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get highWallPrice(): BigDecimal {
+    const value = this.get("highWallPrice");
+    return value!.toBigDecimal();
+  }
+
+  set highWallPrice(value: BigDecimal) {
+    this.set("highWallPrice", Value.fromBigDecimal(value));
+  }
+
+  get lowWallPrice(): BigDecimal {
+    const value = this.get("lowWallPrice");
+    return value!.toBigDecimal();
+  }
+
+  set lowWallPrice(value: BigDecimal) {
+    this.set("lowWallPrice", Value.fromBigDecimal(value));
   }
 }
 

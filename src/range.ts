@@ -18,6 +18,8 @@ import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
 
+const MAX_INT: BigInt = BigInt.fromU64(2**256 - 1);
+
 function createPriceEvent(contractAddress: Address, transaction: ethereum.Transaction, block: ethereum.Block, logIndex: BigInt, type: string, isHigh: boolean, timestamp: BigInt, capacity: BigInt | null): void {
     const unixTimestamp: BigInt = getUnixTimestamp(timestamp);
     const priceContract = Price.bind(Address.fromString(PRICE_CONTRACT));
@@ -133,11 +135,33 @@ export function handleBlock(block: ethereum.Block): void {
     entity.timestamp = unixTimestamp;
     entity.ohmPrice = priceResult.reverted ? null : toDecimal(priceContract.getCurrentPrice(), decimals);
     entity.ohmMovingAveragePrice = movingAveragePriceResult.reverted ? null : toDecimal(priceContract.getMovingAverage(), decimals);
-    entity.cushionHighPrice = toDecimal(rangeContract.price(false, true), decimals);
-    entity.cushionHighCapacityOhm = toDecimal(rangeContract.capacity(true), decimals);
-    entity.wallHighPrice = toDecimal(rangeContract.price(true, true), decimals);
-    entity.cushionLowPrice = toDecimal(rangeContract.price(false, false), decimals);
-    entity.cushionLowCapacityOhm = toDecimal(rangeContract.capacity(false), decimals);
-    entity.wallLowPrice = toDecimal(rangeContract.price(true, false), decimals);
+
+    // Spreads are stored with 2 decimal places, e.g. 1000 = 10%
+    // We convert to a decimal that can be easily multiplied, e.g. 1000 = 10% = 0.1
+    const PERCENT_DECIMALS = 4;
+    entity.thresholdFactor = toDecimal(rangeContract.thresholdFactor(), PERCENT_DECIMALS);
+    entity.cushionSpread = toDecimal(rangeContract.spread(false), PERCENT_DECIMALS);
+    entity.wallSpread = toDecimal(rangeContract.spread(false), PERCENT_DECIMALS);
+
+    entity.highActive = rangeContract.active(true);
+    entity.lowActive = rangeContract.active(false);
+
+    entity.highLastActiveTimestamp = getUnixTimestamp(rangeContract.lastActive(true));
+    entity.lowLastActiveTimestamp = getUnixTimestamp(rangeContract.lastActive(false));
+
+    entity.highCapacityOhm = toDecimal(rangeContract.capacity(true), decimals);
+    entity.lowCapacityOhm = toDecimal(rangeContract.capacity(false), decimals);
+
+    entity.highCushionPrice = toDecimal(rangeContract.price(false, true), decimals);
+    entity.lowCushionPrice = toDecimal(rangeContract.price(false, false), decimals);
+
+    // Market ID of the cushion bond market for the side. If no market is active, the market ID is set to max uint256 value.
+    const highMarketId = rangeContract.market(true);
+    entity.highMarketId = highMarketId.equals(MAX_INT) ? null : highMarketId;
+    const lowMarketId = rangeContract.market(false);
+    entity.lowMarketId = lowMarketId.equals(MAX_INT) ? null : lowMarketId;
+    
+    entity.highWallPrice = toDecimal(rangeContract.price(true, true), decimals);
+    entity.lowWallPrice = toDecimal(rangeContract.price(true, false), decimals);
     entity.save();
 }
