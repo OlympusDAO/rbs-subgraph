@@ -1,4 +1,4 @@
-type RangeSnapshot @entity(immutable: true) {
+type RangeSnapshot @entity {
   id: ID!
   blockchain: String!
   block: BigInt!

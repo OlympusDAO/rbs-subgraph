@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: Range
-    network: goerli # TODO switch to mainnet
+    network: mainnet
     source:
-      address: "0x446f06f8Df7d5f627B073c6349b948B95c1f9185"
+      address: "0xb212D9584cfc56EFf1117F412Fe0bBdc53673954"
       abi: Range
-      startBlock: 7972224 # TODO adjust to mainnet block
+      startBlock: 15998131
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -50,11 +50,11 @@ dataSources:
       file: ./src/range.ts
   - kind: ethereum
     name: Price
-    network: goerli # TODO switch to mainnet
+    network: mainnet
     source:
-      address: "0x9cdb21200774E6C94B71653da213DcE6c1a31F72"
+      address: "0x9Ded6A8B099c57BBEb9F81b76400a5a9C63a6880"
       abi: Price
-      startBlock: 7972224 # TODO adjust to mainnet block
+      startBlock: 15998131
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
