@@ -25,9 +25,14 @@ type RangeSnapshot @entity(immutable: true) {
   highWallPrice: BigDecimal!
   lowWallPrice: BigDecimal!
 
+  # TODO consider shifting into own entities
   # Treasury
   treasuryReserveBalance: BigDecimal! # Without debt
   treasuryDebtBalance: BigDecimal!
+
+  # Operator
+  operatorReserveFactor: BigDecimal!
+  operatorCushionFactor: BigDecimal!
 }
 
 # Range

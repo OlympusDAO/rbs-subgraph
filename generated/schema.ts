@@ -282,6 +282,24 @@ export class RangeSnapshot extends Entity {
   set treasuryDebtBalance(value: BigDecimal) {
     this.set("treasuryDebtBalance", Value.fromBigDecimal(value));
   }
+
+  get operatorReserveFactor(): BigDecimal {
+    const value = this.get("operatorReserveFactor");
+    return value!.toBigDecimal();
+  }
+
+  set operatorReserveFactor(value: BigDecimal) {
+    this.set("operatorReserveFactor", Value.fromBigDecimal(value));
+  }
+
+  get operatorCushionFactor(): BigDecimal {
+    const value = this.get("operatorCushionFactor");
+    return value!.toBigDecimal();
+  }
+
+  set operatorCushionFactor(value: BigDecimal) {
+    this.set("operatorCushionFactor", Value.fromBigDecimal(value));
+  }
 }
 
 export class PriceEvent extends Entity {

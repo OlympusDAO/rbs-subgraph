@@ -28,6 +28,8 @@ dataSources:
           file: ./abis/Treasury.json
         - name: ERC20
           file: ./abis/ERC20.json
+        - name: Operator
+          file: ./abis/Operator.json
       eventHandlers:
         - event: CushionDown(bool,uint256)
           handler: handleCushionDown
@@ -71,6 +73,8 @@ dataSources:
           file: ./abis/Treasury.json
         - name: ERC20
           file: ./abis/ERC20.json
+        - name: Operator
+          file: ./abis/Operator.json
       eventHandlers:
         - event: MovingAverageDurationChanged(uint48)
           handler: handleMovingAverageDurationChanged

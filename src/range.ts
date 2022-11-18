@@ -1,6 +1,7 @@
 import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import { ERC20 } from "../generated/Price/ERC20";
+import { Operator } from "../generated/Price/Operator";
 import { Price } from "../generated/Price/Price";
 import { Treasury } from "../generated/Price/Treasury";
 import {
@@ -14,7 +15,7 @@ import {
     WallUp
 } from "../generated/Range/Range"
 import { PriceEvent, PricesChangedEvent, RangeSnapshot, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
-import { ERC20_DAI, PRICE_CONTRACT, RANGE_CONTRACT, TREASURY_CONTRACT } from "./constants";
+import { ERC20_DAI, OPERATOR_CONTRACT, PRICE_CONTRACT, RANGE_CONTRACT, TREASURY_CONTRACT } from "./constants";
 import { CHAIN_MAINNET, getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
@@ -28,6 +29,7 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     const priceContract = Price.bind(Address.fromString(PRICE_CONTRACT));
     const rangeContract = Range.bind(Address.fromString(RANGE_CONTRACT));
     const treasuryContract = Treasury.bind(Address.fromString(TREASURY_CONTRACT));
+    const operatorContract = Operator.bind(Address.fromString(OPERATOR_CONTRACT));
     const daiContract = ERC20.bind(Address.fromString(ERC20_DAI));
     
     const priceContractDecimals = priceContract.decimals();
@@ -74,6 +76,10 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     entity.treasuryDebtBalance = toDecimal(treasuryContract.totalDebt(Address.fromString(ERC20_DAI)), daiContract.decimals());
     entity.treasuryReserveBalance = toDecimal(treasuryContract.getReserveBalance(Address.fromString(ERC20_DAI)), daiContract.decimals()).minus(entity.treasuryDebtBalance);
     entity.save();
+
+    const operatorConfig = operatorContract.config();
+    entity.operatorReserveFactor = toDecimal(operatorConfig.reserveFactor, PERCENT_DECIMALS);
+    entity.operatorCushionFactor = toDecimal(operatorConfig.cushionFactor, PERCENT_DECIMALS);
 
     return entity.id;
 }
