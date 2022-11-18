@@ -4,9 +4,9 @@ schema:
 dataSources:
   - kind: ethereum
     name: Range
-    network: goerli
+    network: goerli # TODO switch to mainnet
     source:
-      address: "0x9ECDA630626a3aa9EF24A53c4Faca1Ce76a1A508"
+      address: "0x446f06f8Df7d5f627B073c6349b948B95c1f9185"
       abi: Range
       startBlock: 7838435
     mapping:
@@ -44,9 +44,9 @@ dataSources:
       file: ./src/range.ts
   - kind: ethereum
     name: Price
-    network: goerli
+    network: goerli # TODO switch to mainnet
     source:
-      address: "0x6d39cdfa180974c5e1ac6fd325a1718f2fd4412f"
+      address: "0x9cdb21200774E6C94B71653da213DcE6c1a31F72"
       abi: Price
       startBlock: 7838434
     mapping:
