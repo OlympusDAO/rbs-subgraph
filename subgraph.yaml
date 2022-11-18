@@ -24,6 +24,10 @@ dataSources:
           file: ./abis/Range.json
         - name: Price
           file: ./abis/Price.json
+        - name: Treasury
+          file: ./abis/Treasury.json
+        - name: ERC20
+          file: ./abis/ERC20.json
       eventHandlers:
         - event: CushionDown(bool,uint256)
           handler: handleCushionDown
@@ -63,6 +67,10 @@ dataSources:
           file: ./abis/Range.json
         - name: Price
           file: ./abis/Price.json
+        - name: Treasury
+          file: ./abis/Treasury.json
+        - name: ERC20
+          file: ./abis/ERC20.json
       eventHandlers:
         - event: MovingAverageDurationChanged(uint48)
           handler: handleMovingAverageDurationChanged
