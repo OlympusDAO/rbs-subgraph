@@ -186,13 +186,13 @@ export class RangeSnapshot extends Entity {
     this.set("highCapacityOhm", Value.fromBigDecimal(value));
   }
 
-  get lowCapacityOhm(): BigDecimal {
-    const value = this.get("lowCapacityOhm");
+  get lowCapacityReserve(): BigDecimal {
+    const value = this.get("lowCapacityReserve");
     return value!.toBigDecimal();
   }
 
-  set lowCapacityOhm(value: BigDecimal) {
-    this.set("lowCapacityOhm", Value.fromBigDecimal(value));
+  set lowCapacityReserve(value: BigDecimal) {
+    this.set("lowCapacityReserve", Value.fromBigDecimal(value));
   }
 
   get highCushionPrice(): BigDecimal {

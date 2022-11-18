@@ -1,4 +1,4 @@
-import { Address, BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts"
+import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import { ERC20 } from "../generated/Price/ERC20";
 import { Operator } from "../generated/Price/Operator";
@@ -22,6 +22,7 @@ import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
 
 const MAX_INT: BigInt = BigInt.fromString("115792089237316195423570985008687907853269984665640564039457584007913129639935");
+const DECIMALS_OHM = 9;
 
 export function createRangeSnapshot(block: ethereum.Block): string {
     const unixTimestamp: BigInt = getUnixTimestamp(block.timestamp);
@@ -56,8 +57,8 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     entity.highLastActiveTimestamp = getUnixTimestamp(rangeContract.lastActive(true));
     entity.lowLastActiveTimestamp = getUnixTimestamp(rangeContract.lastActive(false));
 
-    entity.highCapacityOhm = toDecimal(rangeContract.capacity(true), priceContractDecimals);
-    entity.lowCapacityOhm = toDecimal(rangeContract.capacity(false), priceContractDecimals);
+    entity.highCapacityOhm = toDecimal(rangeContract.capacity(true), DECIMALS_OHM);
+    entity.lowCapacityReserve = toDecimal(rangeContract.capacity(false), priceContractDecimals);
 
     entity.highCushionPrice = toDecimal(rangeContract.price(false, true), priceContractDecimals);
     entity.lowCushionPrice = toDecimal(rangeContract.price(false, false), priceContractDecimals);

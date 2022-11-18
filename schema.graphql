@@ -17,7 +17,7 @@ type RangeSnapshot @entity(immutable: true) {
   highLastActiveTimestamp: BigInt! # Milliseconds
   lowLastActiveTimestamp: BigInt! # Milliseconds
   highCapacityOhm: BigDecimal!
-  lowCapacityOhm: BigDecimal!
+  lowCapacityReserve: BigDecimal!
   highCushionPrice: BigDecimal!
   lowCushionPrice: BigDecimal!
   highMarketId: BigInt
