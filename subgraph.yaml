@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0x446f06f8Df7d5f627B073c6349b948B95c1f9185"
       abi: Range
-      startBlock: 7838435
+      startBlock: 7972224 # TODO adjust to mainnet block
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -48,7 +48,7 @@ dataSources:
     source:
       address: "0x9cdb21200774E6C94B71653da213DcE6c1a31F72"
       abi: Price
-      startBlock: 7838434
+      startBlock: 7972224 # TODO adjust to mainnet block
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
