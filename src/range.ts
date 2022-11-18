@@ -1,4 +1,4 @@
-import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import { ERC20 } from "../generated/Price/ERC20";
 import { Operator } from "../generated/Price/Operator";
@@ -30,10 +30,6 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     const rangeContract = Range.bind(Address.fromString(RANGE_CONTRACT));
     const treasuryContract = Treasury.bind(Address.fromString(TREASURY_CONTRACT));
     const operatorContract = Operator.bind(Address.fromString(OPERATOR_CONTRACT));
-
-    // Normally DAI, but it is stored on the contract and we should use it
-    const reserveAddress = operatorContract.reserve();
-    const reserveContract = ERC20.bind(reserveAddress);
     
     const priceContractDecimals = priceContract.decimals();
     const priceResult = priceContract.try_getCurrentPrice();
@@ -76,12 +72,23 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     entity.lowWallPrice = toDecimal(rangeContract.price(true, false), priceContractDecimals);
 
     // Treasury balances
-    entity.treasuryDebtBalance = toDecimal(treasuryContract.totalDebt(reserveAddress), reserveContract.decimals());
-    entity.treasuryReserveBalance = toDecimal(treasuryContract.getReserveBalance(reserveAddress), reserveContract.decimals()).minus(entity.treasuryDebtBalance);
+    // Normally DAI, but it is stored on the contract and we should use it
+    const reserveAddressResult = operatorContract.try_reserve();
+    if (!reserveAddressResult.reverted) {
+        const reserveContract = ERC20.bind(reserveAddressResult.value);
+    
+        const debtBalance = toDecimal(treasuryContract.totalDebt(reserveAddressResult.value), reserveContract.decimals());
+        entity.treasuryDebtBalance = debtBalance;
+        entity.treasuryReserveBalance = toDecimal(treasuryContract.getReserveBalance(reserveAddressResult.value), reserveContract.decimals()).minus(debtBalance);
+        entity.treasuryReserveAddress = reserveAddressResult.value;
+    }
 
-    const operatorConfig = operatorContract.config();
-    entity.operatorReserveFactor = toDecimal(operatorConfig.reserveFactor, PERCENT_DECIMALS);
-    entity.operatorCushionFactor = toDecimal(operatorConfig.cushionFactor, PERCENT_DECIMALS);
+    // Operator config
+    const operatorConfigResult = operatorContract.try_config();
+    if (!operatorConfigResult.reverted) {        
+        entity.operatorReserveFactor = toDecimal(operatorConfigResult.value.reserveFactor, PERCENT_DECIMALS);
+        entity.operatorCushionFactor = toDecimal(operatorConfigResult.value.cushionFactor, PERCENT_DECIMALS);
+    }
 
     entity.save();
 

@@ -265,40 +265,98 @@ export class RangeSnapshot extends Entity {
     this.set("lowWallPrice", Value.fromBigDecimal(value));
   }
 
-  get treasuryReserveBalance(): BigDecimal {
+  get treasuryReserveAddress(): Bytes | null {
+    const value = this.get("treasuryReserveAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set treasuryReserveAddress(value: Bytes | null) {
+    if (!value) {
+      this.unset("treasuryReserveAddress");
+    } else {
+      this.set("treasuryReserveAddress", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get treasuryReserveBalance(): BigDecimal | null {
     const value = this.get("treasuryReserveBalance");
-    return value!.toBigDecimal();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
   }
 
-  set treasuryReserveBalance(value: BigDecimal) {
-    this.set("treasuryReserveBalance", Value.fromBigDecimal(value));
+  set treasuryReserveBalance(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("treasuryReserveBalance");
+    } else {
+      this.set(
+        "treasuryReserveBalance",
+        Value.fromBigDecimal(<BigDecimal>value)
+      );
+    }
   }
 
-  get treasuryDebtBalance(): BigDecimal {
+  get treasuryDebtBalance(): BigDecimal | null {
     const value = this.get("treasuryDebtBalance");
-    return value!.toBigDecimal();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
   }
 
-  set treasuryDebtBalance(value: BigDecimal) {
-    this.set("treasuryDebtBalance", Value.fromBigDecimal(value));
+  set treasuryDebtBalance(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("treasuryDebtBalance");
+    } else {
+      this.set("treasuryDebtBalance", Value.fromBigDecimal(<BigDecimal>value));
+    }
   }
 
-  get operatorReserveFactor(): BigDecimal {
+  get operatorReserveFactor(): BigDecimal | null {
     const value = this.get("operatorReserveFactor");
-    return value!.toBigDecimal();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
   }
 
-  set operatorReserveFactor(value: BigDecimal) {
-    this.set("operatorReserveFactor", Value.fromBigDecimal(value));
+  set operatorReserveFactor(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("operatorReserveFactor");
+    } else {
+      this.set(
+        "operatorReserveFactor",
+        Value.fromBigDecimal(<BigDecimal>value)
+      );
+    }
   }
 
-  get operatorCushionFactor(): BigDecimal {
+  get operatorCushionFactor(): BigDecimal | null {
     const value = this.get("operatorCushionFactor");
-    return value!.toBigDecimal();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
   }
 
-  set operatorCushionFactor(value: BigDecimal) {
-    this.set("operatorCushionFactor", Value.fromBigDecimal(value));
+  set operatorCushionFactor(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("operatorCushionFactor");
+    } else {
+      this.set(
+        "operatorCushionFactor",
+        Value.fromBigDecimal(<BigDecimal>value)
+      );
+    }
   }
 }
 

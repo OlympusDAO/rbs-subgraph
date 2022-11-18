@@ -27,12 +27,13 @@ type RangeSnapshot @entity(immutable: true) {
 
   # TODO consider shifting into own entities
   # Treasury
-  treasuryReserveBalance: BigDecimal! # Without debt
-  treasuryDebtBalance: BigDecimal!
+  treasuryReserveAddress: Bytes
+  treasuryReserveBalance: BigDecimal # Without debt
+  treasuryDebtBalance: BigDecimal
 
   # Operator
-  operatorReserveFactor: BigDecimal!
-  operatorCushionFactor: BigDecimal!
+  operatorReserveFactor: BigDecimal
+  operatorCushionFactor: BigDecimal
 }
 
 # Range
