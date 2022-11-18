@@ -15,7 +15,7 @@ import {
     WallUp
 } from "../generated/Range/Range"
 import { PriceEvent, PricesChangedEvent, RangeSnapshot, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
-import { ERC20_DAI, OPERATOR_CONTRACT, PRICE_CONTRACT, RANGE_CONTRACT, TREASURY_CONTRACT } from "./constants";
+import { OPERATOR_CONTRACT, PRICE_CONTRACT, RANGE_CONTRACT, TREASURY_CONTRACT } from "./constants";
 import { CHAIN_MAINNET, getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
@@ -30,7 +30,10 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     const rangeContract = Range.bind(Address.fromString(RANGE_CONTRACT));
     const treasuryContract = Treasury.bind(Address.fromString(TREASURY_CONTRACT));
     const operatorContract = Operator.bind(Address.fromString(OPERATOR_CONTRACT));
-    const daiContract = ERC20.bind(Address.fromString(ERC20_DAI));
+
+    // Normally DAI, but it is stored on the contract and we should use it
+    const reserveAddress = operatorContract.reserve();
+    const reserveContract = ERC20.bind(reserveAddress);
     
     const priceContractDecimals = priceContract.decimals();
     const priceResult = priceContract.try_getCurrentPrice();
@@ -73,13 +76,14 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     entity.lowWallPrice = toDecimal(rangeContract.price(true, false), priceContractDecimals);
 
     // Treasury balances
-    entity.treasuryDebtBalance = toDecimal(treasuryContract.totalDebt(Address.fromString(ERC20_DAI)), daiContract.decimals());
-    entity.treasuryReserveBalance = toDecimal(treasuryContract.getReserveBalance(Address.fromString(ERC20_DAI)), daiContract.decimals()).minus(entity.treasuryDebtBalance);
-    entity.save();
+    entity.treasuryDebtBalance = toDecimal(treasuryContract.totalDebt(reserveAddress), reserveContract.decimals());
+    entity.treasuryReserveBalance = toDecimal(treasuryContract.getReserveBalance(reserveAddress), reserveContract.decimals()).minus(entity.treasuryDebtBalance);
 
     const operatorConfig = operatorContract.config();
     entity.operatorReserveFactor = toDecimal(operatorConfig.reserveFactor, PERCENT_DECIMALS);
     entity.operatorCushionFactor = toDecimal(operatorConfig.cushionFactor, PERCENT_DECIMALS);
+
+    entity.save();
 
     return entity.id;
 }
