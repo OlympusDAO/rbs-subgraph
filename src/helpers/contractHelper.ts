@@ -1,13 +1,13 @@
 import { Address } from "@graphprotocol/graph-ts";
 
-import { PRICE_CONTRACT, RANGE_CONTRACT } from "../constants";
+import { PRICE_CONTRACT_V1, RANGE_CONTRACT_V1 } from "../constants";
 
 export const CHAIN_GOERLI = "Goerli";
 export const CHAIN_MAINNET = "Mainnet";
 
 const ADDRESS_CHAIN_MAPPING = new Map<string, string>();
-ADDRESS_CHAIN_MAPPING.set(PRICE_CONTRACT.toLowerCase(), CHAIN_MAINNET);
-ADDRESS_CHAIN_MAPPING.set(RANGE_CONTRACT.toLowerCase(), CHAIN_MAINNET);
+ADDRESS_CHAIN_MAPPING.set(PRICE_CONTRACT_V1.toLowerCase(), CHAIN_MAINNET);
+ADDRESS_CHAIN_MAPPING.set(RANGE_CONTRACT_V1.toLowerCase(), CHAIN_MAINNET);
 
 /**
  * Returns the chain for the given contract address.

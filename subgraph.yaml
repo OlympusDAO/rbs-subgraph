@@ -1,6 +1,11 @@
 specVersion: 0.0.4
 schema:
   file: ./schema.graphql
+features:
+  - grafting
+graft:
+  base: QmNhm79EEHxHHwXDsk4u981XUGiEMvT3yGyXbcQdxZCdxC
+  block: 16148610 # Price 1.1 deployment
 dataSources:
   - kind: ethereum
     name: Range
@@ -49,12 +54,49 @@ dataSources:
         - handler: handleBlock
       file: ./src/range.ts
   - kind: ethereum
-    name: Price
+    name: PriceV1
     network: mainnet
     source:
       address: "0x9Ded6A8B099c57BBEb9F81b76400a5a9C63a6880"
       abi: Price
       startBlock: 15998131
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - MovingAverageDurationChanged
+        - NewObservation
+        - ObservationFrequencyChanged
+        - UpdateThresholdsChanged
+      abis:
+        - name: Range
+          file: ./abis/Range.json
+        - name: Price
+          file: ./abis/Price.json
+        - name: Treasury
+          file: ./abis/Treasury.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: Operator
+          file: ./abis/Operator.json
+      eventHandlers:
+        - event: MovingAverageDurationChanged(uint48)
+          handler: handleMovingAverageDurationChanged
+        - event: NewObservation(uint256,uint256,uint256)
+          handler: handleNewObservation
+        - event: ObservationFrequencyChanged(uint48)
+          handler: handleObservationFrequencyChanged
+        - event: UpdateThresholdsChanged(uint48,uint48)
+          handler: handleUpdateThresholdsChanged
+      file: ./src/price.ts
+  - kind: ethereum
+    name: PriceV1_1
+    network: mainnet
+    source:
+      address: "0xd6C4D723fdadCf0D171eF9A2a3Bfa870675b282f"
+      abi: Price
+      startBlock: 16148610
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

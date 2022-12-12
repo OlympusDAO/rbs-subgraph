@@ -15,7 +15,7 @@ import {
     WallUp
 } from "../generated/Range/Range"
 import { PriceEvent, PricesChangedEvent, RangeSnapshot, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
-import { OPERATOR_CONTRACT, PRICE_CONTRACT, RANGE_CONTRACT, TREASURY_CONTRACT } from "./constants";
+import { OPERATOR_CONTRACT_V1, OPERATOR_CONTRACT_V1_1, OPERATOR_CONTRACT_V1_1_BLOCK, PRICE_CONTRACT_V1, PRICE_CONTRACT_V1_1, PRICE_CONTRACT_V1_1_BLOCK, RANGE_CONTRACT_V1, TREASURY_CONTRACT_V1 } from "./constants";
 import { CHAIN_MAINNET, getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
@@ -24,13 +24,33 @@ import { getUnixTimestamp } from "./helpers/numberHelper";
 const MAX_INT: BigInt = BigInt.fromString("115792089237316195423570985008687907853269984665640564039457584007913129639935");
 const DECIMALS_OHM = 9;
 
+function getCurrentPriceContract(block: ethereum.Block): Price {
+    let address: string = PRICE_CONTRACT_V1;
+
+    if (block.number.ge(BigInt.fromString(PRICE_CONTRACT_V1_1_BLOCK))) {
+        address = PRICE_CONTRACT_V1_1;
+    }
+
+    return Price.bind(Address.fromString(address));
+}
+
+function getCurrentOperatorContract(block: ethereum.Block): Operator {
+    let address: string = OPERATOR_CONTRACT_V1;
+
+    if (block.number.ge(BigInt.fromString(OPERATOR_CONTRACT_V1_1_BLOCK))) {
+        address = OPERATOR_CONTRACT_V1_1;
+    }
+
+    return Operator.bind(Address.fromString(address));
+}
+
 export function createRangeSnapshot(block: ethereum.Block): string {
     const unixTimestamp: BigInt = getUnixTimestamp(block.timestamp);
 
-    const priceContract = Price.bind(Address.fromString(PRICE_CONTRACT));
-    const rangeContract = Range.bind(Address.fromString(RANGE_CONTRACT));
-    const treasuryContract = Treasury.bind(Address.fromString(TREASURY_CONTRACT));
-    const operatorContract = Operator.bind(Address.fromString(OPERATOR_CONTRACT));
+    const priceContract = getCurrentPriceContract(block);
+    const rangeContract = Range.bind(Address.fromString(RANGE_CONTRACT_V1));
+    const treasuryContract = Treasury.bind(Address.fromString(TREASURY_CONTRACT_V1));
+    const operatorContract = getCurrentOperatorContract(block);
     
     const priceContractDecimals = priceContract.decimals();
     const priceResult = priceContract.try_getCurrentPrice();
@@ -96,7 +116,7 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     return entity.id;
 }
 
-function createPriceEvent(contractAddress: Address, transaction: ethereum.Transaction, block: ethereum.Block, logIndex: BigInt, type: string, isHigh: boolean, timestamp: BigInt, capacity: BigInt | null): void {
+function createPriceEvent(contractAddress: Address, transaction: ethereum.Transaction, block: ethereum.Block, logIndex: BigInt, type: string, isHigh: boolean, timestamp: BigInt, _capacity: BigInt | null): void {
     const unixTimestamp: BigInt = getUnixTimestamp(timestamp);
 
     const entity = new PriceEvent(`${transaction.hash.toHexString()}/${logIndex.toString()}`);
