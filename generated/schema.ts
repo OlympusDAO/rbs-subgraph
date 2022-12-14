@@ -1053,3 +1053,292 @@ export class UpdateThresholdsChanged extends Entity {
     this.set("reserveEthUpdateThresholdSeconds", Value.fromBigInt(value));
   }
 }
+
+export class Beat extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(id != null, "Cannot save Beat entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Beat must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Beat", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Beat | null {
+    return changetype<Beat | null>(store.get("Beat", id));
+  }
+
+  get id(): string {
+    const value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    const value = this.get("block");
+    return value!.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
+  get date(): string {
+    const value = this.get("date");
+    return value!.toString();
+  }
+
+  set date(value: string) {
+    this.set("date", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    const value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+}
+
+export class BeatRewardIssued extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(id != null, "Cannot save BeatRewardIssued entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type BeatRewardIssued must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("BeatRewardIssued", id.toString(), this);
+    }
+  }
+
+  static load(id: string): BeatRewardIssued | null {
+    return changetype<BeatRewardIssued | null>(
+      store.get("BeatRewardIssued", id)
+    );
+  }
+
+  get id(): string {
+    const value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    const value = this.get("block");
+    return value!.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
+  get date(): string {
+    const value = this.get("date");
+    return value!.toString();
+  }
+
+  set date(value: string) {
+    this.set("date", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    const value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get to(): Bytes {
+    const value = this.get("to");
+    return value!.toBytes();
+  }
+
+  set to(value: Bytes) {
+    this.set("to", Value.fromBytes(value));
+  }
+
+  get rewardToken(): Bytes {
+    const value = this.get("rewardToken");
+    return value!.toBytes();
+  }
+
+  set rewardToken(value: Bytes) {
+    this.set("rewardToken", Value.fromBytes(value));
+  }
+
+  get rewardAmount(): BigDecimal {
+    const value = this.get("rewardAmount");
+    return value!.toBigDecimal();
+  }
+
+  set rewardAmount(value: BigDecimal) {
+    this.set("rewardAmount", Value.fromBigDecimal(value));
+  }
+}
+
+export class BeatRewardUpdated extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(id != null, "Cannot save BeatRewardUpdated entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type BeatRewardUpdated must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("BeatRewardUpdated", id.toString(), this);
+    }
+  }
+
+  static load(id: string): BeatRewardUpdated | null {
+    return changetype<BeatRewardUpdated | null>(
+      store.get("BeatRewardUpdated", id)
+    );
+  }
+
+  get id(): string {
+    const value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    const value = this.get("block");
+    return value!.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
+  get date(): string {
+    const value = this.get("date");
+    return value!.toString();
+  }
+
+  set date(value: string) {
+    this.set("date", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    const value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get token(): Bytes {
+    const value = this.get("token");
+    return value!.toBytes();
+  }
+
+  set token(value: Bytes) {
+    this.set("token", Value.fromBytes(value));
+  }
+
+  get rewardToken(): Bytes {
+    const value = this.get("rewardToken");
+    return value!.toBytes();
+  }
+
+  set rewardToken(value: Bytes) {
+    this.set("rewardToken", Value.fromBytes(value));
+  }
+
+  get rewardAmount(): BigDecimal {
+    const value = this.get("rewardAmount");
+    return value!.toBigDecimal();
+  }
+
+  set rewardAmount(value: BigDecimal) {
+    this.set("rewardAmount", Value.fromBigDecimal(value));
+  }
+}

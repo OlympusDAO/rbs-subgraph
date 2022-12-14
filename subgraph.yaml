@@ -127,3 +127,29 @@ dataSources:
         - event: UpdateThresholdsChanged(uint48,uint48)
           handler: handleUpdateThresholdsChanged
       file: ./src/price.ts
+  - kind: ethereum
+    name: OlympusHeart
+    network: mainnet
+    source:
+      address: "0x1652b503E0F1CF38b6246Ed3b91CB3786Bb11656"
+      abi: OlympusHeart
+      startBlock: 16148612
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Beat
+        - RewardIssued
+        - RewardUpdated
+      abis:
+        - name: OlympusHeart
+          file: ./abis/OlympusHeart.json
+      eventHandlers:
+        - event: Beat(uint256)
+          handler: handleBeat
+        - event: RewardIssued(address,uint256)
+          handler: handleRewardIssued
+        - event: RewardUpdated(address,uint256)
+          handler: handleRewardUpdated
+      file: ./src/heartbeat.ts
