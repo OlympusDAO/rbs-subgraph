@@ -6,5 +6,10 @@
     "Price": {
       "address": "0x6d39cdfa180974c5e1ac6fd325a1718f2fd4412f"
     }
+  },
+  "mainnet": {
+    "OlympusHeart": {
+      "address": "0x1652b503E0F1CF38b6246Ed3b91CB3786Bb11656"
+    }
   }
 }

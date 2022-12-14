@@ -122,3 +122,38 @@ type UpdateThresholdsChanged @entity(immutable: true) {
   ohmEthUpdateThresholdSeconds: BigInt! # uint48
   reserveEthUpdateThresholdSeconds: BigInt! # uint48
 }
+
+# Heartbeat
+
+type Beat @entity {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+}
+
+type BeatRewardIssued @entity {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  to: Bytes!
+  rewardToken: Bytes!
+  rewardAmount: BigDecimal!
+}
+
+type BeatRewardUpdated @entity {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  token: Bytes!
+  rewardToken: Bytes!
+  rewardAmount: BigDecimal!
+}
