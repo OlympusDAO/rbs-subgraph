@@ -5,8 +5,10 @@ import {
   NewObservation as NewObservationEvent,
   ObservationFrequencyChanged as ObservationFrequencyChangedEvent,
   UpdateThresholdsChanged as UpdateThresholdsChangedEvent
-} from "../generated/Range/Price"
+} from "../generated/PriceV1/Price"
+import { MinimumTargetPriceChanged as MinimumTargetPriceChangedEvent } from "../generated/PriceV1_1/PriceV1_1";
 import {
+  MinimumTargetPriceChanged,
   MovingAverageDurationChanged,
   NewObservation,
   ObservationFrequencyChanged,
@@ -14,8 +16,9 @@ import {
 } from "../generated/schema"
 import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
+import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
-import { createRangeSnapshot } from "./range";
+import { createRangeSnapshot, getCurrentPriceContract } from "./range";
 
 export function handleNewObservation(event: NewObservationEvent): void {
   const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
@@ -84,5 +87,23 @@ export function handleUpdateThresholdsChanged(
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
   entity.ohmEthUpdateThresholdSeconds = event.params.ohmEthUpdateThreshold_;
   entity.reserveEthUpdateThresholdSeconds = event.params.reserveEthUpdateThreshold_;
+  entity.save();
+}
+
+// Price V1.1 only
+export function handleMinimumTargetPriceChanged(
+  event: MinimumTargetPriceChangedEvent
+): void {
+  const priceContract = getCurrentPriceContract(event.block);
+  const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
+
+  const entity = new MinimumTargetPriceChanged(
+    `${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`
+  );
+  entity.blockchain = getChain(event.address);
+  entity.block = event.block.number;
+  entity.transaction = event.transaction.hash;
+  entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+  entity.minimumTargetPrice = toDecimal(event.params.minimumTargetPrice_, priceContract.decimals());
   entity.save();
 }

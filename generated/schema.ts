@@ -1054,6 +1054,88 @@ export class UpdateThresholdsChanged extends Entity {
   }
 }
 
+export class MinimumTargetPriceChanged extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save MinimumTargetPriceChanged entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type MinimumTargetPriceChanged must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("MinimumTargetPriceChanged", id.toString(), this);
+    }
+  }
+
+  static load(id: string): MinimumTargetPriceChanged | null {
+    return changetype<MinimumTargetPriceChanged | null>(
+      store.get("MinimumTargetPriceChanged", id)
+    );
+  }
+
+  get id(): string {
+    const value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    return value!.toString();
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    const value = this.get("block");
+    return value!.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    return value!.toBytes();
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
+  get date(): string {
+    const value = this.get("date");
+    return value!.toString();
+  }
+
+  set date(value: string) {
+    this.set("date", Value.fromString(value));
+  }
+
+  get minimumTargetPrice(): BigDecimal {
+    const value = this.get("minimumTargetPrice");
+    return value!.toBigDecimal();
+  }
+
+  set minimumTargetPrice(value: BigDecimal) {
+    this.set("minimumTargetPrice", Value.fromBigDecimal(value));
+  }
+}
+
 export class Beat extends Entity {
   constructor(id: string) {
     super();

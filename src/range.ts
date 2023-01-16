@@ -1,9 +1,9 @@
 import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
-import { ERC20 } from "../generated/Price/ERC20";
-import { Operator } from "../generated/Price/Operator";
-import { Price } from "../generated/Price/Price";
-import { Treasury } from "../generated/Price/Treasury";
+import { ERC20 } from "../generated/PriceV1/ERC20";
+import { Operator } from "../generated/PriceV1/Operator";
+import { Price } from "../generated/PriceV1/Price";
+import { Treasury } from "../generated/PriceV1/Treasury";
 import {
     CushionDown,
     CushionUp,
@@ -24,7 +24,7 @@ import { getUnixTimestamp } from "./helpers/numberHelper";
 const MAX_INT: BigInt = BigInt.fromString("115792089237316195423570985008687907853269984665640564039457584007913129639935");
 const DECIMALS_OHM = 9;
 
-function getCurrentPriceContract(block: ethereum.Block): Price {
+export function getCurrentPriceContract(block: ethereum.Block): Price {
     let address: string = PRICE_CONTRACT_V1;
 
     if (block.number.ge(BigInt.fromString(PRICE_CONTRACT_V1_1_BLOCK))) {

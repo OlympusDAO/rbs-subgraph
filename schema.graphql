@@ -123,6 +123,16 @@ type UpdateThresholdsChanged @entity(immutable: true) {
   reserveEthUpdateThresholdSeconds: BigInt! # uint48
 }
 
+# Price V1.1
+type MinimumTargetPriceChanged @entity(immutable: true) {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  minimumTargetPrice: BigDecimal!
+}
+
 # Heartbeat
 
 type Beat @entity {
