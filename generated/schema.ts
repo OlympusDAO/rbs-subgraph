@@ -785,6 +785,15 @@ export class MovingAverageDurationChanged extends Entity {
     this.set("date", Value.fromString(value));
   }
 
+  get timestamp(): BigInt {
+    const value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
   get movingAverageDuration(): BigInt {
     const value = this.get("movingAverageDuration");
     return value!.toBigInt();
@@ -953,6 +962,15 @@ export class ObservationFrequencyChanged extends Entity {
     this.set("date", Value.fromString(value));
   }
 
+  get timestamp(): BigInt {
+    const value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
   get observationFrequencySeconds(): BigInt {
     const value = this.get("observationFrequencySeconds");
     return value!.toBigInt();
@@ -1033,6 +1051,15 @@ export class UpdateThresholdsChanged extends Entity {
 
   set date(value: string) {
     this.set("date", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    const value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
   }
 
   get ohmEthUpdateThresholdSeconds(): BigInt {
@@ -1124,6 +1151,15 @@ export class MinimumTargetPriceChanged extends Entity {
 
   set date(value: string) {
     this.set("date", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    const value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
   }
 
   get minimumTargetPrice(): BigDecimal {

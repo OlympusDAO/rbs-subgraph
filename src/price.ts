@@ -53,6 +53,7 @@ export function handleMovingAverageDurationChanged(
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+  entity.timestamp = unixTimestamp;
   entity.movingAverageDuration = event.params.movingAverageDuration_;
   entity.save();
 }
@@ -69,6 +70,7 @@ export function handleObservationFrequencyChanged(
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+  entity.timestamp = unixTimestamp;
   entity.observationFrequencySeconds = event.params.observationFrequency_;
   entity.save();
 }
@@ -85,6 +87,7 @@ export function handleUpdateThresholdsChanged(
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+  entity.timestamp = unixTimestamp;
   entity.ohmEthUpdateThresholdSeconds = event.params.ohmEthUpdateThreshold_;
   entity.reserveEthUpdateThresholdSeconds = event.params.reserveEthUpdateThreshold_;
   entity.save();
@@ -104,6 +107,7 @@ export function handleMinimumTargetPriceChanged(
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+  entity.timestamp = unixTimestamp;
   entity.minimumTargetPrice = toDecimal(event.params.minimumTargetPrice_, priceContract.decimals());
   entity.save();
 }
