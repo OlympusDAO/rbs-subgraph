@@ -91,6 +91,7 @@ type MovingAverageDurationChanged @entity(immutable: true) {
   block: BigInt!
   transaction: Bytes!
   date: String!
+  timestamp: BigInt!
   movingAverageDuration: BigInt!
 }
 
@@ -110,6 +111,7 @@ type ObservationFrequencyChanged @entity(immutable: true) {
   block: BigInt!
   transaction: Bytes!
   date: String!
+  timestamp: BigInt!
   observationFrequencySeconds: BigInt! # uint48
 }
 
@@ -119,8 +121,20 @@ type UpdateThresholdsChanged @entity(immutable: true) {
   block: BigInt!
   transaction: Bytes!
   date: String!
+  timestamp: BigInt!
   ohmEthUpdateThresholdSeconds: BigInt! # uint48
   reserveEthUpdateThresholdSeconds: BigInt! # uint48
+}
+
+# Price V1.1
+type MinimumTargetPriceChanged @entity(immutable: true) {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  minimumTargetPrice: BigDecimal!
 }
 
 # Heartbeat

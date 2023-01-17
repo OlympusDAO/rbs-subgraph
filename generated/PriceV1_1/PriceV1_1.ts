@@ -9,6 +9,24 @@ import {
   JSONValue,
   TypedMap} from "@graphprotocol/graph-ts";
 
+export class MinimumTargetPriceChanged extends ethereum.Event {
+  get params(): MinimumTargetPriceChanged__Params {
+    return new MinimumTargetPriceChanged__Params(this);
+  }
+}
+
+export class MinimumTargetPriceChanged__Params {
+  _event: MinimumTargetPriceChanged;
+
+  constructor(event: MinimumTargetPriceChanged) {
+    this._event = event;
+  }
+
+  get minimumTargetPrice_(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class MovingAverageDurationChanged extends ethereum.Event {
   get params(): MovingAverageDurationChanged__Params {
     return new MovingAverageDurationChanged__Params(this);
@@ -93,7 +111,7 @@ export class UpdateThresholdsChanged__Params {
   }
 }
 
-export class Price__VERSIONResult {
+export class PriceV1_1__VERSIONResult {
   value0: i32;
   value1: i32;
 
@@ -124,9 +142,9 @@ export class Price__VERSIONResult {
   }
 }
 
-export class Price extends ethereum.SmartContract {
-  static bind(address: Address): Price {
-    return new Price("Price", address);
+export class PriceV1_1 extends ethereum.SmartContract {
+  static bind(address: Address): PriceV1_1 {
+    return new PriceV1_1("PriceV1_1", address);
   }
 
   KEYCODE(): Bytes {
@@ -144,20 +162,20 @@ export class Price extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
-  VERSION(): Price__VERSIONResult {
+  VERSION(): PriceV1_1__VERSIONResult {
     const result = super.call("VERSION", "VERSION():(uint8,uint8)", []);
 
-    return new Price__VERSIONResult(result[0].toI32(), result[1].toI32());
+    return new PriceV1_1__VERSIONResult(result[0].toI32(), result[1].toI32());
   }
 
-  try_VERSION(): ethereum.CallResult<Price__VERSIONResult> {
+  try_VERSION(): ethereum.CallResult<PriceV1_1__VERSIONResult> {
     const result = super.tryCall("VERSION", "VERSION():(uint8,uint8)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      new Price__VERSIONResult(value[0].toI32(), value[1].toI32())
+      new PriceV1_1__VERSIONResult(value[0].toI32(), value[1].toI32())
     );
   }
 
@@ -256,6 +274,25 @@ export class Price extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  getTargetPrice(): BigInt {
+    const result = super.call("getTargetPrice", "getTargetPrice():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_getTargetPrice(): ethereum.CallResult<BigInt> {
+    const result = super.tryCall(
+      "getTargetPrice",
+      "getTargetPrice():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    const value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   initialized(): boolean {
     const result = super.call("initialized", "initialized():(bool)", []);
 
@@ -300,6 +337,29 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "lastObservationTime",
       "lastObservationTime():(uint48)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    const value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  minimumTargetPrice(): BigInt {
+    const result = super.call(
+      "minimumTargetPrice",
+      "minimumTargetPrice():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_minimumTargetPrice(): ethereum.CallResult<BigInt> {
+    const result = super.tryCall(
+      "minimumTargetPrice",
+      "minimumTargetPrice():(uint256)",
       []
     );
     if (result.reverted) {
@@ -551,6 +611,10 @@ export class ConstructorCall__Inputs {
   get movingAverageDuration_(): BigInt {
     return this._call.inputValues[6].value.toBigInt();
   }
+
+  get minimumTargetPrice_(): BigInt {
+    return this._call.inputValues[7].value.toBigInt();
+  }
 }
 
 export class ConstructorCall__Outputs {
@@ -613,6 +677,36 @@ export class ChangeKernelCall__Outputs {
   _call: ChangeKernelCall;
 
   constructor(call: ChangeKernelCall) {
+    this._call = call;
+  }
+}
+
+export class ChangeMinimumTargetPriceCall extends ethereum.Call {
+  get inputs(): ChangeMinimumTargetPriceCall__Inputs {
+    return new ChangeMinimumTargetPriceCall__Inputs(this);
+  }
+
+  get outputs(): ChangeMinimumTargetPriceCall__Outputs {
+    return new ChangeMinimumTargetPriceCall__Outputs(this);
+  }
+}
+
+export class ChangeMinimumTargetPriceCall__Inputs {
+  _call: ChangeMinimumTargetPriceCall;
+
+  constructor(call: ChangeMinimumTargetPriceCall) {
+    this._call = call;
+  }
+
+  get minimumTargetPrice_(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class ChangeMinimumTargetPriceCall__Outputs {
+  _call: ChangeMinimumTargetPriceCall;
+
+  constructor(call: ChangeMinimumTargetPriceCall) {
     this._call = call;
   }
 }

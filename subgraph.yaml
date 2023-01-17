@@ -1,11 +1,6 @@
 specVersion: 0.0.4
 schema:
   file: ./schema.graphql
-features:
-  - grafting
-graft:
-  base: QmNhm79EEHxHHwXDsk4u981XUGiEMvT3yGyXbcQdxZCdxC
-  block: 16148610 # Price 1.1 deployment
 dataSources:
   - kind: ethereum
     name: Range
@@ -95,7 +90,7 @@ dataSources:
     network: mainnet
     source:
       address: "0xd6C4D723fdadCf0D171eF9A2a3Bfa870675b282f"
-      abi: Price
+      abi: PriceV1_1
       startBlock: 16148610
     mapping:
       kind: ethereum/events
@@ -109,8 +104,10 @@ dataSources:
       abis:
         - name: Range
           file: ./abis/Range.json
-        - name: Price
+        - name: Price # Included in order to use getCurrentPriceContract
           file: ./abis/Price.json
+        - name: PriceV1_1
+          file: ./abis/PriceV1_1.json
         - name: Treasury
           file: ./abis/Treasury.json
         - name: ERC20
@@ -126,6 +123,8 @@ dataSources:
           handler: handleObservationFrequencyChanged
         - event: UpdateThresholdsChanged(uint48,uint48)
           handler: handleUpdateThresholdsChanged
+        - event: MinimumTargetPriceChanged(uint256)
+          handler: handleMinimumTargetPriceChanged
       file: ./src/price.ts
   - kind: ethereum
     name: OlympusHeart
