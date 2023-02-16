@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt, log } from "@graphprotocol/graph-ts"
 
 import {
   MovingAverageDurationChanged as MovingAverageDurationChangedEvent,
@@ -21,6 +21,7 @@ import { getUnixTimestamp } from "./helpers/numberHelper";
 import { createRangeSnapshot, getCurrentPriceContract } from "./range";
 
 export function handleNewObservation(event: NewObservationEvent): void {
+  log.debug("New observation at block {}", [event.block.number.toString()]);
   const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
   const entity = new NewObservation(
