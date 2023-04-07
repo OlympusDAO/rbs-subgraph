@@ -1,6 +1,5 @@
 import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
-import { ERC20 } from "../generated/PriceV1/ERC20";
 import { Operator } from "../generated/PriceV1/Operator";
 import { Price } from "../generated/PriceV1/Price";
 import { Treasury } from "../generated/PriceV1/Treasury";
@@ -44,6 +43,9 @@ function getCurrentOperatorContract(block: ethereum.Block): Operator {
     return Operator.bind(Address.fromString(address));
 }
 
+const PRICE_DECIMALS = 18;
+const RESERVE_TOKEN_DECIMALS = 18;
+
 export function createRangeSnapshot(block: ethereum.Block): string {
     const unixTimestamp: BigInt = getUnixTimestamp(block.timestamp);
 
@@ -52,7 +54,6 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     const treasuryContract = Treasury.bind(Address.fromString(TREASURY_CONTRACT_V1));
     const operatorContract = getCurrentOperatorContract(block);
     
-    const priceContractDecimals = priceContract.decimals();
     const priceResult = priceContract.try_getCurrentPrice();
     const movingAveragePriceResult = priceContract.try_getMovingAverage();
 
@@ -61,8 +62,8 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     entity.block = block.number;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
     entity.timestamp = unixTimestamp;
-    entity.ohmPrice = priceResult.reverted ? null : toDecimal(priceContract.getCurrentPrice(), priceContractDecimals);
-    entity.ohmMovingAveragePrice = movingAveragePriceResult.reverted ? null : toDecimal(priceContract.getMovingAverage(), priceContractDecimals);
+    entity.ohmPrice = priceResult.reverted ? null : toDecimal(priceResult.value, PRICE_DECIMALS);
+    entity.ohmMovingAveragePrice = movingAveragePriceResult.reverted ? null : toDecimal(movingAveragePriceResult.value, PRICE_DECIMALS);
 
     // Spreads are stored with 2 decimal places, e.g. 1000 = 10%
     // We convert to a decimal that can be easily multiplied, e.g. 1000 = 10% = 0.1
@@ -78,10 +79,10 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     entity.lowLastActiveTimestamp = getUnixTimestamp(rangeContract.lastActive(false));
 
     entity.highCapacityOhm = toDecimal(rangeContract.capacity(true), DECIMALS_OHM);
-    entity.lowCapacityReserve = toDecimal(rangeContract.capacity(false), priceContractDecimals);
+    entity.lowCapacityReserve = toDecimal(rangeContract.capacity(false), PRICE_DECIMALS);
 
-    entity.highCushionPrice = toDecimal(rangeContract.price(false, true), priceContractDecimals);
-    entity.lowCushionPrice = toDecimal(rangeContract.price(false, false), priceContractDecimals);
+    entity.highCushionPrice = toDecimal(rangeContract.price(false, true), PRICE_DECIMALS);
+    entity.lowCushionPrice = toDecimal(rangeContract.price(false, false), PRICE_DECIMALS);
 
     // Market ID of the cushion bond market for the side. If no market is active, the market ID is set to max uint256 value.
     const highMarketId = rangeContract.market(true);
@@ -89,18 +90,16 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     const lowMarketId = rangeContract.market(false);
     entity.lowMarketId = lowMarketId.equals(MAX_INT) ? null : lowMarketId;
     
-    entity.highWallPrice = toDecimal(rangeContract.price(true, true), priceContractDecimals);
-    entity.lowWallPrice = toDecimal(rangeContract.price(true, false), priceContractDecimals);
+    entity.highWallPrice = toDecimal(rangeContract.price(true, true), PRICE_DECIMALS);
+    entity.lowWallPrice = toDecimal(rangeContract.price(true, false), PRICE_DECIMALS);
 
     // Treasury balances
     // Normally DAI, but it is stored on the contract and we should use it
     const reserveAddressResult = operatorContract.try_reserve();
     if (!reserveAddressResult.reverted) {
-        const reserveContract = ERC20.bind(reserveAddressResult.value);
-    
-        const debtBalance = toDecimal(treasuryContract.totalDebt(reserveAddressResult.value), reserveContract.decimals());
+        const debtBalance = toDecimal(treasuryContract.totalDebt(reserveAddressResult.value), RESERVE_TOKEN_DECIMALS);
         entity.treasuryDebtBalance = debtBalance;
-        entity.treasuryReserveBalance = toDecimal(treasuryContract.getReserveBalance(reserveAddressResult.value), reserveContract.decimals()).minus(debtBalance);
+        entity.treasuryReserveBalance = toDecimal(treasuryContract.getReserveBalance(reserveAddressResult.value), RESERVE_TOKEN_DECIMALS).minus(debtBalance);
         entity.treasuryReserveAddress = reserveAddressResult.value;
     }
 
