@@ -69,7 +69,7 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     const PERCENT_DECIMALS = 4;
     entity.thresholdFactor = toDecimal(rangeContract.thresholdFactor(), PERCENT_DECIMALS);
     entity.cushionSpread = toDecimal(rangeContract.spread(false), PERCENT_DECIMALS);
-    entity.wallSpread = toDecimal(rangeContract.spread(false), PERCENT_DECIMALS);
+    entity.wallSpread = toDecimal(rangeContract.spread(true), PERCENT_DECIMALS);
 
     entity.highActive = rangeContract.active(true);
     entity.lowActive = rangeContract.active(false);
