@@ -1,11 +1,6 @@
 specVersion: 0.0.4
 schema:
   file: ./schema.graphql
-features:
-  - grafting
-graft:
-  base: QmTFmu2WW2hdiA5J4jFo8zL7YVegRj4GY51A1FCfqyFLPy
-  block: 16576722 # Stuck
 dataSources:
   - kind: ethereum
     name: Range
