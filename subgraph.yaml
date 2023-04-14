@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0xb212D9584cfc56EFf1117F412Fe0bBdc53673954"
       abi: Range
-      startBlock: 15998131
+      startBlock: 17030000 # 2023-04-12 as we only need 1 prior day of data
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

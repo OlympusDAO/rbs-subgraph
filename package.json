@@ -10,7 +10,7 @@
     "codegen": "graph codegen && yarn eslint --config ./.eslintrc.json --fix generated/",
     "build": "graph build",
     "deploy": "source .subgraph-version && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ olympusdao/rbs",
-    "deploy:dev": "source .subgraph-version && source .env && graph deploy --product subgraph-studio --version-label $SUBGRAPH_VERSION --deploy-key $GRAPH_STUDIO_TOKEN rbs",
+    "deploy:dev": "source .subgraph-version && source .env && graph deploy --product subgraph-studio --version-label $SUBGRAPH_VERSION --deploy-key $GRAPH_STUDIO_TOKEN olympus-rbs",
     "test": "graph test --version 0.5.3",
     "test:force": "yarn test --recompile",
     "auth": "source .env && graph auth --product hosted-service $GRAPH_TOKEN",
