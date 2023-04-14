@@ -1,11 +1,6 @@
 specVersion: 0.0.4
 schema:
   file: ./schema.graphql
-features:
-  - grafting
-graft:
-  base: QmTFmu2WW2hdiA5J4jFo8zL7YVegRj4GY51A1FCfqyFLPy
-  block: 16576722 # Stuck
 dataSources:
   - kind: ethereum
     name: Range
@@ -13,7 +8,7 @@ dataSources:
     source:
       address: "0xb212D9584cfc56EFf1117F412Fe0bBdc53673954"
       abi: Range
-      startBlock: 15998131
+      startBlock: 17030000 # 2023-04-12 as we only need 1 prior day of data
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -59,7 +54,7 @@ dataSources:
     source:
       address: "0x9Ded6A8B099c57BBEb9F81b76400a5a9C63a6880"
       abi: Price
-      startBlock: 15998131
+      startBlock: 17030000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -96,7 +91,7 @@ dataSources:
     source:
       address: "0xd6C4D723fdadCf0D171eF9A2a3Bfa870675b282f"
       abi: PriceV1_1
-      startBlock: 16148610
+      startBlock: 17030000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -137,7 +132,7 @@ dataSources:
     source:
       address: "0x1652b503E0F1CF38b6246Ed3b91CB3786Bb11656"
       abi: OlympusHeart
-      startBlock: 16148612
+      startBlock: 17030000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
