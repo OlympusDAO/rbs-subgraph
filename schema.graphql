@@ -170,4 +170,5 @@ type BeatRewardUpdated @entity {
   token: Bytes!
   rewardToken: Bytes!
   rewardAmount: BigDecimal!
+  auctionDuration: BigInt
 }

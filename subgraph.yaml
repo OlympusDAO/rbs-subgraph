@@ -157,7 +157,7 @@ dataSources:
     network: mainnet
     source:
       address: "0x9C6220fE829d6FC889cde9b4966D2033C4EfFD48"
-      abi: OlympusHeart
+      abi: OlympusHeart_v1_2
       startBlock: 17237984
     mapping:
       kind: ethereum/events
@@ -168,13 +168,13 @@ dataSources:
         - RewardIssued
         - RewardUpdated
       abis:
-        - name: OlympusHeart
-          file: ./abis/OlympusHeart.json
+        - name: OlympusHeart_v1_2
+          file: ./abis/OlympusHeart_v1_2.json
       eventHandlers:
         - event: Beat(uint256)
           handler: handleBeat
         - event: RewardIssued(address,uint256)
           handler: handleRewardIssued
-        - event: RewardUpdated(address,uint256)
-          handler: handleRewardUpdated
+        - event: RewardUpdated(address,uint256,uint48)
+          handler: handleRewardUpdated_v1_2
       file: ./src/heartbeat.ts

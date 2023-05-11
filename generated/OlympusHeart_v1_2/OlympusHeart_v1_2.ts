@@ -66,12 +66,16 @@ export class RewardUpdated__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get rewardAmount_(): BigInt {
+  get maxRewardAmount_(): BigInt {
     return this._event.parameters[1].value.toBigInt();
+  }
+
+  get auctionDuration_(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
   }
 }
 
-export class OlympusHeart__requestPermissionsResultPermissionsStruct extends ethereum.Tuple {
+export class OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct extends ethereum.Tuple {
   get keycode(): Bytes {
     return this[0].toBytes();
   }
@@ -81,9 +85,9 @@ export class OlympusHeart__requestPermissionsResultPermissionsStruct extends eth
   }
 }
 
-export class OlympusHeart extends ethereum.SmartContract {
-  static bind(address: Address): OlympusHeart {
-    return new OlympusHeart("OlympusHeart", address);
+export class OlympusHeart_v1_2 extends ethereum.SmartContract {
+  static bind(address: Address): OlympusHeart_v1_2 {
+    return new OlympusHeart_v1_2("OlympusHeart_v1_2", address);
   }
 
   ROLES(): Address {
@@ -116,6 +120,29 @@ export class OlympusHeart extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
+  auctionDuration(): BigInt {
+    const result = super.call(
+      "auctionDuration",
+      "auctionDuration():(uint48)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_auctionDuration(): ethereum.CallResult<BigInt> {
+    const result = super.tryCall(
+      "auctionDuration",
+      "auctionDuration():(uint48)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    const value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   configureDependencies(): Array<Bytes> {
     const result = super.call(
       "configureDependencies",
@@ -139,14 +166,33 @@ export class OlympusHeart extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytesArray());
   }
 
+  currentReward(): BigInt {
+    const result = super.call("currentReward", "currentReward():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_currentReward(): ethereum.CallResult<BigInt> {
+    const result = super.tryCall(
+      "currentReward",
+      "currentReward():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    const value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   frequency(): BigInt {
-    const result = super.call("frequency", "frequency():(uint256)", []);
+    const result = super.call("frequency", "frequency():(uint48)", []);
 
     return result[0].toBigInt();
   }
 
   try_frequency(): ethereum.CallResult<BigInt> {
-    const result = super.tryCall("frequency", "frequency():(uint256)", []);
+    const result = super.tryCall("frequency", "frequency():(uint48)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -185,13 +231,28 @@ export class OlympusHeart extends ethereum.SmartContract {
   }
 
   lastBeat(): BigInt {
-    const result = super.call("lastBeat", "lastBeat():(uint256)", []);
+    const result = super.call("lastBeat", "lastBeat():(uint48)", []);
 
     return result[0].toBigInt();
   }
 
   try_lastBeat(): ethereum.CallResult<BigInt> {
-    const result = super.tryCall("lastBeat", "lastBeat():(uint256)", []);
+    const result = super.tryCall("lastBeat", "lastBeat():(uint48)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    const value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  maxReward(): BigInt {
+    const result = super.call("maxReward", "maxReward():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_maxReward(): ethereum.CallResult<BigInt> {
+    const result = super.tryCall("maxReward", "maxReward():(uint256)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -215,7 +276,7 @@ export class OlympusHeart extends ethereum.SmartContract {
   }
 
   requestPermissions(): Array<
-    OlympusHeart__requestPermissionsResultPermissionsStruct
+    OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct
   > {
     const result = super.call(
       "requestPermissions",
@@ -224,12 +285,12 @@ export class OlympusHeart extends ethereum.SmartContract {
     );
 
     return result[0].toTupleArray<
-      OlympusHeart__requestPermissionsResultPermissionsStruct
+      OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct
     >();
   }
 
   try_requestPermissions(): ethereum.CallResult<
-    Array<OlympusHeart__requestPermissionsResultPermissionsStruct>
+    Array<OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct>
   > {
     const result = super.tryCall(
       "requestPermissions",
@@ -242,24 +303,9 @@ export class OlympusHeart extends ethereum.SmartContract {
     const value = result.value;
     return ethereum.CallResult.fromValue(
       value[0].toTupleArray<
-        OlympusHeart__requestPermissionsResultPermissionsStruct
+        OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct
       >()
     );
-  }
-
-  reward(): BigInt {
-    const result = super.call("reward", "reward():(uint256)", []);
-
-    return result[0].toBigInt();
-  }
-
-  try_reward(): ethereum.CallResult<BigInt> {
-    const result = super.tryCall("reward", "reward():(uint256)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   rewardToken(): Address {
@@ -307,8 +353,12 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[2].value.toAddress();
   }
 
-  get reward_(): BigInt {
+  get maxReward_(): BigInt {
     return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get auctionDuration_(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
   }
 }
 
@@ -514,20 +564,20 @@ export class SetOperatorCall__Outputs {
   }
 }
 
-export class SetRewardTokenAndAmountCall extends ethereum.Call {
-  get inputs(): SetRewardTokenAndAmountCall__Inputs {
-    return new SetRewardTokenAndAmountCall__Inputs(this);
+export class SetRewardAuctionParamsCall extends ethereum.Call {
+  get inputs(): SetRewardAuctionParamsCall__Inputs {
+    return new SetRewardAuctionParamsCall__Inputs(this);
   }
 
-  get outputs(): SetRewardTokenAndAmountCall__Outputs {
-    return new SetRewardTokenAndAmountCall__Outputs(this);
+  get outputs(): SetRewardAuctionParamsCall__Outputs {
+    return new SetRewardAuctionParamsCall__Outputs(this);
   }
 }
 
-export class SetRewardTokenAndAmountCall__Inputs {
-  _call: SetRewardTokenAndAmountCall;
+export class SetRewardAuctionParamsCall__Inputs {
+  _call: SetRewardAuctionParamsCall;
 
-  constructor(call: SetRewardTokenAndAmountCall) {
+  constructor(call: SetRewardAuctionParamsCall) {
     this._call = call;
   }
 
@@ -535,15 +585,19 @@ export class SetRewardTokenAndAmountCall__Inputs {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get reward_(): BigInt {
+  get maxReward_(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get auctionDuration_(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
   }
 }
 
-export class SetRewardTokenAndAmountCall__Outputs {
-  _call: SetRewardTokenAndAmountCall;
+export class SetRewardAuctionParamsCall__Outputs {
+  _call: SetRewardAuctionParamsCall;
 
-  constructor(call: SetRewardTokenAndAmountCall) {
+  constructor(call: SetRewardAuctionParamsCall) {
     this._call = call;
   }
 }

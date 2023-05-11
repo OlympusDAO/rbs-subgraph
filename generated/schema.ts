@@ -1459,4 +1459,21 @@ export class BeatRewardUpdated extends Entity {
   set rewardAmount(value: BigDecimal) {
     this.set("rewardAmount", Value.fromBigDecimal(value));
   }
+
+  get auctionDuration(): BigInt | null {
+    const value = this.get("auctionDuration");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set auctionDuration(value: BigInt | null) {
+    if (!value) {
+      this.unset("auctionDuration");
+    } else {
+      this.set("auctionDuration", Value.fromBigInt(<BigInt>value));
+    }
+  }
 }
