@@ -19,7 +19,7 @@ export function handleBeat(event: BeatEvent): void {
   const entity = new Beat(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   )
-  entity.blockchain = getChain(event.address);
+  entity.blockchain = getChain();
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -33,7 +33,7 @@ export function handleRewardIssued(event: RewardIssuedEvent): void {
   const entity = new BeatRewardIssued(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   )
-  entity.blockchain = getChain(event.address);
+  entity.blockchain = getChain();
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -50,7 +50,7 @@ export function handleRewardUpdated(event: RewardUpdatedEvent): void {
   const entity = new BeatRewardUpdated(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   )
-  entity.blockchain = getChain(event.address);
+  entity.blockchain = getChain();
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -67,7 +67,7 @@ export function handleRewardUpdated_v1_2(event: RewardUpdated_v1_2_Event): void 
   const entity = new BeatRewardUpdated(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   )
-  entity.blockchain = getChain(event.address);
+  entity.blockchain = getChain();
   entity.block = event.block.number;
   entity.transaction = event.transaction.hash;
   entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());

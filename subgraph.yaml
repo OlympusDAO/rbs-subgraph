@@ -30,6 +30,9 @@ dataSources:
           file: ./abis/ERC20.json
         - name: Operator
           file: ./abis/Operator.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
       eventHandlers:
         - event: CushionDown(bool,uint256)
           handler: handleCushionDown
@@ -75,6 +78,9 @@ dataSources:
           file: ./abis/ERC20.json
         - name: Operator
           file: ./abis/Operator.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
       eventHandlers:
         - event: MovingAverageDurationChanged(uint48)
           handler: handleMovingAverageDurationChanged
@@ -114,6 +120,9 @@ dataSources:
           file: ./abis/ERC20.json
         - name: Operator
           file: ./abis/Operator.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
       eventHandlers:
         - event: MovingAverageDurationChanged(uint48)
           handler: handleMovingAverageDurationChanged
@@ -144,6 +153,9 @@ dataSources:
       abis:
         - name: OlympusHeart
           file: ./abis/OlympusHeart.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
       eventHandlers:
         - event: Beat(uint256)
           handler: handleBeat
@@ -170,6 +182,38 @@ dataSources:
       abis:
         - name: OlympusHeart_v1_2
           file: ./abis/OlympusHeart_v1_2.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
+      eventHandlers:
+        - event: Beat(uint256)
+          handler: handleBeat
+        - event: RewardIssued(address,uint256)
+          handler: handleRewardIssued
+        - event: RewardUpdated(address,uint256,uint48)
+          handler: handleRewardUpdated_v1_2
+      file: ./src/heartbeat.ts
+  - kind: ethereum
+    name: OlympusHeart_v1_3
+    network: mainnet
+    source:
+      address: "0xE05646971Ec444f8449d1CA6Fc8D9793986017d5"
+      abi: OlympusHeart_v1_2
+      startBlock: 0 # TODO
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Beat
+        - RewardIssued
+        - RewardUpdated
+      abis:
+        - name: OlympusHeart_v1_2
+          file: ./abis/OlympusHeart_v1_2.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
       eventHandlers:
         - event: Beat(uint256)
           handler: handleBeat
