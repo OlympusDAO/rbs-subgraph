@@ -1,47 +1,26 @@
 import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
-import { Operator } from "../generated/PriceV1/Operator";
-import { Price } from "../generated/PriceV1/Price";
-import { Treasury } from "../generated/PriceV1/Treasury";
 import {
     CushionDown,
     CushionUp,
     PricesChanged,
-    Range,
     SpreadsChanged,
     ThresholdFactorChanged,
     WallDown,
     WallUp
 } from "../generated/Range/Range"
 import { PriceEvent, PricesChangedEvent, RangeSnapshot, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
-import { OPERATOR_CONTRACT_V1, OPERATOR_CONTRACT_V1_1, OPERATOR_CONTRACT_V1_1_BLOCK, PRICE_CONTRACT_V1, PRICE_CONTRACT_V1_1, PRICE_CONTRACT_V1_1_BLOCK, RANGE_CONTRACT_V1, TREASURY_CONTRACT_V1 } from "./constants";
-import { CHAIN_MAINNET, getChain } from "./helpers/contractHelper";
+import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
+import { getPriceContract } from "./bophades/price";
+import { getRangeContract } from "./bophades/range";
+import { getTreasuryContract } from "./bophades/treasury";
+import { getOperatorContract } from "./bophades/operator";
 
 const MAX_INT: BigInt = BigInt.fromString("115792089237316195423570985008687907853269984665640564039457584007913129639935");
 const DECIMALS_OHM = 9;
-
-export function getCurrentPriceContract(block: ethereum.Block): Price {
-    let address: string = PRICE_CONTRACT_V1;
-
-    if (block.number.ge(BigInt.fromString(PRICE_CONTRACT_V1_1_BLOCK))) {
-        address = PRICE_CONTRACT_V1_1;
-    }
-
-    return Price.bind(Address.fromString(address));
-}
-
-function getCurrentOperatorContract(block: ethereum.Block): Operator {
-    let address: string = OPERATOR_CONTRACT_V1;
-
-    if (block.number.ge(BigInt.fromString(OPERATOR_CONTRACT_V1_1_BLOCK))) {
-        address = OPERATOR_CONTRACT_V1_1;
-    }
-
-    return Operator.bind(Address.fromString(address));
-}
 
 const PRICE_DECIMALS = 18;
 const RESERVE_TOKEN_DECIMALS = 18;
@@ -49,16 +28,16 @@ const RESERVE_TOKEN_DECIMALS = 18;
 export function createRangeSnapshot(block: ethereum.Block): string {
     const unixTimestamp: BigInt = getUnixTimestamp(block.timestamp);
 
-    const priceContract = getCurrentPriceContract(block);
-    const rangeContract = Range.bind(Address.fromString(RANGE_CONTRACT_V1));
-    const treasuryContract = Treasury.bind(Address.fromString(TREASURY_CONTRACT_V1));
-    const operatorContract = getCurrentOperatorContract(block);
+    const priceContract = getPriceContract(block);
+    const rangeContract = getRangeContract(block);
+    const treasuryContract = getTreasuryContract(block);
+    const operatorContract = getOperatorContract(block);
     
     const priceResult = priceContract.try_getCurrentPrice();
     const movingAveragePriceResult = priceContract.try_getMovingAverage();
 
     const entity = new RangeSnapshot(`${block.number.toString()}`);
-    entity.blockchain = CHAIN_MAINNET;
+    entity.blockchain = getChain();
     entity.block = block.number;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
     entity.timestamp = unixTimestamp;
@@ -119,7 +98,7 @@ function createPriceEvent(contractAddress: Address, transaction: ethereum.Transa
     const unixTimestamp: BigInt = getUnixTimestamp(timestamp);
 
     const entity = new PriceEvent(`${transaction.hash.toHexString()}/${logIndex.toString()}`);
-    entity.blockchain = getChain(contractAddress);
+    entity.blockchain = getChain();
     entity.block = block.number;
     entity.transaction = transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -154,7 +133,7 @@ export function handlePricesChanged(event: PricesChanged): void {
     const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
     const entity = new PricesChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
-    entity.blockchain = getChain(event.address);
+    entity.blockchain = getChain();
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -170,7 +149,7 @@ export function handleSpreadsChanged(event: SpreadsChanged): void {
     const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
     const entity = new SpreadsChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
-    entity.blockchain = getChain(event.address);
+    entity.blockchain = getChain();
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
@@ -185,7 +164,7 @@ export function handleThresholdFactorChanged(
     const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
     const entity = new ThresholdFactorChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
-    entity.blockchain = getChain(event.address);
+    entity.blockchain = getChain();
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());

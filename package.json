@@ -7,7 +7,7 @@
   "license": "MIT",
   "homepage": "https://github.com/OlympusDAO/rbs-subgraph",
   "scripts": {
-    "codegen": "graph codegen && yarn eslint --config ./.eslintrc.json --fix generated/",
+    "codegen": "rm -rf generated/ && graph codegen && yarn eslint --config ./.eslintrc.json --fix generated/",
     "build": "graph build",
     "deploy:hosted": "source .subgraph-version && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ olympusdao/rbs",
     "deploy:studio": "source .subgraph-version && source .env && graph deploy --product subgraph-studio --version-label $SUBGRAPH_VERSION --deploy-key $GRAPH_STUDIO_TOKEN olympus-rbs",
