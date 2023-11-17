@@ -3,11 +3,11 @@ import { Operator } from "../../generated/PriceV1/Operator";
 import { OPERATOR_CONTRACT_V1, OPERATOR_CONTRACT_V1_1, OPERATOR_CONTRACT_V1_3, OPERATOR_CONTRACT_V1_4 } from "../constants";
 import { OperatorVersion } from "../../generated/schema";
 
-const OPERATOR_VERSIONS: Map<BigDecimal, string> = new Map<BigDecimal, string>();
-OPERATOR_VERSIONS.set(BigDecimal.fromString("1.0"), OPERATOR_CONTRACT_V1);
-OPERATOR_VERSIONS.set(BigDecimal.fromString("1.1"), OPERATOR_CONTRACT_V1_1);
-OPERATOR_VERSIONS.set(BigDecimal.fromString("1.3"), OPERATOR_CONTRACT_V1_3);
-OPERATOR_VERSIONS.set(BigDecimal.fromString("1.4"), OPERATOR_CONTRACT_V1_4);
+const OPERATOR_VERSIONS: Map<string, string> = new Map<string, string>();
+OPERATOR_VERSIONS.set("1.0", OPERATOR_CONTRACT_V1);
+OPERATOR_VERSIONS.set("1.1", OPERATOR_CONTRACT_V1_1);
+OPERATOR_VERSIONS.set("1.3", OPERATOR_CONTRACT_V1_3);
+OPERATOR_VERSIONS.set("1.4", OPERATOR_CONTRACT_V1_4);
 
 function getOperatorRecord(): OperatorVersion | null {
   return OperatorVersion.load("Operator");
@@ -45,16 +45,17 @@ export function getOperatorContract(): Operator {
   // Iterate over the versions map to find the latest version
   const keys = OPERATOR_VERSIONS.keys();
   for (let i = 0; i < keys.length; i++) {
-    const currentVersion: BigDecimal = keys[i];
+    const currentVersion: string = keys[i];
+    const currentVersionDecimal = BigDecimal.fromString(currentVersion);
     // Only proceed if the latestVersion is superceded
-    if (latestVersion === null || latestVersion.lt(currentVersion)) {
+    if (latestVersion === null || latestVersion.lt(currentVersionDecimal)) {
       // Check if the currentVersion is active
       const operatorContract: Operator = Operator.bind(Address.fromString(OPERATOR_VERSIONS.get(currentVersion)));
 
       const activeResult = operatorContract.try_active();
       if (!activeResult.reverted && activeResult.value == true) {
         log.info("Found newer active Operator version: {}", [currentVersion.toString()]);
-        latestVersion = currentVersion;
+        latestVersion = currentVersionDecimal;
       }
       else {
         log.info("Operator version {} is inactive", [currentVersion.toString()]);
@@ -66,7 +67,7 @@ export function getOperatorContract(): Operator {
     throw new Error("Unable to determine latest Operator version");
   }
 
-  const operatorAddress = OPERATOR_VERSIONS.get(latestVersion);
+  const operatorAddress = OPERATOR_VERSIONS.get(latestVersion.toString());
   if (operatorAddress === null) {
     throw new Error("Unable to determine latest Operator version");
   }
