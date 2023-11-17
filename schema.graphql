@@ -71,6 +71,7 @@ type SpreadsChangedEvent @entity(immutable: true) {
   block: BigInt!
   transaction: Bytes!
   date: String!
+  high: Boolean # Added in RBS 1.4 with asymmetric spreads
   cushionSpread: BigDecimal! # > 0.01 && < 1.0
   wallSpread: BigDecimal! # > 0.01 && < 1.0
 }
@@ -171,4 +172,9 @@ type BeatRewardUpdated @entity {
   rewardToken: Bytes!
   rewardAmount: BigDecimal!
   auctionDuration: BigInt
+}
+
+type OperatorVersion @entity {
+  id: ID!
+  version: BigDecimal!
 }

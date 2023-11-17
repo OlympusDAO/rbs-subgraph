@@ -612,6 +612,15 @@ export class SpreadsChangedEvent extends Entity {
     this.set("date", Value.fromString(value));
   }
 
+  get high(): boolean {
+    const value = this.get("high");
+    return value!.toBoolean();
+  }
+
+  set high(value: boolean) {
+    this.set("high", Value.fromBoolean(value));
+  }
+
   get cushionSpread(): BigDecimal {
     const value = this.get("cushionSpread");
     return value!.toBigDecimal();
@@ -1475,5 +1484,46 @@ export class BeatRewardUpdated extends Entity {
     } else {
       this.set("auctionDuration", Value.fromBigInt(<BigInt>value));
     }
+  }
+}
+
+export class OperatorVersion extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(id != null, "Cannot save OperatorVersion entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type OperatorVersion must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("OperatorVersion", id.toString(), this);
+    }
+  }
+
+  static load(id: string): OperatorVersion | null {
+    return changetype<OperatorVersion | null>(store.get("OperatorVersion", id));
+  }
+
+  get id(): string {
+    const value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get version(): BigDecimal {
+    const value = this.get("version");
+    return value!.toBigDecimal();
+  }
+
+  set version(value: BigDecimal) {
+    this.set("version", Value.fromBigDecimal(value));
   }
 }
