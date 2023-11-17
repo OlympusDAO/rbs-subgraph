@@ -1,4 +1,4 @@
-import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import {
     CushionDown,
@@ -10,6 +10,7 @@ import {
     WallUp
 } from "../generated/Range/Range"
 import {
+    Range_v2,
     SpreadsChanged as SpreadsChanged_v2
 } from "../generated/Range_v2/Range_v2";
 import { PriceEvent, PricesChangedEvent, RangeSnapshot, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
@@ -33,6 +34,8 @@ export function createRangeSnapshot(block: ethereum.Block): string {
 
     const priceContract = getPriceContract(block);
     const rangeContract = getRangeContract(block);
+    const rangeV2Contract: Range_v2 | null = rangeContract.VERSION().getMajor() == 2 ? Range_v2.bind(rangeContract._address) : null;
+
     const treasuryContract = getTreasuryContract(block);
     const operatorContract = getOperatorContract();
     
@@ -51,8 +54,19 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     // We convert to a decimal that can be easily multiplied, e.g. 1000 = 10% = 0.1
     const PERCENT_DECIMALS = 4;
     entity.thresholdFactor = toDecimal(rangeContract.thresholdFactor(), PERCENT_DECIMALS);
-    entity.cushionSpread = toDecimal(rangeContract.spread(false), PERCENT_DECIMALS);
-    entity.wallSpread = toDecimal(rangeContract.spread(true), PERCENT_DECIMALS);
+
+    if (rangeV2Contract !== null) {
+        entity.cushionSpread = BigDecimal.zero();
+        entity.wallSpread = BigDecimal.zero();
+        entity.lowCushionSpread = toDecimal(rangeV2Contract.spread(false, false), PERCENT_DECIMALS);
+        entity.lowWallSpread = toDecimal(rangeV2Contract.spread(false, true), PERCENT_DECIMALS);
+        entity.highCushionSpread = toDecimal(rangeV2Contract.spread(true, false), PERCENT_DECIMALS);
+        entity.highWallSpread = toDecimal(rangeV2Contract.spread(true, true), PERCENT_DECIMALS);
+    }
+    else {
+        entity.cushionSpread = toDecimal(rangeContract.spread(false), PERCENT_DECIMALS);
+        entity.wallSpread = toDecimal(rangeContract.spread(true), PERCENT_DECIMALS);    
+    }
 
     entity.highActive = rangeContract.active(true);
     entity.lowActive = rangeContract.active(false);

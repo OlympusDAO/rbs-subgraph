@@ -141,6 +141,74 @@ export class RangeSnapshot extends Entity {
     this.set("wallSpread", Value.fromBigDecimal(value));
   }
 
+  get highCushionSpread(): BigDecimal | null {
+    const value = this.get("highCushionSpread");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set highCushionSpread(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("highCushionSpread");
+    } else {
+      this.set("highCushionSpread", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get highWallSpread(): BigDecimal | null {
+    const value = this.get("highWallSpread");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set highWallSpread(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("highWallSpread");
+    } else {
+      this.set("highWallSpread", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get lowCushionSpread(): BigDecimal | null {
+    const value = this.get("lowCushionSpread");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set lowCushionSpread(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("lowCushionSpread");
+    } else {
+      this.set("lowCushionSpread", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get lowWallSpread(): BigDecimal | null {
+    const value = this.get("lowWallSpread");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set lowWallSpread(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("lowWallSpread");
+    } else {
+      this.set("lowWallSpread", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
   get highActive(): boolean {
     const value = this.get("highActive");
     return value!.toBoolean();

@@ -12,6 +12,13 @@ type RangeSnapshot @entity {
   thresholdFactor: BigDecimal! # 10% = 0.1
   cushionSpread: BigDecimal! # 10% = 0.1
   wallSpread: BigDecimal! # 10% = 0.1
+
+  # Added in RBS 1.4. cushionSpread/wallSpread are subsequently 0.
+  highCushionSpread: BigDecimal # 10% = 0.1
+  highWallSpread: BigDecimal # 10% = 0.1
+  lowCushionSpread: BigDecimal # 10% = 0.1
+  lowWallSpread: BigDecimal # 10% = 0.1
+
   highActive: Boolean!
   lowActive: Boolean!
   highLastActiveTimestamp: BigInt! # Milliseconds
