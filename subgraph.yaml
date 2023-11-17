@@ -126,6 +126,8 @@ dataSources:
       abis:
         - name: Range
           file: ./abis/Range.json
+        - name: Range_v2
+          file: ./abis/Range_v2.json
         - name: Price
           file: ./abis/Price.json
         - name: Treasury
@@ -166,6 +168,8 @@ dataSources:
       abis:
         - name: Range
           file: ./abis/Range.json
+        - name: Range_v2
+          file: ./abis/Range_v2.json
         - name: Price # Included in order to use getCurrentPriceContract
           file: ./abis/Price.json
         - name: PriceV1_1
