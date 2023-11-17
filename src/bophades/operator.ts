@@ -40,6 +40,7 @@ export function getOperatorContract(): Operator {
   // Get the latest version that has been recorded
   const operatorRecord = getOperatorRecord();
   const latestRecordedVersion: BigDecimal | null = operatorRecord !== null ? operatorRecord.version : null;
+  log.info("Latest recorded operator version: {}", [latestRecordedVersion === null ? "null" : latestRecordedVersion.toString()]);
   let latestVersion: BigDecimal | null = latestRecordedVersion;
 
   // Iterate over the versions map to find the latest version
