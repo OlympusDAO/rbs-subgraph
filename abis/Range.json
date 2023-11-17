@@ -6,7 +6,11 @@
         "name": "kernel_",
         "type": "address"
       },
-      { "internalType": "contract ERC20", "name": "ohm_", "type": "address" },
+      {
+        "internalType": "contract ERC20",
+        "name": "ohm_",
+        "type": "address"
+      },
       {
         "internalType": "contract ERC20",
         "name": "reserve_",
@@ -22,26 +26,42 @@
         "name": "cushionSpread_",
         "type": "uint256"
       },
-      { "internalType": "uint256", "name": "wallSpread_", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "wallSpread_",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "caller_", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "caller_",
+        "type": "address"
+      }
     ],
     "name": "KernelAdapter_OnlyKernel",
     "type": "error"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "policy_", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "policy_",
+        "type": "address"
+      }
     ],
     "name": "Module_PolicyNotPermitted",
     "type": "error"
   },
-  { "inputs": [], "name": "RANGE_InvalidParams", "type": "error" },
+  {
+    "inputs": [],
+    "name": "RANGE_InvalidParams",
+    "type": "error"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -209,21 +229,39 @@
   {
     "inputs": [],
     "name": "KEYCODE",
-    "outputs": [{ "internalType": "Keycode", "name": "", "type": "bytes5" }],
+    "outputs": [
+      {
+        "internalType": "Keycode",
+        "name": "",
+        "type": "bytes5"
+      }
+    ],
     "stateMutability": "pure",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "ONE_HUNDRED_PERCENT",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "ONE_PERCENT",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -231,23 +269,55 @@
     "inputs": [],
     "name": "VERSION",
     "outputs": [
-      { "internalType": "uint8", "name": "major", "type": "uint8" },
-      { "internalType": "uint8", "name": "minor", "type": "uint8" }
+      {
+        "internalType": "uint8",
+        "name": "major",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "minor",
+        "type": "uint8"
+      }
     ],
     "stateMutability": "pure",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "high_",
+        "type": "bool"
+      }
+    ],
     "name": "active",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "high_",
+        "type": "bool"
+      }
+    ],
     "name": "capacity",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -268,22 +338,50 @@
     "inputs": [],
     "name": "kernel",
     "outputs": [
-      { "internalType": "contract Kernel", "name": "", "type": "address" }
+      {
+        "internalType": "contract Kernel",
+        "name": "",
+        "type": "address"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "high_",
+        "type": "bool"
+      }
+    ],
     "name": "lastActive",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "high_",
+        "type": "bool"
+      }
+    ],
     "name": "market",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -291,18 +389,36 @@
     "inputs": [],
     "name": "ohm",
     "outputs": [
-      { "internalType": "contract ERC20", "name": "", "type": "address" }
+      {
+        "internalType": "contract ERC20",
+        "name": "",
+        "type": "address"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "bool", "name": "wall_", "type": "bool" },
-      { "internalType": "bool", "name": "high_", "type": "bool" }
+      {
+        "internalType": "bool",
+        "name": "wall_",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "high_",
+        "type": "bool"
+      }
     ],
     "name": "price",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -314,7 +430,11 @@
         "components": [
           {
             "components": [
-              { "internalType": "bool", "name": "active", "type": "bool" },
+              {
+                "internalType": "bool",
+                "name": "active",
+                "type": "bool"
+              },
               {
                 "internalType": "uint48",
                 "name": "lastActive",
@@ -330,7 +450,11 @@
                 "name": "threshold",
                 "type": "uint256"
               },
-              { "internalType": "uint256", "name": "market", "type": "uint256" }
+              {
+                "internalType": "uint256",
+                "name": "market",
+                "type": "uint256"
+              }
             ],
             "internalType": "struct RANGEv1.Side",
             "name": "low",
@@ -338,7 +462,11 @@
           },
           {
             "components": [
-              { "internalType": "bool", "name": "active", "type": "bool" },
+              {
+                "internalType": "bool",
+                "name": "active",
+                "type": "bool"
+              },
               {
                 "internalType": "uint48",
                 "name": "lastActive",
@@ -354,7 +482,11 @@
                 "name": "threshold",
                 "type": "uint256"
               },
-              { "internalType": "uint256", "name": "market", "type": "uint256" }
+              {
+                "internalType": "uint256",
+                "name": "market",
+                "type": "uint256"
+              }
             ],
             "internalType": "struct RANGEv1.Side",
             "name": "high",
@@ -386,7 +518,11 @@
                 "name": "low",
                 "type": "tuple"
               },
-              { "internalType": "uint256", "name": "spread", "type": "uint256" }
+              {
+                "internalType": "uint256",
+                "name": "spread",
+                "type": "uint256"
+              }
             ],
             "internalType": "struct RANGEv1.Band",
             "name": "cushion",
@@ -418,7 +554,11 @@
                 "name": "low",
                 "type": "tuple"
               },
-              { "internalType": "uint256", "name": "spread", "type": "uint256" }
+              {
+                "internalType": "uint256",
+                "name": "spread",
+                "type": "uint256"
+              }
             ],
             "internalType": "struct RANGEv1.Band",
             "name": "wall",
@@ -435,8 +575,16 @@
   },
   {
     "inputs": [
-      { "internalType": "bool", "name": "high_", "type": "bool" },
-      { "internalType": "uint256", "name": "capacity_", "type": "uint256" }
+      {
+        "internalType": "bool",
+        "name": "high_",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "capacity_",
+        "type": "uint256"
+      }
     ],
     "name": "regenerate",
     "outputs": [],
@@ -447,7 +595,11 @@
     "inputs": [],
     "name": "reserve",
     "outputs": [
-      { "internalType": "contract ERC20", "name": "", "type": "address" }
+      {
+        "internalType": "contract ERC20",
+        "name": "",
+        "type": "address"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -459,7 +611,11 @@
         "name": "cushionSpread_",
         "type": "uint256"
       },
-      { "internalType": "uint256", "name": "wallSpread_", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "wallSpread_",
+        "type": "uint256"
+      }
     ],
     "name": "setSpreads",
     "outputs": [],
@@ -480,23 +636,49 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "bool", "name": "wall_", "type": "bool" }],
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "wall_",
+        "type": "bool"
+      }
+    ],
     "name": "spread",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "thresholdFactor",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "bool", "name": "high_", "type": "bool" },
-      { "internalType": "uint256", "name": "capacity_", "type": "uint256" }
+      {
+        "internalType": "bool",
+        "name": "high_",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "capacity_",
+        "type": "uint256"
+      }
     ],
     "name": "updateCapacity",
     "outputs": [],
@@ -505,8 +687,16 @@
   },
   {
     "inputs": [
-      { "internalType": "bool", "name": "high_", "type": "bool" },
-      { "internalType": "uint256", "name": "market_", "type": "uint256" },
+      {
+        "internalType": "bool",
+        "name": "high_",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "market_",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "marketCapacity_",
@@ -520,7 +710,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "movingAverage_", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "movingAverage_",
+        "type": "uint256"
+      }
     ],
     "name": "updatePrices",
     "outputs": [],
