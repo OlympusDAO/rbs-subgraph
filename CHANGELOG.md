@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.4.0 (2023-11-20)
+## v1.4.0 (2023-11-18)
 
 - Update Operator, RANGE, Heart for RBS 1.4
 - Implements a dynamic approach to determining the current Operator version, so that the activation block does not need to be manually added
