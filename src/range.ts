@@ -1,4 +1,4 @@
-import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import {
     CushionDown,
@@ -9,6 +9,10 @@ import {
     WallDown,
     WallUp
 } from "../generated/Range/Range"
+import {
+    Range_v2,
+    SpreadsChanged as SpreadsChanged_v2
+} from "../generated/Range_v2/Range_v2";
 import { PriceEvent, PricesChangedEvent, RangeSnapshot, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
 import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
@@ -30,8 +34,10 @@ export function createRangeSnapshot(block: ethereum.Block): string {
 
     const priceContract = getPriceContract(block);
     const rangeContract = getRangeContract(block);
+    const rangeV2Contract: Range_v2 | null = rangeContract.VERSION().getMajor() == 2 ? Range_v2.bind(rangeContract._address) : null;
+
     const treasuryContract = getTreasuryContract(block);
-    const operatorContract = getOperatorContract(block);
+    const operatorContract = getOperatorContract();
     
     const priceResult = priceContract.try_getCurrentPrice();
     const movingAveragePriceResult = priceContract.try_getMovingAverage();
@@ -48,8 +54,19 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     // We convert to a decimal that can be easily multiplied, e.g. 1000 = 10% = 0.1
     const PERCENT_DECIMALS = 4;
     entity.thresholdFactor = toDecimal(rangeContract.thresholdFactor(), PERCENT_DECIMALS);
-    entity.cushionSpread = toDecimal(rangeContract.spread(false), PERCENT_DECIMALS);
-    entity.wallSpread = toDecimal(rangeContract.spread(true), PERCENT_DECIMALS);
+
+    if (rangeV2Contract !== null) {
+        entity.cushionSpread = BigDecimal.zero();
+        entity.wallSpread = BigDecimal.zero();
+        entity.lowCushionSpread = toDecimal(rangeV2Contract.spread(false, false), PERCENT_DECIMALS);
+        entity.lowWallSpread = toDecimal(rangeV2Contract.spread(false, true), PERCENT_DECIMALS);
+        entity.highCushionSpread = toDecimal(rangeV2Contract.spread(true, false), PERCENT_DECIMALS);
+        entity.highWallSpread = toDecimal(rangeV2Contract.spread(true, true), PERCENT_DECIMALS);
+    }
+    else {
+        entity.cushionSpread = toDecimal(rangeContract.spread(false), PERCENT_DECIMALS);
+        entity.wallSpread = toDecimal(rangeContract.spread(true), PERCENT_DECIMALS);    
+    }
 
     entity.highActive = rangeContract.active(true);
     entity.lowActive = rangeContract.active(false);
@@ -153,6 +170,20 @@ export function handleSpreadsChanged(event: SpreadsChanged): void {
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+    entity.cushionSpread = toDecimal(event.params.cushionSpread_, 2);
+    entity.wallSpread = toDecimal(event.params.wallSpread_, 2);
+    entity.save();
+}
+
+export function handleSpreadsChanged_v2(event: SpreadsChanged_v2): void {
+    const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
+
+    const entity = new SpreadsChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    entity.blockchain = getChain();
+    entity.block = event.block.number;
+    entity.transaction = event.transaction.hash;
+    entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
+    entity.high = event.params.high_;
     entity.cushionSpread = toDecimal(event.params.cushionSpread_, 2);
     entity.wallSpread = toDecimal(event.params.wallSpread_, 2);
     entity.save();

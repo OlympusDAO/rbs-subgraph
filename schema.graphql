@@ -12,6 +12,13 @@ type RangeSnapshot @entity {
   thresholdFactor: BigDecimal! # 10% = 0.1
   cushionSpread: BigDecimal! # 10% = 0.1
   wallSpread: BigDecimal! # 10% = 0.1
+
+  # Added in RBS 1.4. cushionSpread/wallSpread are subsequently 0.
+  highCushionSpread: BigDecimal # 10% = 0.1
+  highWallSpread: BigDecimal # 10% = 0.1
+  lowCushionSpread: BigDecimal # 10% = 0.1
+  lowWallSpread: BigDecimal # 10% = 0.1
+
   highActive: Boolean!
   lowActive: Boolean!
   highLastActiveTimestamp: BigInt! # Milliseconds
@@ -71,6 +78,7 @@ type SpreadsChangedEvent @entity(immutable: true) {
   block: BigInt!
   transaction: Bytes!
   date: String!
+  high: Boolean # Added in RBS 1.4 with asymmetric spreads
   cushionSpread: BigDecimal! # > 0.01 && < 1.0
   wallSpread: BigDecimal! # > 0.01 && < 1.0
 }
@@ -171,4 +179,9 @@ type BeatRewardUpdated @entity {
   rewardToken: Bytes!
   rewardAmount: BigDecimal!
   auctionDuration: BigInt
+}
+
+type OperatorVersion @entity {
+  id: ID!
+  version: BigDecimal!
 }

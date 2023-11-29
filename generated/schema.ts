@@ -141,6 +141,74 @@ export class RangeSnapshot extends Entity {
     this.set("wallSpread", Value.fromBigDecimal(value));
   }
 
+  get highCushionSpread(): BigDecimal | null {
+    const value = this.get("highCushionSpread");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set highCushionSpread(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("highCushionSpread");
+    } else {
+      this.set("highCushionSpread", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get highWallSpread(): BigDecimal | null {
+    const value = this.get("highWallSpread");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set highWallSpread(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("highWallSpread");
+    } else {
+      this.set("highWallSpread", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get lowCushionSpread(): BigDecimal | null {
+    const value = this.get("lowCushionSpread");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set lowCushionSpread(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("lowCushionSpread");
+    } else {
+      this.set("lowCushionSpread", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get lowWallSpread(): BigDecimal | null {
+    const value = this.get("lowWallSpread");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set lowWallSpread(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("lowWallSpread");
+    } else {
+      this.set("lowWallSpread", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
   get highActive(): boolean {
     const value = this.get("highActive");
     return value!.toBoolean();
@@ -610,6 +678,15 @@ export class SpreadsChangedEvent extends Entity {
 
   set date(value: string) {
     this.set("date", Value.fromString(value));
+  }
+
+  get high(): boolean {
+    const value = this.get("high");
+    return value!.toBoolean();
+  }
+
+  set high(value: boolean) {
+    this.set("high", Value.fromBoolean(value));
   }
 
   get cushionSpread(): BigDecimal {
@@ -1475,5 +1552,46 @@ export class BeatRewardUpdated extends Entity {
     } else {
       this.set("auctionDuration", Value.fromBigInt(<BigInt>value));
     }
+  }
+}
+
+export class OperatorVersion extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(id != null, "Cannot save OperatorVersion entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type OperatorVersion must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("OperatorVersion", id.toString(), this);
+    }
+  }
+
+  static load(id: string): OperatorVersion | null {
+    return changetype<OperatorVersion | null>(store.get("OperatorVersion", id));
+  }
+
+  get id(): string {
+    const value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get version(): BigDecimal {
+    const value = this.get("version");
+    return value!.toBigDecimal();
+  }
+
+  set version(value: BigDecimal) {
+    this.set("version", Value.fromBigDecimal(value));
   }
 }
