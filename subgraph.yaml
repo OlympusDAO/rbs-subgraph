@@ -2,7 +2,7 @@ specVersion: 0.0.4
 features:
   - grafting
 graft:
-  base: QmYKDiJiyH9RuEU5VuCAfJPpy1dMzWp4fwV5Ub4iPRtZMP # 1.3.1
+  base: QmcXTHcqM7BWd9UpNJf3m4f43bqJFpDMb5x7V4kyKSwWpE # 1.4.0
   block: 18585890 # RBS 1.4 deployment
 schema:
   file: ./schema.graphql

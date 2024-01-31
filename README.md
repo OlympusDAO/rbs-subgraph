@@ -17,7 +17,7 @@ It currently indexes the contracts on the Goerli testnet. However, it will be sh
 
 ## Subgraph
 
-It is published at: <https://thegraph.com/hosted-service/subgraph/olympusdao/rbs>
+It is published at: <https://thegraph.com/explorer/subgraphs/8L8ZJ5hqCZguKk2QyBRWWdsp2thmzHF2Egyj4TqC9NHc?view=Overview&chain=arbitrum-one>
 
 ## RBS Updates
 
