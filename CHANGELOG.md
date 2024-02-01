@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.5.0 (2024-01-31)
+## v1.5.3 (2024-01-31)
 
 - Fixes a bug with swapped parameter order on RANGE v2
 
