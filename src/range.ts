@@ -38,7 +38,7 @@ export function createRangeSnapshot(block: ethereum.Block): string {
 
     const treasuryContract = getTreasuryContract(block);
     const operatorContract = getOperatorContract();
-    
+
     const priceResult = priceContract.try_getCurrentPrice();
     const movingAveragePriceResult = priceContract.try_getMovingAverage();
 
@@ -55,6 +55,7 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     const PERCENT_DECIMALS = 4;
     entity.thresholdFactor = toDecimal(rangeContract.thresholdFactor(), PERCENT_DECIMALS);
 
+    // Set spreads
     if (rangeV2Contract !== null) {
         entity.cushionSpread = BigDecimal.zero();
         entity.wallSpread = BigDecimal.zero();
@@ -65,7 +66,7 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     }
     else {
         entity.cushionSpread = toDecimal(rangeContract.spread(false), PERCENT_DECIMALS);
-        entity.wallSpread = toDecimal(rangeContract.spread(true), PERCENT_DECIMALS);    
+        entity.wallSpread = toDecimal(rangeContract.spread(true), PERCENT_DECIMALS);
     }
 
     entity.highActive = rangeContract.active(true);
@@ -77,17 +78,28 @@ export function createRangeSnapshot(block: ethereum.Block): string {
     entity.highCapacityOhm = toDecimal(rangeContract.capacity(true), DECIMALS_OHM);
     entity.lowCapacityReserve = toDecimal(rangeContract.capacity(false), PRICE_DECIMALS);
 
-    entity.highCushionPrice = toDecimal(rangeContract.price(false, true), PRICE_DECIMALS);
-    entity.lowCushionPrice = toDecimal(rangeContract.price(false, false), PRICE_DECIMALS);
-
     // Market ID of the cushion bond market for the side. If no market is active, the market ID is set to max uint256 value.
     const highMarketId = rangeContract.market(true);
     entity.highMarketId = highMarketId.equals(MAX_INT) ? null : highMarketId;
     const lowMarketId = rangeContract.market(false);
     entity.lowMarketId = lowMarketId.equals(MAX_INT) ? null : lowMarketId;
-    
-    entity.highWallPrice = toDecimal(rangeContract.price(true, true), PRICE_DECIMALS);
-    entity.lowWallPrice = toDecimal(rangeContract.price(true, false), PRICE_DECIMALS);
+
+    // Set prices
+    // Range v2 flipped the order of parameters, so check for that
+    if (rangeV2Contract != null) {
+        entity.highCushionPrice = toDecimal(rangeV2Contract.price(true, false), PRICE_DECIMALS);
+        entity.lowCushionPrice = toDecimal(rangeV2Contract.price(false, false), PRICE_DECIMALS);
+
+        entity.highWallPrice = toDecimal(rangeV2Contract.price(true, true), PRICE_DECIMALS);
+        entity.lowWallPrice = toDecimal(rangeV2Contract.price(false, true), PRICE_DECIMALS);
+    }
+    else {
+        entity.highCushionPrice = toDecimal(rangeContract.price(false, true), PRICE_DECIMALS);
+        entity.lowCushionPrice = toDecimal(rangeContract.price(false, false), PRICE_DECIMALS);
+
+        entity.highWallPrice = toDecimal(rangeContract.price(true, true), PRICE_DECIMALS);
+        entity.lowWallPrice = toDecimal(rangeContract.price(true, false), PRICE_DECIMALS);
+    }
 
     // Treasury balances
     // Normally DAI, but it is stored on the contract and we should use it
@@ -101,7 +113,7 @@ export function createRangeSnapshot(block: ethereum.Block): string {
 
     // Operator config
     const operatorConfigResult = operatorContract.try_config();
-    if (!operatorConfigResult.reverted) {        
+    if (!operatorConfigResult.reverted) {
         entity.operatorReserveFactor = toDecimal(operatorConfigResult.value.reserveFactor, PERCENT_DECIMALS);
         entity.operatorCushionFactor = toDecimal(operatorConfigResult.value.cushionFactor, PERCENT_DECIMALS);
     }

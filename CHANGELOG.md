@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.3 (2024-01-31)
+
+- Fixes a bug with swapped parameter order on RANGE v2
+
 ## v1.4.0 (2023-11-18)
 
 - Update Operator, RANGE, Heart for RBS 1.4
