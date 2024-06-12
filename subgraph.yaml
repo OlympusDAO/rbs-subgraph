@@ -2,8 +2,8 @@ specVersion: 0.0.4
 features:
   - grafting
 graft:
-  base: QmcXTHcqM7BWd9UpNJf3m4f43bqJFpDMb5x7V4kyKSwWpE # 1.4.0
-  block: 18585890 # RBS 1.4 deployment
+  base: QmTyKkEnrkPjXfyFKheuCfxYhD1Gq9DPPv81ebnJWXogrf # 1.5.3
+  block: 20077054 # TODO change to RBS v2 deployment block
 schema:
   file: ./schema.graphql
 dataSources:
@@ -200,6 +200,26 @@ dataSources:
           handler: handleMinimumTargetPriceChanged
       file: ./src/price.ts
   - kind: ethereum
+    name: PriceV2
+    network: mainnet
+    source:
+      address: "0xd6C4D723fdadCf0D171eF9A2a3Bfa870675b282f" # TODO change to PRICE v2 address
+      abi: PriceV2
+      startBlock: 17030000 # TODO change to PRICE v2 block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - AssetMovingAverageUpdated
+      abis:
+        - name: PriceV2
+          file: ./abis/PriceV2.json
+      eventHandlers:
+        - event: AssetMovingAverageUpdated(address)
+          handler: handleAssetMovingAverageUpdated
+      file: ./src/priceV2.ts
+  - kind: ethereum
     name: OlympusHeart
     network: mainnet
     source:
@@ -315,3 +335,60 @@ dataSources:
         - event: RewardUpdated(address,uint256,uint48)
           handler: handleRewardUpdated_v1_2
       file: ./src/heartbeat.ts
+  - kind: ethereum
+    name: HeartV2
+    network: mainnet
+    source:
+      address: "0xD5a0Ae3Bf7309416e70cB14399bDd508fE82C658" # TODO add heart v2 address
+      abi: HeartV2
+      startBlock: 18585890 # TODO add heart v2 block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Beat
+        - RewardIssued
+        - RewardUpdated
+      abis:
+        - name: HeartV2
+          file: ./abis/HeartV2.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
+      eventHandlers:
+        - event: Beat(uint256)
+          handler: handleBeat
+        - event: RewardIssued(address,uint256)
+          handler: handleRewardIssued
+        - event: RewardUpdated(address,uint256,uint48)
+          handler: handleRewardUpdated
+        - event: MovingAverageAssetAdded(address)
+          handler: handleMovingAverageAssetAdded
+        - event: MovingAverageAssetRemoved(address)
+          handler: handleMovingAverageAssetRemoved
+        - event: MovingAverageMetricAdded(address)
+          handler: handleMovingAverageMetricAdded
+        - event: MovingAverageMetricRemoved(address)
+          handler: handleMovingAverageMetricRemoved
+      file: ./src/heartbeatV2.ts
+  - kind: ethereum
+    name: OperatorV2
+    network: mainnet
+    source:
+      address: "0x9Ded6A8B099c57BBEb9F81b76400a5a9C63a6880" # TODO change to OPERATOR v2 address
+      abi: OperatorV2
+      startBlock: 17030000 # TODO change to OPERATOR v2 block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - ManualTargetPriceSet
+      abis:
+        - name: OperatorV2
+          file: ./abis/OperatorV2.json
+      eventHandlers:
+        - event: ManualTargetPriceSet(uint256)
+          handler: handleManualTargetPriceSet
+      file: ./src/operatorV2.ts
