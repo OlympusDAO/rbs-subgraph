@@ -5,9 +5,9 @@ import { Range_v2 } from "../../generated/Range_v2/Range_v2";
 
 /**
  * Returns the currently-active RANGE contract.
- * 
- * @param block 
- * @returns 
+ *
+ * @param block
+ * @returns
  */
 export function getRangeContract(block: ethereum.Block): Range {
   const address: Address = getModuleAddress("RANGE");
@@ -15,7 +15,7 @@ export function getRangeContract(block: ethereum.Block): Range {
       throw new Error(`Unable to determine current range contract address at block ${block.number.toString()}`);
   }
 
-  return Range.bind(address);  
+  return Range.bind(address);
 }
 
 export function getRangeV2Contract(block: ethereum.Block): Range_v2 {
@@ -24,5 +24,10 @@ export function getRangeV2Contract(block: ethereum.Block): Range_v2 {
       throw new Error(`Unable to determine current range contract address at block ${block.number.toString()}`);
   }
 
-  return Range_v2.bind(address);
+  const contract = Range_v2.bind(address);
+  if (contract.VERSION().getMajor() != 2) {
+      throw new Error(`RANGE contract at address ${address.toHexString()} is not a V2 contract`);
+  }
+
+  return contract;
 }

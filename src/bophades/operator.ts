@@ -8,6 +8,7 @@ OPERATOR_VERSIONS.set("1.0", OPERATOR_CONTRACT_V1);
 OPERATOR_VERSIONS.set("1.1", OPERATOR_CONTRACT_V1_1);
 OPERATOR_VERSIONS.set("1.3", OPERATOR_CONTRACT_V1_3);
 OPERATOR_VERSIONS.set("1.4", OPERATOR_CONTRACT_V1_4);
+// TODO add Operator 2 contract
 
 function getOperatorRecord(): OperatorVersion | null {
   return OperatorVersion.load("Operator");
@@ -29,12 +30,12 @@ function setOperatorVersion(version: BigDecimal): void {
 
 /**
  * Returns the currently-active Operator policy contract.
- * 
+ *
  * This uses hard-coded addresses and starting blocks, as there is no
  * function for determining the current Operator contract address.
- * 
- * @param block 
- * @returns 
+ *
+ * @param block
+ * @returns
  */
 export function getOperatorContract(): Operator {
   // Get the latest version that has been recorded

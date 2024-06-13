@@ -211,13 +211,25 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - AssetMovingAverageUpdated
+        - NewObservation
+        # TODO configuration events
       abis:
         - name: PriceV2
           file: ./abis/PriceV2.json
+        - name: RangeV2
+          file: ./abis/Range_v2.json
+        - name: Treasury
+          file: ./abis/Treasury.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: OperatorV2
+          file: ./abis/OperatorV2.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
       eventHandlers:
-        - event: AssetMovingAverageUpdated(indexed address)
-          handler: handleAssetMovingAverageUpdated
+        - event: PriceStored(indexed address,uint256,uint48)
+          handler: handlePriceStored
       file: ./src/handlePriceV2.ts
   - kind: ethereum
     name: OlympusHeart
