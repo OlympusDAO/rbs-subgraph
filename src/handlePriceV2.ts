@@ -1,11 +1,12 @@
 import { BigInt, log } from "@graphprotocol/graph-ts";
+
 import { PriceStored } from "../generated/PriceV2/PriceV2";
-import { getUnixTimestamp } from "./helpers/numberHelper";
+import { NewObservation } from "../generated/schema";
+import { ERC20_OHM_V2 } from "./constants";
 import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
+import { getUnixTimestamp } from "./helpers/numberHelper";
 import { createRangeV2Snapshot } from "./rangeV2Snapshot";
-import { ERC20_OHM_V2 } from "./constants";
-import { NewObservation } from "../generated/schema";
 
 export function handlePriceStored(event: PriceStored): void {
     // Filter out observations that aren't OHM

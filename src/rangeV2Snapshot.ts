@@ -1,14 +1,15 @@
 import { Address, BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts";
-import { getUnixTimestamp } from "./helpers/numberHelper";
+
+import { ERC20 } from "../generated/PriceV2/ERC20";
+import { RangeSnapshot } from "../generated/schema";
+import { getOperatorContract } from "./bophades/operator";
 import { getPriceV2Contract } from "./bophades/priceV2";
 import { getRangeV2Contract } from "./bophades/range";
 import { getTreasuryContract } from "./bophades/treasury";
-import { getOperatorContract } from "./bophades/operator";
-import { RangeSnapshot } from "../generated/schema";
 import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
-import { ERC20 } from "../generated/PriceV2/ERC20";
+import { getUnixTimestamp } from "./helpers/numberHelper";
 
 const MAX_INT: BigInt = BigInt.fromString("115792089237316195423570985008687907853269984665640564039457584007913129639935");
 

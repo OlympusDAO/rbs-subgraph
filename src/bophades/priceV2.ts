@@ -1,7 +1,7 @@
-import { ethereum, Address } from "@graphprotocol/graph-ts";
-import { getModuleAddress } from "./kernel";
+import { Address,ethereum } from "@graphprotocol/graph-ts";
+
 import { PriceV2 } from "../../generated/PriceV2/PriceV2";
-import { RangeV2 } from "../../generated/PriceV2/RangeV2";
+import { getModuleAddress } from "./kernel";
 
 /**
  * Returns the currently-active PRICE contract.

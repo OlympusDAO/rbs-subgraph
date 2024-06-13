@@ -1,4 +1,5 @@
 import { Address, Bytes } from "@graphprotocol/graph-ts";
+
 import { BophadesKernel } from "../../generated/OlympusHeart/BophadesKernel";
 
 const KERNEL_ADDRESS = "0x2286d7f9639e8158FaD1169e76d1FbC38247f54b";

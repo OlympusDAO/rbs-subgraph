@@ -1,7 +1,8 @@
 import { Address, ethereum } from "@graphprotocol/graph-ts";
+
 import { Range } from "../../generated/Range/Range";
-import { getModuleAddress } from "./kernel";
 import { Range_v2 } from "../../generated/Range_v2/Range_v2";
+import { getModuleAddress } from "./kernel";
 
 /**
  * Returns the currently-active RANGE contract.

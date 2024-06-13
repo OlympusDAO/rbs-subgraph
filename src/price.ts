@@ -14,12 +14,12 @@ import {
   ObservationFrequencyChanged,
   UpdateThresholdsChanged
 } from "../generated/schema"
+import { getPriceContract } from "./bophades/price";
 import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
 import { createRangeSnapshot } from "./range";
-import { getPriceContract } from "./bophades/price";
 
 export function handleNewObservation(event: NewObservationEvent): void {
   log.debug("New observation at block {}", [event.block.number.toString()]);

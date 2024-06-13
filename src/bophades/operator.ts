@@ -1,7 +1,8 @@
 import { Address, BigDecimal, log } from "@graphprotocol/graph-ts";
+
 import { Operator } from "../../generated/PriceV1/Operator";
-import { OPERATOR_CONTRACT_V1, OPERATOR_CONTRACT_V1_1, OPERATOR_CONTRACT_V1_3, OPERATOR_CONTRACT_V1_4 } from "../constants";
 import { OperatorVersion } from "../../generated/schema";
+import { OPERATOR_CONTRACT_V1, OPERATOR_CONTRACT_V1_1, OPERATOR_CONTRACT_V1_3, OPERATOR_CONTRACT_V1_4 } from "../constants";
 
 const OPERATOR_VERSIONS: Map<string, string> = new Map<string, string>();
 OPERATOR_VERSIONS.set("1.0", OPERATOR_CONTRACT_V1);
@@ -21,9 +22,9 @@ function setOperatorVersion(version: BigDecimal): void {
     operatorRecord.save();
     log.info("Updated OperatorVersion record with new version: {}", [version.toString()]);
   } else {
-    const operatorRecord = new OperatorVersion("Operator");
-    operatorRecord.version = version;
-    operatorRecord.save();
+    const newOperatorRecord = new OperatorVersion("Operator");
+    newOperatorRecord.version = version;
+    newOperatorRecord.save();
     log.info("Created OperatorVersion record with new version: {}", [version.toString()]);
   }
 }
