@@ -7,7 +7,8 @@ import {
   Entity,
   ethereum,
   JSONValue,
-  TypedMap} from "@graphprotocol/graph-ts";
+  TypedMap,
+} from "@graphprotocol/graph-ts";
 
 export class Beat extends ethereum.Event {
   get params(): Beat__Params {
@@ -124,7 +125,7 @@ export class OlympusHeart_v1_2 extends ethereum.SmartContract {
     const result = super.call(
       "auctionDuration",
       "auctionDuration():(uint48)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -134,7 +135,7 @@ export class OlympusHeart_v1_2 extends ethereum.SmartContract {
     const result = super.tryCall(
       "auctionDuration",
       "auctionDuration():(uint48)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -147,7 +148,7 @@ export class OlympusHeart_v1_2 extends ethereum.SmartContract {
     const result = super.call(
       "configureDependencies",
       "configureDependencies():(bytes5[])",
-      []
+      [],
     );
 
     return result[0].toBytesArray();
@@ -157,7 +158,7 @@ export class OlympusHeart_v1_2 extends ethereum.SmartContract {
     const result = super.tryCall(
       "configureDependencies",
       "configureDependencies():(bytes5[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -176,7 +177,7 @@ export class OlympusHeart_v1_2 extends ethereum.SmartContract {
     const result = super.tryCall(
       "currentReward",
       "currentReward():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -275,18 +276,14 @@ export class OlympusHeart_v1_2 extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  requestPermissions(): Array<
-    OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct
-  > {
+  requestPermissions(): Array<OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct> {
     const result = super.call(
       "requestPermissions",
       "requestPermissions():((bytes5,bytes4)[])",
-      []
+      [],
     );
 
-    return result[0].toTupleArray<
-      OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct
-    >();
+    return result[0].toTupleArray<OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct>();
   }
 
   try_requestPermissions(): ethereum.CallResult<
@@ -295,16 +292,14 @@ export class OlympusHeart_v1_2 extends ethereum.SmartContract {
     const result = super.tryCall(
       "requestPermissions",
       "requestPermissions():((bytes5,bytes4)[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTupleArray<
-        OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct
-      >()
+      value[0].toTupleArray<OlympusHeart_v1_2__requestPermissionsResultPermissionsStruct>(),
     );
   }
 

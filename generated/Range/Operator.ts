@@ -7,7 +7,8 @@ import {
   Entity,
   ethereum,
   JSONValue,
-  TypedMap} from "@graphprotocol/graph-ts";
+  TypedMap,
+} from "@graphprotocol/graph-ts";
 
 export class CushionFactorChanged extends ethereum.Event {
   get params(): CushionFactorChanged__Params {
@@ -178,7 +179,7 @@ export class Operator__statusResultValue0Struct extends ethereum.Tuple {
 
   get high(): Operator__statusResultValue0HighStruct {
     return changetype<Operator__statusResultValue0HighStruct>(
-      this[1].toTuple()
+      this[1].toTuple(),
     );
   }
 }
@@ -228,7 +229,7 @@ export class Operator extends ethereum.SmartContract {
     const result = super.call(
       "ONE_HUNDRED_PERCENT",
       "ONE_HUNDRED_PERCENT():(uint32)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -238,7 +239,7 @@ export class Operator extends ethereum.SmartContract {
     const result = super.tryCall(
       "ONE_HUNDRED_PERCENT",
       "ONE_HUNDRED_PERCENT():(uint32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -326,7 +327,7 @@ export class Operator extends ethereum.SmartContract {
     const result = super.call(
       "config",
       "config():((uint32,uint32,uint32,uint32,uint32,uint32,uint32,uint32))",
-      []
+      [],
     );
 
     return changetype<Operator__configResultValue0Struct>(result[0].toTuple());
@@ -336,14 +337,14 @@ export class Operator extends ethereum.SmartContract {
     const result = super.tryCall(
       "config",
       "config():((uint32,uint32,uint32,uint32,uint32,uint32,uint32,uint32))",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<Operator__configResultValue0Struct>(value[0].toTuple())
+      changetype<Operator__configResultValue0Struct>(value[0].toTuple()),
     );
   }
 
@@ -351,7 +352,7 @@ export class Operator extends ethereum.SmartContract {
     const result = super.call(
       "configureDependencies",
       "configureDependencies():(bytes5[])",
-      []
+      [],
     );
 
     return result[0].toBytesArray();
@@ -361,7 +362,7 @@ export class Operator extends ethereum.SmartContract {
     const result = super.tryCall(
       "configureDependencies",
       "configureDependencies():(bytes5[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -372,7 +373,7 @@ export class Operator extends ethereum.SmartContract {
 
   fullCapacity(high_: boolean): BigInt {
     const result = super.call("fullCapacity", "fullCapacity(bool):(uint256)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
 
     return result[0].toBigInt();
@@ -380,7 +381,7 @@ export class Operator extends ethereum.SmartContract {
 
   try_fullCapacity(high_: boolean): ethereum.CallResult<BigInt> {
     const result = super.tryCall("fullCapacity", "fullCapacity(bool):(uint256)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -395,8 +396,8 @@ export class Operator extends ethereum.SmartContract {
       "getAmountOut(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(tokenIn_),
-        ethereum.Value.fromUnsignedBigInt(amountIn_)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amountIn_),
+      ],
     );
 
     return result[0].toBigInt();
@@ -404,15 +405,15 @@ export class Operator extends ethereum.SmartContract {
 
   try_getAmountOut(
     tokenIn_: Address,
-    amountIn_: BigInt
+    amountIn_: BigInt,
   ): ethereum.CallResult<BigInt> {
     const result = super.tryCall(
       "getAmountOut",
       "getAmountOut(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(tokenIn_),
-        ethereum.Value.fromUnsignedBigInt(amountIn_)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amountIn_),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -496,18 +497,14 @@ export class Operator extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toI32());
   }
 
-  requestPermissions(): Array<
-    Operator__requestPermissionsResultRequestsStruct
-  > {
+  requestPermissions(): Array<Operator__requestPermissionsResultRequestsStruct> {
     const result = super.call(
       "requestPermissions",
       "requestPermissions():((bytes5,bytes4)[])",
-      []
+      [],
     );
 
-    return result[0].toTupleArray<
-      Operator__requestPermissionsResultRequestsStruct
-    >();
+    return result[0].toTupleArray<Operator__requestPermissionsResultRequestsStruct>();
   }
 
   try_requestPermissions(): ethereum.CallResult<
@@ -516,14 +513,14 @@ export class Operator extends ethereum.SmartContract {
     const result = super.tryCall(
       "requestPermissions",
       "requestPermissions():((bytes5,bytes4)[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTupleArray<Operator__requestPermissionsResultRequestsStruct>()
+      value[0].toTupleArray<Operator__requestPermissionsResultRequestsStruct>(),
     );
   }
 
@@ -552,7 +549,7 @@ export class Operator extends ethereum.SmartContract {
     const result = super.tryCall(
       "reserveDecimals",
       "reserveDecimals():(uint8)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -565,7 +562,7 @@ export class Operator extends ethereum.SmartContract {
     const result = super.call(
       "status",
       "status():(((uint32,uint48,uint32,bool[]),(uint32,uint48,uint32,bool[])))",
-      []
+      [],
     );
 
     return changetype<Operator__statusResultValue0Struct>(result[0].toTuple());
@@ -575,14 +572,14 @@ export class Operator extends ethereum.SmartContract {
     const result = super.tryCall(
       "status",
       "status():(((uint32,uint48,uint32,bool[]),(uint32,uint48,uint32,bool[])))",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<Operator__statusResultValue0Struct>(value[0].toTuple())
+      changetype<Operator__statusResultValue0Struct>(value[0].toTuple()),
     );
   }
 
@@ -590,7 +587,7 @@ export class Operator extends ethereum.SmartContract {
     const result = super.call("swap", "swap(address,uint256,uint256):(uint256)", [
       ethereum.Value.fromAddress(tokenIn_),
       ethereum.Value.fromUnsignedBigInt(amountIn_),
-      ethereum.Value.fromUnsignedBigInt(minAmountOut_)
+      ethereum.Value.fromUnsignedBigInt(minAmountOut_),
     ]);
 
     return result[0].toBigInt();
@@ -599,7 +596,7 @@ export class Operator extends ethereum.SmartContract {
   try_swap(
     tokenIn_: Address,
     amountIn_: BigInt,
-    minAmountOut_: BigInt
+    minAmountOut_: BigInt,
   ): ethereum.CallResult<BigInt> {
     const result = super.tryCall(
       "swap",
@@ -607,8 +604,8 @@ export class Operator extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(tokenIn_),
         ethereum.Value.fromUnsignedBigInt(amountIn_),
-        ethereum.Value.fromUnsignedBigInt(minAmountOut_)
-      ]
+        ethereum.Value.fromUnsignedBigInt(minAmountOut_),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

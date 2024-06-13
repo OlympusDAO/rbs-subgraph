@@ -216,9 +216,9 @@ dataSources:
         - name: PriceV2
           file: ./abis/PriceV2.json
       eventHandlers:
-        - event: AssetMovingAverageUpdated(address)
+        - event: AssetMovingAverageUpdated(indexed address)
           handler: handleAssetMovingAverageUpdated
-      file: ./src/priceV2.ts
+      file: ./src/handlePriceV2.ts
   - kind: ethereum
     name: OlympusHeart
     network: mainnet
@@ -361,17 +361,17 @@ dataSources:
           handler: handleBeat
         - event: RewardIssued(address,uint256)
           handler: handleRewardIssued
-        - event: RewardUpdated(address,uint256,uint48)
+        - event: RewardUpdated(uint256,uint48)
           handler: handleRewardUpdated
         - event: MovingAverageAssetAdded(address)
           handler: handleMovingAverageAssetAdded
         - event: MovingAverageAssetRemoved(address)
           handler: handleMovingAverageAssetRemoved
-        - event: MovingAverageMetricAdded(address)
+        - event: MovingAverageMetricAdded(uint8)
           handler: handleMovingAverageMetricAdded
-        - event: MovingAverageMetricRemoved(address)
+        - event: MovingAverageMetricRemoved(uint8)
           handler: handleMovingAverageMetricRemoved
-      file: ./src/heartbeatV2.ts
+      file: ./src/handleHeartV2.ts
   - kind: ethereum
     name: OperatorV2
     network: mainnet
@@ -391,4 +391,4 @@ dataSources:
       eventHandlers:
         - event: ManualTargetPriceSet(uint256)
           handler: handleManualTargetPriceSet
-      file: ./src/operatorV2.ts
+      file: ./src/handleOperatorV2.ts

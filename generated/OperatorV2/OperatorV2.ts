@@ -54,6 +54,24 @@ export class CushionParamsChanged__Params {
   }
 }
 
+export class ManualTargetPriceSet extends ethereum.Event {
+  get params(): ManualTargetPriceSet__Params {
+    return new ManualTargetPriceSet__Params(this);
+  }
+}
+
+export class ManualTargetPriceSet__Params {
+  _event: ManualTargetPriceSet;
+
+  constructor(event: ManualTargetPriceSet) {
+    this._event = event;
+  }
+
+  get targetPrice_(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class RegenParamsChanged extends ethereum.Event {
   get params(): RegenParamsChanged__Params {
     return new RegenParamsChanged__Params(this);
@@ -128,7 +146,7 @@ export class Swap__Params {
   }
 }
 
-export class Operator__configResultValue0Struct extends ethereum.Tuple {
+export class OperatorV2__configResultValue0Struct extends ethereum.Tuple {
   get cushionFactor(): BigInt {
     return this[0].toBigInt();
   }
@@ -162,29 +180,21 @@ export class Operator__configResultValue0Struct extends ethereum.Tuple {
   }
 }
 
-export class Operator__requestPermissionsResultRequestsStruct extends ethereum.Tuple {
-  get keycode(): Bytes {
-    return this[0].toBytes();
+export class OperatorV2__statusResultValue0Struct extends ethereum.Tuple {
+  get low(): OperatorV2__statusResultValue0LowStruct {
+    return changetype<OperatorV2__statusResultValue0LowStruct>(
+      this[0].toTuple(),
+    );
   }
 
-  get funcSelector(): Bytes {
-    return this[1].toBytes();
-  }
-}
-
-export class Operator__statusResultValue0Struct extends ethereum.Tuple {
-  get low(): Operator__statusResultValue0LowStruct {
-    return changetype<Operator__statusResultValue0LowStruct>(this[0].toTuple());
-  }
-
-  get high(): Operator__statusResultValue0HighStruct {
-    return changetype<Operator__statusResultValue0HighStruct>(
+  get high(): OperatorV2__statusResultValue0HighStruct {
+    return changetype<OperatorV2__statusResultValue0HighStruct>(
       this[1].toTuple(),
     );
   }
 }
 
-export class Operator__statusResultValue0LowStruct extends ethereum.Tuple {
+export class OperatorV2__statusResultValue0LowStruct extends ethereum.Tuple {
   get count(): BigInt {
     return this[0].toBigInt();
   }
@@ -202,7 +212,7 @@ export class Operator__statusResultValue0LowStruct extends ethereum.Tuple {
   }
 }
 
-export class Operator__statusResultValue0HighStruct extends ethereum.Tuple {
+export class OperatorV2__statusResultValue0HighStruct extends ethereum.Tuple {
   get count(): BigInt {
     return this[0].toBigInt();
   }
@@ -220,120 +230,24 @@ export class Operator__statusResultValue0HighStruct extends ethereum.Tuple {
   }
 }
 
-export class Operator extends ethereum.SmartContract {
-  static bind(address: Address): Operator {
-    return new Operator("Operator", address);
+export class OperatorV2 extends ethereum.SmartContract {
+  static bind(address: Address): OperatorV2 {
+    return new OperatorV2("OperatorV2", address);
   }
 
-  ONE_HUNDRED_PERCENT(): BigInt {
-    const result = super.call(
-      "ONE_HUNDRED_PERCENT",
-      "ONE_HUNDRED_PERCENT():(uint32)",
-      [],
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_ONE_HUNDRED_PERCENT(): ethereum.CallResult<BigInt> {
-    const result = super.tryCall(
-      "ONE_HUNDRED_PERCENT",
-      "ONE_HUNDRED_PERCENT():(uint32)",
-      [],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  ONE_PERCENT(): BigInt {
-    const result = super.call("ONE_PERCENT", "ONE_PERCENT():(uint32)", []);
-
-    return result[0].toBigInt();
-  }
-
-  try_ONE_PERCENT(): ethereum.CallResult<BigInt> {
-    const result = super.tryCall("ONE_PERCENT", "ONE_PERCENT():(uint32)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  ROLES(): Address {
-    const result = super.call("ROLES", "ROLES():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_ROLES(): ethereum.CallResult<Address> {
-    const result = super.tryCall("ROLES", "ROLES():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  active(): boolean {
-    const result = super.call("active", "active():(bool)", []);
-
-    return result[0].toBoolean();
-  }
-
-  try_active(): ethereum.CallResult<boolean> {
-    const result = super.tryCall("active", "active():(bool)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  auctioneer(): Address {
-    const result = super.call("auctioneer", "auctioneer():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_auctioneer(): ethereum.CallResult<Address> {
-    const result = super.tryCall("auctioneer", "auctioneer():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  callback(): Address {
-    const result = super.call("callback", "callback():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_callback(): ethereum.CallResult<Address> {
-    const result = super.tryCall("callback", "callback():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  config(): Operator__configResultValue0Struct {
+  config(): OperatorV2__configResultValue0Struct {
     const result = super.call(
       "config",
       "config():((uint32,uint32,uint32,uint32,uint32,uint32,uint32,uint32))",
       [],
     );
 
-    return changetype<Operator__configResultValue0Struct>(result[0].toTuple());
+    return changetype<OperatorV2__configResultValue0Struct>(
+      result[0].toTuple(),
+    );
   }
 
-  try_config(): ethereum.CallResult<Operator__configResultValue0Struct> {
+  try_config(): ethereum.CallResult<OperatorV2__configResultValue0Struct> {
     const result = super.tryCall(
       "config",
       "config():((uint32,uint32,uint32,uint32,uint32,uint32,uint32,uint32))",
@@ -344,31 +258,8 @@ export class Operator extends ethereum.SmartContract {
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<Operator__configResultValue0Struct>(value[0].toTuple()),
+      changetype<OperatorV2__configResultValue0Struct>(value[0].toTuple()),
     );
-  }
-
-  configureDependencies(): Array<Bytes> {
-    const result = super.call(
-      "configureDependencies",
-      "configureDependencies():(bytes5[])",
-      [],
-    );
-
-    return result[0].toBytesArray();
-  }
-
-  try_configureDependencies(): ethereum.CallResult<Array<Bytes>> {
-    const result = super.tryCall(
-      "configureDependencies",
-      "configureDependencies():(bytes5[])",
-      [],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBytesArray());
   }
 
   fullCapacity(high_: boolean): BigInt {
@@ -422,51 +313,6 @@ export class Operator extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  initialized(): boolean {
-    const result = super.call("initialized", "initialized():(bool)", []);
-
-    return result[0].toBoolean();
-  }
-
-  try_initialized(): ethereum.CallResult<boolean> {
-    const result = super.tryCall("initialized", "initialized():(bool)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  isActive(): boolean {
-    const result = super.call("isActive", "isActive():(bool)", []);
-
-    return result[0].toBoolean();
-  }
-
-  try_isActive(): ethereum.CallResult<boolean> {
-    const result = super.tryCall("isActive", "isActive():(bool)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  kernel(): Address {
-    const result = super.call("kernel", "kernel():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_kernel(): ethereum.CallResult<Address> {
-    const result = super.tryCall("kernel", "kernel():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
   ohm(): Address {
     const result = super.call("ohm", "ohm():(address)", []);
 
@@ -480,48 +326,6 @@ export class Operator extends ethereum.SmartContract {
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  ohmDecimals(): i32 {
-    const result = super.call("ohmDecimals", "ohmDecimals():(uint8)", []);
-
-    return result[0].toI32();
-  }
-
-  try_ohmDecimals(): ethereum.CallResult<i32> {
-    const result = super.tryCall("ohmDecimals", "ohmDecimals():(uint8)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
-  }
-
-  requestPermissions(): Array<Operator__requestPermissionsResultRequestsStruct> {
-    const result = super.call(
-      "requestPermissions",
-      "requestPermissions():((bytes5,bytes4)[])",
-      [],
-    );
-
-    return result[0].toTupleArray<Operator__requestPermissionsResultRequestsStruct>();
-  }
-
-  try_requestPermissions(): ethereum.CallResult<
-    Array<Operator__requestPermissionsResultRequestsStruct>
-  > {
-    const result = super.tryCall(
-      "requestPermissions",
-      "requestPermissions():((bytes5,bytes4)[])",
-      [],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(
-      value[0].toTupleArray<Operator__requestPermissionsResultRequestsStruct>(),
-    );
   }
 
   reserve(): Address {
@@ -539,36 +343,19 @@ export class Operator extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  reserveDecimals(): i32 {
-    const result = super.call("reserveDecimals", "reserveDecimals():(uint8)", []);
-
-    return result[0].toI32();
-  }
-
-  try_reserveDecimals(): ethereum.CallResult<i32> {
-    const result = super.tryCall(
-      "reserveDecimals",
-      "reserveDecimals():(uint8)",
-      [],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    const value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
-  }
-
-  status(): Operator__statusResultValue0Struct {
+  status(): OperatorV2__statusResultValue0Struct {
     const result = super.call(
       "status",
       "status():(((uint32,uint48,uint32,bool[]),(uint32,uint48,uint32,bool[])))",
       [],
     );
 
-    return changetype<Operator__statusResultValue0Struct>(result[0].toTuple());
+    return changetype<OperatorV2__statusResultValue0Struct>(
+      result[0].toTuple(),
+    );
   }
 
-  try_status(): ethereum.CallResult<Operator__statusResultValue0Struct> {
+  try_status(): ethereum.CallResult<OperatorV2__statusResultValue0Struct> {
     const result = super.tryCall(
       "status",
       "status():(((uint32,uint48,uint32,bool[]),(uint32,uint48,uint32,bool[])))",
@@ -579,7 +366,7 @@ export class Operator extends ethereum.SmartContract {
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<Operator__statusResultValue0Struct>(value[0].toTuple()),
+      changetype<OperatorV2__statusResultValue0Struct>(value[0].toTuple()),
     );
   }
 
@@ -613,51 +400,20 @@ export class Operator extends ethereum.SmartContract {
     const value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
-}
 
-export class ConstructorCall extends ethereum.Call {
-  get inputs(): ConstructorCall__Inputs {
-    return new ConstructorCall__Inputs(this);
+  targetPrice(): BigInt {
+    const result = super.call("targetPrice", "targetPrice():(uint256)", []);
+
+    return result[0].toBigInt();
   }
 
-  get outputs(): ConstructorCall__Outputs {
-    return new ConstructorCall__Outputs(this);
-  }
-}
-
-export class ConstructorCall__Inputs {
-  _call: ConstructorCall;
-
-  constructor(call: ConstructorCall) {
-    this._call = call;
-  }
-
-  get kernel_(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get auctioneer_(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get callback_(): Address {
-    return this._call.inputValues[2].value.toAddress();
-  }
-
-  get tokens_(): Array<Address> {
-    return this._call.inputValues[3].value.toAddressArray();
-  }
-
-  get configParams(): Array<BigInt> {
-    return this._call.inputValues[4].value.toBigIntArray();
-  }
-}
-
-export class ConstructorCall__Outputs {
-  _call: ConstructorCall;
-
-  constructor(call: ConstructorCall) {
-    this._call = call;
+  try_targetPrice(): ethereum.CallResult<BigInt> {
+    const result = super.tryCall("targetPrice", "targetPrice():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    const value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 }
 
@@ -684,100 +440,6 @@ export class ActivateCall__Outputs {
 
   constructor(call: ActivateCall) {
     this._call = call;
-  }
-}
-
-export class BondPurchaseCall extends ethereum.Call {
-  get inputs(): BondPurchaseCall__Inputs {
-    return new BondPurchaseCall__Inputs(this);
-  }
-
-  get outputs(): BondPurchaseCall__Outputs {
-    return new BondPurchaseCall__Outputs(this);
-  }
-}
-
-export class BondPurchaseCall__Inputs {
-  _call: BondPurchaseCall;
-
-  constructor(call: BondPurchaseCall) {
-    this._call = call;
-  }
-
-  get id_(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get amountOut_(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-}
-
-export class BondPurchaseCall__Outputs {
-  _call: BondPurchaseCall;
-
-  constructor(call: BondPurchaseCall) {
-    this._call = call;
-  }
-}
-
-export class ChangeKernelCall extends ethereum.Call {
-  get inputs(): ChangeKernelCall__Inputs {
-    return new ChangeKernelCall__Inputs(this);
-  }
-
-  get outputs(): ChangeKernelCall__Outputs {
-    return new ChangeKernelCall__Outputs(this);
-  }
-}
-
-export class ChangeKernelCall__Inputs {
-  _call: ChangeKernelCall;
-
-  constructor(call: ChangeKernelCall) {
-    this._call = call;
-  }
-
-  get newKernel_(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class ChangeKernelCall__Outputs {
-  _call: ChangeKernelCall;
-
-  constructor(call: ChangeKernelCall) {
-    this._call = call;
-  }
-}
-
-export class ConfigureDependenciesCall extends ethereum.Call {
-  get inputs(): ConfigureDependenciesCall__Inputs {
-    return new ConfigureDependenciesCall__Inputs(this);
-  }
-
-  get outputs(): ConfigureDependenciesCall__Outputs {
-    return new ConfigureDependenciesCall__Outputs(this);
-  }
-}
-
-export class ConfigureDependenciesCall__Inputs {
-  _call: ConfigureDependenciesCall;
-
-  constructor(call: ConfigureDependenciesCall) {
-    this._call = call;
-  }
-}
-
-export class ConfigureDependenciesCall__Outputs {
-  _call: ConfigureDependenciesCall;
-
-  constructor(call: ConfigureDependenciesCall) {
-    this._call = call;
-  }
-
-  get dependencies(): Array<Bytes> {
-    return this._call.outputValues[0].value.toBytesArray();
   }
 }
 
@@ -919,6 +581,36 @@ export class RegenerateCall__Outputs {
   }
 }
 
+export class SetAppraiserCall extends ethereum.Call {
+  get inputs(): SetAppraiserCall__Inputs {
+    return new SetAppraiserCall__Inputs(this);
+  }
+
+  get outputs(): SetAppraiserCall__Outputs {
+    return new SetAppraiserCall__Outputs(this);
+  }
+}
+
+export class SetAppraiserCall__Inputs {
+  _call: SetAppraiserCall;
+
+  constructor(call: SetAppraiserCall) {
+    this._call = call;
+  }
+
+  get appraiser_(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetAppraiserCall__Outputs {
+  _call: SetAppraiserCall;
+
+  constructor(call: SetAppraiserCall) {
+    this._call = call;
+  }
+}
+
 export class SetBondContractsCall extends ethereum.Call {
   get inputs(): SetBondContractsCall__Inputs {
     return new SetBondContractsCall__Inputs(this);
@@ -1021,6 +713,36 @@ export class SetCushionParamsCall__Outputs {
   }
 }
 
+export class SetManualTargetPriceCall extends ethereum.Call {
+  get inputs(): SetManualTargetPriceCall__Inputs {
+    return new SetManualTargetPriceCall__Inputs(this);
+  }
+
+  get outputs(): SetManualTargetPriceCall__Outputs {
+    return new SetManualTargetPriceCall__Outputs(this);
+  }
+}
+
+export class SetManualTargetPriceCall__Inputs {
+  _call: SetManualTargetPriceCall;
+
+  constructor(call: SetManualTargetPriceCall) {
+    this._call = call;
+  }
+
+  get targetPrice_(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetManualTargetPriceCall__Outputs {
+  _call: SetManualTargetPriceCall;
+
+  constructor(call: SetManualTargetPriceCall) {
+    this._call = call;
+  }
+}
+
 export class SetRegenParamsCall extends ethereum.Call {
   get inputs(): SetRegenParamsCall__Inputs {
     return new SetRegenParamsCall__Inputs(this);
@@ -1106,12 +828,16 @@ export class SetSpreadsCall__Inputs {
     this._call = call;
   }
 
+  get high_(): boolean {
+    return this._call.inputValues[0].value.toBoolean();
+  }
+
   get cushionSpread_(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
+    return this._call.inputValues[1].value.toBigInt();
   }
 
   get wallSpread_(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
+    return this._call.inputValues[2].value.toBigInt();
   }
 }
 
