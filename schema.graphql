@@ -181,6 +181,34 @@ type BeatRewardUpdated @entity {
   auctionDuration: BigInt
 }
 
+type MovingAverageAssetChange @entity(immutable: true) {
+  id: Bytes! # transaction-logIndex
+
+  heart: Bytes! # address
+  asset: Bytes! # address
+  added: Boolean! # true if added, false if removed
+
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+}
+
+type MovingAverageMetricChange @entity(immutable: true) {
+  id: Bytes! # transaction-logIndex
+
+  heart: Bytes! # address
+  metric: String! # metric name
+  added: Boolean! # true if added, false if removed
+
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+}
+
 type OperatorVersion @entity {
   id: ID!
   version: BigDecimal!

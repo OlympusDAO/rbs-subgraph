@@ -362,6 +362,8 @@ dataSources:
         - Beat
         - RewardIssued
         - RewardUpdated
+        - MovingAverageAssetChange
+        - MovingAverageMetricChange
       abis:
         - name: HeartV2
           file: ./abis/HeartV2.json
