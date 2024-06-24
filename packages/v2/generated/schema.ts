@@ -12,9 +12,9 @@ import {
 } from "@graphprotocol/graph-ts";
 
 export class RangeSnapshot extends Entity {
-  constructor(id: string) {
+  constructor(id: Bytes) {
     super();
-    this.set("id", Value.fromString(id));
+    this.set("id", Value.fromBytes(id));
   }
 
   save(): void {
@@ -22,34 +22,36 @@ export class RangeSnapshot extends Entity {
     assert(id != null, "Cannot save RangeSnapshot entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type RangeSnapshot must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        id.kind == ValueKind.BYTES,
+        `Entities of type RangeSnapshot must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("RangeSnapshot", id.toString(), this);
+      store.set("RangeSnapshot", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: string): RangeSnapshot | null {
+  static loadInBlock(id: Bytes): RangeSnapshot | null {
     return changetype<RangeSnapshot | null>(
-      store.get_in_block("RangeSnapshot", id),
+      store.get_in_block("RangeSnapshot", id.toHexString()),
     );
   }
 
-  static load(id: string): RangeSnapshot | null {
-    return changetype<RangeSnapshot | null>(store.get("RangeSnapshot", id));
+  static load(id: Bytes): RangeSnapshot | null {
+    return changetype<RangeSnapshot | null>(
+      store.get("RangeSnapshot", id.toHexString()),
+    );
   }
 
-  get id(): string {
+  get id(): Bytes {
     const value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
   }
 
   get blockchain(): string {
@@ -611,17 +613,17 @@ export class PriceEvent extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get snapshot(): string {
+  get snapshot(): Bytes {
     const value = this.get("snapshot");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set snapshot(value: string) {
-    this.set("snapshot", Value.fromString(value));
+  set snapshot(value: Bytes) {
+    this.set("snapshot", Value.fromBytes(value));
   }
 }
 
@@ -720,17 +722,17 @@ export class PricesChangedEvent extends Entity {
     this.set("date", Value.fromString(value));
   }
 
-  get snapshot(): string {
+  get snapshot(): Bytes {
     const value = this.get("snapshot");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set snapshot(value: string) {
-    this.set("snapshot", Value.fromString(value));
+  set snapshot(value: Bytes) {
+    this.set("snapshot", Value.fromBytes(value));
   }
 }
 
@@ -1212,17 +1214,17 @@ export class NewObservation extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get snapshot(): string {
+  get snapshot(): Bytes {
     const value = this.get("snapshot");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set snapshot(value: string) {
-    this.set("snapshot", Value.fromString(value));
+  set snapshot(value: Bytes) {
+    this.set("snapshot", Value.fromBytes(value));
   }
 }
 

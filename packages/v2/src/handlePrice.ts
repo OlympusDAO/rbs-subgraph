@@ -1,4 +1,4 @@
-import { BigInt, log } from "@graphprotocol/graph-ts";
+import { BigInt, Bytes, log } from "@graphprotocol/graph-ts";
 
 import { PriceStored } from "../generated/Price_v2/Price_v2";
 import { NewObservation } from "../generated/schema";
@@ -28,7 +28,7 @@ export function handlePriceStored(event: PriceStored): void {
     entity.timestamp = unixTimestamp;
 
     // Create a range snapshot and link to it
-    const snapshotId = createRangeV2Snapshot(event.params.asset_, event.block);
+    const snapshotId: Bytes = createRangeV2Snapshot(event.params.asset_, event.block);
     entity.snapshot = snapshotId;
 
     entity.save();

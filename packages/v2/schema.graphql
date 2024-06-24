@@ -1,5 +1,5 @@
-type RangeSnapshot @entity {
-  id: ID!
+type RangeSnapshot @entity(immutable: true) {
+  id: Bytes! # block
   blockchain: String!
   block: BigInt!
   date: String!
@@ -11,7 +11,6 @@ type RangeSnapshot @entity {
   # Threshold: Determines how much of the capacity must be spent before the side is taken down.
   thresholdFactor: BigDecimal! # 10% = 0.1
 
-  # Added in RBS 1.4. cushionSpread/wallSpread are subsequently 0.
   highCushionSpread: BigDecimal # 10% = 0.1
   highWallSpread: BigDecimal # 10% = 0.1
   lowCushionSpread: BigDecimal # 10% = 0.1
@@ -48,6 +47,9 @@ enum PriceEventType {
   WallDown
   WallUp
 }
+
+# TODO review for redundant events
+# TODO shift object IDs to Bytes
 
 type PriceEvent @entity(immutable: true) {
   id: ID!

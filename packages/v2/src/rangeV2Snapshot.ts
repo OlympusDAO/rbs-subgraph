@@ -1,4 +1,4 @@
-import { Address, BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
 
 import { ERC20 } from "../generated/Range_v2/ERC20";
 import { RangeSnapshot } from "../generated/schema";
@@ -15,7 +15,15 @@ const MAX_INT: BigInt = BigInt.fromString("1157920892373161954235709850086879078
 
 const DECIMALS_OHM = 9;
 
-export function createRangeV2Snapshot(token: Address, block: ethereum.Block): string {
+function _getRecordId(block: ethereum.Block): Bytes {
+    return Bytes.fromI32(block.number.toI32());
+}
+
+export function getRangeSnapshot(block: ethereum.Block): RangeSnapshot | null {
+    return RangeSnapshot.load(_getRecordId(block));
+}
+
+export function createRangeV2Snapshot(token: Address, block: ethereum.Block): Bytes {
     const unixTimestamp: BigInt = getUnixTimestamp(block.timestamp);
 
     const priceV2Contract = getPriceV2Contract(block);
@@ -35,7 +43,7 @@ export function createRangeV2Snapshot(token: Address, block: ethereum.Block): st
         2 // MOVING_AVERAGE
     );
 
-    const entity = new RangeSnapshot(`${block.number.toString()}`);
+    const entity = new RangeSnapshot(_getRecordId(block));
     entity.blockchain = getChain();
     entity.block = block.number;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
