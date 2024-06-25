@@ -1478,9 +1478,9 @@ export class AssetRemoved extends Entity {
 }
 
 export class Beat extends Entity {
-  constructor(id: string) {
+  constructor(id: Bytes) {
     super();
-    this.set("id", Value.fromString(id));
+    this.set("id", Value.fromBytes(id));
   }
 
   save(): void {
@@ -1488,32 +1488,34 @@ export class Beat extends Entity {
     assert(id != null, "Cannot save Beat entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Beat must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        id.kind == ValueKind.BYTES,
+        `Entities of type Beat must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("Beat", id.toString(), this);
+      store.set("Beat", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: string): Beat | null {
-    return changetype<Beat | null>(store.get_in_block("Beat", id));
+  static loadInBlock(id: Bytes): Beat | null {
+    return changetype<Beat | null>(
+      store.get_in_block("Beat", id.toHexString()),
+    );
   }
 
-  static load(id: string): Beat | null {
-    return changetype<Beat | null>(store.get("Beat", id));
+  static load(id: Bytes): Beat | null {
+    return changetype<Beat | null>(store.get("Beat", id.toHexString()));
   }
 
-  get id(): string {
+  get id(): Bytes {
     const value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
   }
 
   get blockchain(): string {
@@ -1583,9 +1585,9 @@ export class Beat extends Entity {
 }
 
 export class BeatRewardIssued extends Entity {
-  constructor(id: string) {
+  constructor(id: Bytes) {
     super();
-    this.set("id", Value.fromString(id));
+    this.set("id", Value.fromBytes(id));
   }
 
   save(): void {
@@ -1593,36 +1595,36 @@ export class BeatRewardIssued extends Entity {
     assert(id != null, "Cannot save BeatRewardIssued entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type BeatRewardIssued must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        id.kind == ValueKind.BYTES,
+        `Entities of type BeatRewardIssued must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("BeatRewardIssued", id.toString(), this);
+      store.set("BeatRewardIssued", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: string): BeatRewardIssued | null {
+  static loadInBlock(id: Bytes): BeatRewardIssued | null {
     return changetype<BeatRewardIssued | null>(
-      store.get_in_block("BeatRewardIssued", id),
+      store.get_in_block("BeatRewardIssued", id.toHexString()),
     );
   }
 
-  static load(id: string): BeatRewardIssued | null {
+  static load(id: Bytes): BeatRewardIssued | null {
     return changetype<BeatRewardIssued | null>(
-      store.get("BeatRewardIssued", id),
+      store.get("BeatRewardIssued", id.toHexString()),
     );
   }
 
-  get id(): string {
+  get id(): Bytes {
     const value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
   }
 
   get blockchain(): string {
@@ -1731,9 +1733,9 @@ export class BeatRewardIssued extends Entity {
 }
 
 export class BeatRewardUpdated extends Entity {
-  constructor(id: string) {
+  constructor(id: Bytes) {
     super();
-    this.set("id", Value.fromString(id));
+    this.set("id", Value.fromBytes(id));
   }
 
   save(): void {
@@ -1741,36 +1743,36 @@ export class BeatRewardUpdated extends Entity {
     assert(id != null, "Cannot save BeatRewardUpdated entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type BeatRewardUpdated must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        id.kind == ValueKind.BYTES,
+        `Entities of type BeatRewardUpdated must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("BeatRewardUpdated", id.toString(), this);
+      store.set("BeatRewardUpdated", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: string): BeatRewardUpdated | null {
+  static loadInBlock(id: Bytes): BeatRewardUpdated | null {
     return changetype<BeatRewardUpdated | null>(
-      store.get_in_block("BeatRewardUpdated", id),
+      store.get_in_block("BeatRewardUpdated", id.toHexString()),
     );
   }
 
-  static load(id: string): BeatRewardUpdated | null {
+  static load(id: Bytes): BeatRewardUpdated | null {
     return changetype<BeatRewardUpdated | null>(
-      store.get("BeatRewardUpdated", id),
+      store.get("BeatRewardUpdated", id.toHexString()),
     );
   }
 
-  get id(): string {
+  get id(): Bytes {
     const value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
   }
 
   get blockchain(): string {

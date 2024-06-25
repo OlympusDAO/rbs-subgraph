@@ -21,7 +21,7 @@ export function handleBeat(event: BeatEvent): void {
   const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
   const entity = new Beat(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+    event.transaction.hash.concatI32(event.logIndex.toI32())
   )
   entity.blockchain = getChain();
   entity.block = event.block.number;
@@ -35,7 +35,7 @@ export function handleRewardIssued(event: RewardIssuedEvent): void {
   const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
   const entity = new BeatRewardIssued(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+    event.transaction.hash.concatI32(event.logIndex.toI32())
   )
   entity.blockchain = getChain();
   entity.block = event.block.number;
@@ -52,7 +52,7 @@ export function handleRewardUpdated(event: RewardUpdatedEvent): void {
   const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
   const entity = new BeatRewardUpdated(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+    event.transaction.hash.concatI32(event.logIndex.toI32())
   )
   entity.blockchain = getChain();
   entity.block = event.block.number;

@@ -140,7 +140,7 @@ type AssetRemoved @entity(immutable: true) {
 # Heartbeat
 
 type Beat @entity(immutable: true) {
-  id: ID!
+  id: Bytes! # hash-logIndex
   blockchain: String!
   block: BigInt!
   transaction: Bytes!
@@ -149,7 +149,7 @@ type Beat @entity(immutable: true) {
 }
 
 type BeatRewardIssued @entity(immutable: true) {
-  id: ID!
+  id: Bytes! # hash-logIndex
   blockchain: String!
   block: BigInt!
   transaction: Bytes!
@@ -161,7 +161,7 @@ type BeatRewardIssued @entity(immutable: true) {
 }
 
 type BeatRewardUpdated @entity(immutable: true) {
-  id: ID!
+  id: Bytes! # hash-logIndex
   blockchain: String!
   block: BigInt!
   transaction: Bytes!
