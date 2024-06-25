@@ -13,7 +13,7 @@ import { createRangeSnapshot } from "./rangeSnapshot";
 function createPriceEvent(contractAddress: Address, transaction: ethereum.Transaction, block: ethereum.Block, logIndex: BigInt, type: string, isHigh: boolean, timestamp: BigInt, _capacity: BigInt | null): void {
     const unixTimestamp: BigInt = getUnixTimestamp(timestamp);
 
-    const entity = new PriceEvent(`${transaction.hash.toHexString()}/${logIndex.toString()}`);
+    const entity = new PriceEvent(transaction.hash.concatI32(logIndex.toI32()));
     entity.blockchain = getChain();
     entity.block = block.number;
     entity.transaction = transaction.hash;
@@ -48,7 +48,7 @@ export function handleWallUp(event: WallUp): void {
 export function handlePricesChanged(event: PricesChanged): void {
     const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
-    const entity = new PricesChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    const entity = new PricesChangedEvent(event.transaction.hash.concatI32(event.logIndex.toI32()));
     entity.blockchain = getChain();
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;
@@ -64,7 +64,7 @@ export function handlePricesChanged(event: PricesChanged): void {
 export function handleSpreadsChanged(event: SpreadsChanged): void {
     const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
-    const entity = new SpreadsChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    const entity = new SpreadsChangedEvent(event.transaction.hash.concatI32(event.logIndex.toI32()));
     entity.blockchain = getChain();
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;
@@ -80,7 +80,7 @@ export function handleThresholdFactorChanged(
 ): void {
     const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
 
-    const entity = new ThresholdFactorChangedEvent(`${event.transaction.hash.toHexString()}/${event.logIndex.toString()}`);
+    const entity = new ThresholdFactorChangedEvent(event.transaction.hash.concatI32(event.logIndex.toI32()));
     entity.blockchain = getChain();
     entity.block = event.block.number;
     entity.transaction = event.transaction.hash;

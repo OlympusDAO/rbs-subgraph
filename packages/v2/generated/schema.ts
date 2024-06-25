@@ -484,9 +484,9 @@ export class RangeSnapshot extends Entity {
 }
 
 export class PriceEvent extends Entity {
-  constructor(id: string) {
+  constructor(id: Bytes) {
     super();
-    this.set("id", Value.fromString(id));
+    this.set("id", Value.fromBytes(id));
   }
 
   save(): void {
@@ -494,32 +494,36 @@ export class PriceEvent extends Entity {
     assert(id != null, "Cannot save PriceEvent entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type PriceEvent must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        id.kind == ValueKind.BYTES,
+        `Entities of type PriceEvent must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("PriceEvent", id.toString(), this);
+      store.set("PriceEvent", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: string): PriceEvent | null {
-    return changetype<PriceEvent | null>(store.get_in_block("PriceEvent", id));
+  static loadInBlock(id: Bytes): PriceEvent | null {
+    return changetype<PriceEvent | null>(
+      store.get_in_block("PriceEvent", id.toHexString()),
+    );
   }
 
-  static load(id: string): PriceEvent | null {
-    return changetype<PriceEvent | null>(store.get("PriceEvent", id));
+  static load(id: Bytes): PriceEvent | null {
+    return changetype<PriceEvent | null>(
+      store.get("PriceEvent", id.toHexString()),
+    );
   }
 
-  get id(): string {
+  get id(): Bytes {
     const value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
   }
 
   get blockchain(): string {
@@ -628,9 +632,9 @@ export class PriceEvent extends Entity {
 }
 
 export class PricesChangedEvent extends Entity {
-  constructor(id: string) {
+  constructor(id: Bytes) {
     super();
-    this.set("id", Value.fromString(id));
+    this.set("id", Value.fromBytes(id));
   }
 
   save(): void {
@@ -638,36 +642,36 @@ export class PricesChangedEvent extends Entity {
     assert(id != null, "Cannot save PricesChangedEvent entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type PricesChangedEvent must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        id.kind == ValueKind.BYTES,
+        `Entities of type PricesChangedEvent must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("PricesChangedEvent", id.toString(), this);
+      store.set("PricesChangedEvent", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: string): PricesChangedEvent | null {
+  static loadInBlock(id: Bytes): PricesChangedEvent | null {
     return changetype<PricesChangedEvent | null>(
-      store.get_in_block("PricesChangedEvent", id),
+      store.get_in_block("PricesChangedEvent", id.toHexString()),
     );
   }
 
-  static load(id: string): PricesChangedEvent | null {
+  static load(id: Bytes): PricesChangedEvent | null {
     return changetype<PricesChangedEvent | null>(
-      store.get("PricesChangedEvent", id),
+      store.get("PricesChangedEvent", id.toHexString()),
     );
   }
 
-  get id(): string {
+  get id(): Bytes {
     const value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
   }
 
   get blockchain(): string {
@@ -737,9 +741,9 @@ export class PricesChangedEvent extends Entity {
 }
 
 export class SpreadsChangedEvent extends Entity {
-  constructor(id: string) {
+  constructor(id: Bytes) {
     super();
-    this.set("id", Value.fromString(id));
+    this.set("id", Value.fromBytes(id));
   }
 
   save(): void {
@@ -747,36 +751,36 @@ export class SpreadsChangedEvent extends Entity {
     assert(id != null, "Cannot save SpreadsChangedEvent entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type SpreadsChangedEvent must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        id.kind == ValueKind.BYTES,
+        `Entities of type SpreadsChangedEvent must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("SpreadsChangedEvent", id.toString(), this);
+      store.set("SpreadsChangedEvent", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: string): SpreadsChangedEvent | null {
+  static loadInBlock(id: Bytes): SpreadsChangedEvent | null {
     return changetype<SpreadsChangedEvent | null>(
-      store.get_in_block("SpreadsChangedEvent", id),
+      store.get_in_block("SpreadsChangedEvent", id.toHexString()),
     );
   }
 
-  static load(id: string): SpreadsChangedEvent | null {
+  static load(id: Bytes): SpreadsChangedEvent | null {
     return changetype<SpreadsChangedEvent | null>(
-      store.get("SpreadsChangedEvent", id),
+      store.get("SpreadsChangedEvent", id.toHexString()),
     );
   }
 
-  get id(): string {
+  get id(): Bytes {
     const value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
   }
 
   get blockchain(): string {
@@ -872,9 +876,9 @@ export class SpreadsChangedEvent extends Entity {
 }
 
 export class ThresholdFactorChangedEvent extends Entity {
-  constructor(id: string) {
+  constructor(id: Bytes) {
     super();
-    this.set("id", Value.fromString(id));
+    this.set("id", Value.fromBytes(id));
   }
 
   save(): void {
@@ -885,36 +889,40 @@ export class ThresholdFactorChangedEvent extends Entity {
     );
     if (id) {
       assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type ThresholdFactorChangedEvent must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        id.kind == ValueKind.BYTES,
+        `Entities of type ThresholdFactorChangedEvent must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("ThresholdFactorChangedEvent", id.toString(), this);
+      store.set(
+        "ThresholdFactorChangedEvent",
+        id.toBytes().toHexString(),
+        this,
+      );
     }
   }
 
-  static loadInBlock(id: string): ThresholdFactorChangedEvent | null {
+  static loadInBlock(id: Bytes): ThresholdFactorChangedEvent | null {
     return changetype<ThresholdFactorChangedEvent | null>(
-      store.get_in_block("ThresholdFactorChangedEvent", id),
+      store.get_in_block("ThresholdFactorChangedEvent", id.toHexString()),
     );
   }
 
-  static load(id: string): ThresholdFactorChangedEvent | null {
+  static load(id: Bytes): ThresholdFactorChangedEvent | null {
     return changetype<ThresholdFactorChangedEvent | null>(
-      store.get("ThresholdFactorChangedEvent", id),
+      store.get("ThresholdFactorChangedEvent", id.toHexString()),
     );
   }
 
-  get id(): string {
+  get id(): Bytes {
     const value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
   }
 
   get blockchain(): string {
