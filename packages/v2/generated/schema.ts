@@ -2199,6 +2199,128 @@ export class MovingAverageMetricChange extends Entity {
   }
 }
 
+export class ManualTargetPriceSet extends Entity {
+  constructor(id: Bytes) {
+    super();
+    this.set("id", Value.fromBytes(id));
+  }
+
+  save(): void {
+    const id = this.get("id");
+    assert(id != null, "Cannot save ManualTargetPriceSet entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.BYTES,
+        `Entities of type ManualTargetPriceSet must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("ManualTargetPriceSet", id.toBytes().toHexString(), this);
+    }
+  }
+
+  static loadInBlock(id: Bytes): ManualTargetPriceSet | null {
+    return changetype<ManualTargetPriceSet | null>(
+      store.get_in_block("ManualTargetPriceSet", id.toHexString()),
+    );
+  }
+
+  static load(id: Bytes): ManualTargetPriceSet | null {
+    return changetype<ManualTargetPriceSet | null>(
+      store.get("ManualTargetPriceSet", id.toHexString()),
+    );
+  }
+
+  get id(): Bytes {
+    const value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
+  }
+
+  get blockchain(): string {
+    const value = this.get("blockchain");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set blockchain(value: string) {
+    this.set("blockchain", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    const value = this.get("block");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get transaction(): Bytes {
+    const value = this.get("transaction");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set transaction(value: Bytes) {
+    this.set("transaction", Value.fromBytes(value));
+  }
+
+  get date(): string {
+    const value = this.get("date");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set date(value: string) {
+    this.set("date", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    const value = this.get("timestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get targetPrice(): BigDecimal {
+    const value = this.get("targetPrice");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set targetPrice(value: BigDecimal) {
+    this.set("targetPrice", Value.fromBigDecimal(value));
+  }
+}
+
 export class OperatorVersion extends Entity {
   constructor(id: string) {
     super();

@@ -48,9 +48,6 @@ enum PriceEventType {
   WallUp
 }
 
-# TODO review for redundant events
-# TODO shift object IDs to Bytes
-
 type PriceEvent @entity(immutable: true) {
   id: Bytes! # hash-logIndex
   blockchain: String!
@@ -199,6 +196,19 @@ type MovingAverageMetricChange @entity(immutable: true) {
   transaction: Bytes!
   date: String!
   timestamp: BigInt!
+}
+
+# Operator
+
+type ManualTargetPriceSet @entity(immutable: true) {
+  id: Bytes! # operator-hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+
+  targetPrice: BigDecimal!
 }
 
 type OperatorVersion @entity {
