@@ -81,6 +81,10 @@ dataSources:
       eventHandlers:
         - event: PriceStored(indexed address,uint256,uint48)
           handler: handlePriceStored
+        - event: AssetAdded(indexed address)
+          handler: handleAssetAdded
+        - event: AssetRemoved(indexed address)
+          handler: handleAssetRemoved
       file: ./src/handlePrice.ts
   - kind: ethereum
     name: Heart_v2

@@ -93,56 +93,48 @@ type ThresholdFactorChangedEvent @entity(immutable: true) {
 }
 
 # Price
-type MovingAverageDurationChanged @entity(immutable: true) {
-  id: ID!
+
+type Token @entity(immutable: true) {
+  id: Bytes! # address
   blockchain: String!
-  block: BigInt!
-  transaction: Bytes!
-  date: String!
-  timestamp: BigInt!
-  movingAverageDuration: BigInt!
+  name: String!
+  symbol: String!
+  decimals: Int!
 }
 
-type NewObservation @entity(immutable: true) {
-  id: ID!
+type PriceStored @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
   blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
   timestamp: BigInt! # uint256
   snapshot: RangeSnapshot!
+
+  asset: Bytes! # address
+  price: BigDecimal!
 }
 
-type ObservationFrequencyChanged @entity(immutable: true) {
-  id: ID!
+type AssetAdded @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
   blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
-  timestamp: BigInt!
-  observationFrequencySeconds: BigInt! # uint48
+  timestamp: BigInt! # uint256
+
+  asset: Bytes! # address
 }
 
-type UpdateThresholdsChanged @entity(immutable: true) {
-  id: ID!
+type AssetRemoved @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
   blockchain: String!
   block: BigInt!
   transaction: Bytes!
   date: String!
-  timestamp: BigInt!
-  ohmEthUpdateThresholdSeconds: BigInt! # uint48
-  reserveEthUpdateThresholdSeconds: BigInt! # uint48
-}
+  timestamp: BigInt! # uint256
 
-# Price V1.1
-type MinimumTargetPriceChanged @entity(immutable: true) {
-  id: ID!
-  blockchain: String!
-  block: BigInt!
-  transaction: Bytes!
-  date: String!
-  timestamp: BigInt!
-  minimumTargetPrice: BigDecimal!
+  asset: Bytes! # address
 }
 
 # Heartbeat
