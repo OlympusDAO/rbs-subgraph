@@ -40,7 +40,7 @@ dataSources:
         - event: PricesChanged(uint256,uint256,uint256,uint256)
           handler: handlePricesChanged
         - event: SpreadsChanged(bool,uint256,uint256)
-          handler: handleSpreadsChanged_v2
+          handler: handleSpreadsChanged
         - event: ThresholdFactorChanged(uint256)
           handler: handleThresholdFactorChanged
         - event: WallDown(bool,uint256,uint256)

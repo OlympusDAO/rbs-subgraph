@@ -6,7 +6,7 @@ import { ERC20_OHM_V2 } from "./constants";
 import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
-import { createRangeV2Snapshot } from "./rangeV2Snapshot";
+import { createRangeSnapshot } from "./rangeSnapshot";
 
 export function handlePriceStored(event: PriceStored): void {
     // Filter out observations that aren't OHM
@@ -28,7 +28,7 @@ export function handlePriceStored(event: PriceStored): void {
     entity.timestamp = unixTimestamp;
 
     // Create a range snapshot and link to it
-    const snapshotId: Bytes = createRangeV2Snapshot(event.params.asset_, event.block);
+    const snapshotId: Bytes = createRangeSnapshot(event.params.asset_, event.block);
     entity.snapshot = snapshotId;
 
     entity.save();

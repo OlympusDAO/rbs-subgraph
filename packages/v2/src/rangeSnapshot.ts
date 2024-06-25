@@ -1,4 +1,4 @@
-import { Address, BigDecimal, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
 
 import { ERC20 } from "../generated/Range_v2/ERC20";
 import { RangeSnapshot } from "../generated/schema";
@@ -23,7 +23,14 @@ export function getRangeSnapshot(block: ethereum.Block): RangeSnapshot | null {
     return RangeSnapshot.load(_getRecordId(block));
 }
 
-export function createRangeV2Snapshot(token: Address, block: ethereum.Block): Bytes {
+export function createRangeSnapshot(token: Address, block: ethereum.Block): Bytes {
+    const recordId = _getRecordId(block);
+
+    // If there is another event in the same block, a snapshot may already exist. Skip creating one.
+    if (getRangeSnapshot(block) != null) {
+        return recordId;
+    }
+
     const unixTimestamp: BigInt = getUnixTimestamp(block.timestamp);
 
     const priceV2Contract = getPriceV2Contract(block);
@@ -43,7 +50,7 @@ export function createRangeV2Snapshot(token: Address, block: ethereum.Block): By
         2 // MOVING_AVERAGE
     );
 
-    const entity = new RangeSnapshot(_getRecordId(block));
+    const entity = new RangeSnapshot(recordId);
     entity.blockchain = getChain();
     entity.block = block.number;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
