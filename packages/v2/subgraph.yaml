@@ -1,4 +1,4 @@
-specVersion: 0.0.4
+specVersion: 0.0.8
 schema:
   file: ./schema.graphql
 dataSources:
@@ -49,6 +49,9 @@ dataSources:
           handler: handleWallUp
       blockHandlers:
         - handler: handleBlock
+          filter:
+            kind: polling
+            every: 25 # 5 minutes
       file: ./src/handleRange.ts
   - kind: ethereum
     name: Price_v2
