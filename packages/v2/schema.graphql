@@ -215,3 +215,29 @@ type OperatorVersion @entity {
   id: ID!
   version: BigDecimal!
 }
+
+# Appraiser
+
+type AssetObservation @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+
+  asset: Bytes! # address
+  price: BigDecimal!
+}
+
+type MetricObservation @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+
+  metric: String!
+  value: BigDecimal!
+}

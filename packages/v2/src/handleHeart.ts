@@ -2,20 +2,12 @@ import { Address, BigInt } from "@graphprotocol/graph-ts";
 
 import { Beat as BeatEvent, MovingAverageAssetAdded as MovingAverageAssetAddedEvent, MovingAverageAssetRemoved as MovingAverageAssetRemovedEvent, MovingAverageMetricAdded as MovingAverageMetricAddedEvent, MovingAverageMetricRemoved as MovingAverageMetricRemovedEvent, RewardIssued as RewardIssuedEvent, RewardUpdated as RewardUpdatedEvent } from "../generated/Heart_v2/Heart_v2";
 import { Beat, BeatRewardIssued, BeatRewardUpdated, MovingAverageAssetChange, MovingAverageMetricChange } from "../generated/schema";
+import { getMetricName } from "./bophades/appraiser";
 import { ERC20_OHM_V2, ERC20_OHM_V2_DECIMALS } from "./constants";
 import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
-
-// From IAppraiser.Metric
-const METRIC_MAP = new Map<number, string>();
-METRIC_MAP.set(0, "backing");
-METRIC_MAP.set(1, "liquid backing");
-METRIC_MAP.set(2, "liquid backing per backed ohm");
-METRIC_MAP.set(3, "market value");
-METRIC_MAP.set(4, "market cap");
-METRIC_MAP.set(5, "premium");
 
 export function handleBeat(event: BeatEvent): void {
   const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
@@ -106,16 +98,13 @@ export function handleMovingAverageAssetRemoved(event: MovingAverageAssetRemoved
 
 export function handleMovingAverageMetricAdded(event: MovingAverageMetricAddedEvent): void {
   const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
-  if (!METRIC_MAP.has(event.params.metric_)) {
-    throw new Error("Unknown metric: " + event.params.metric_.toString());
-  }
 
   const entity = new MovingAverageMetricChange(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
 
   entity.heart = event.address;
-  entity.metric = METRIC_MAP.get(event.params.metric_);
+  entity.metric = getMetricName(event.params.metric_);
   entity.added = true;
 
   entity.blockchain = getChain();
@@ -128,16 +117,13 @@ export function handleMovingAverageMetricAdded(event: MovingAverageMetricAddedEv
 
 export function handleMovingAverageMetricRemoved(event: MovingAverageMetricRemovedEvent): void {
   const unixTimestamp: BigInt = getUnixTimestamp(event.block.timestamp);
-  if (!METRIC_MAP.has(event.params.metric_)) {
-    throw new Error("Unknown metric: " + event.params.metric_.toString());
-  }
 
   const entity = new MovingAverageMetricChange(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
 
   entity.heart = event.address;
-  entity.metric = METRIC_MAP.get(event.params.metric_);
+  entity.metric = getMetricName(event.params.metric_);
   entity.added = false;
 
   entity.blockchain = getChain();
