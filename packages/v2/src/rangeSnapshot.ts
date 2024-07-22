@@ -55,7 +55,12 @@ export function createRangeSnapshot(token: Address, block: ethereum.Block): Byte
     entity.block = block.number;
     entity.date = getISO8601StringFromTimestamp(unixTimestamp.toI64());
     entity.timestamp = unixTimestamp;
+
+    // Get the current price of OHM, as determined by the PRICE module
+    // This uses the configured price feeds
+    // It will be compared with an off-chain price feed to determine if the price is accurate
     entity.ohmPrice = priceResult.reverted ? null : toDecimal(priceResult.value.get_price(), priceDecimals);
+    // Get the moving average price of OHM, as determined by the PRICE module and updated during the last heartbeat
     entity.ohmMovingAveragePrice = movingAveragePriceResult.reverted ? null : toDecimal(movingAveragePriceResult.value.get_price(), priceDecimals);
 
     // Spreads are stored with 2 decimal places, e.g. 1000 = 10%
