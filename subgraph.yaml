@@ -319,7 +319,7 @@ dataSources:
     name: OlympusHeart_v1_5
     network: mainnet
     source:
-      address: "0xD5a0Ae3Bf7309416e70cB14399bDd508fE82C658"
+      address: "0x39F6AA3d445e6Dd8eC232c6Bd589889A88E3034d"
       abi: OlympusHeart_v1_2
       startBlock: 20793884
     mapping:
