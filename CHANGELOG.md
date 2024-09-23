@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.6.0 (2024-02-01)
+
+- Update Heart to 1.5
+
 ## v1.5.3 (2024-01-31)
 
 - Fixes a bug with swapped parameter order on RANGE v2
