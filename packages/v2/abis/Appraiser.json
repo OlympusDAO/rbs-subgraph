@@ -1,0 +1,1318 @@
+{
+    "abi": [
+        {
+            "type": "constructor",
+            "inputs": [
+                {
+                    "name": "kernel_",
+                    "type": "address",
+                    "internalType": "contract Kernel"
+                },
+                {
+                    "name": "observationFrequency_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                }
+            ],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "ROLES",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "contract ROLESv1"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "VERSION",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "major",
+                    "type": "uint8",
+                    "internalType": "uint8"
+                },
+                {
+                    "name": "minor",
+                    "type": "uint8",
+                    "internalType": "uint8"
+                }
+            ],
+            "stateMutability": "pure"
+        },
+        {
+            "type": "function",
+            "name": "assetValueCache",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "value",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "assetValueMovingAverage",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "movingAverageDuration",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                },
+                {
+                    "name": "nextObsIndex",
+                    "type": "uint16",
+                    "internalType": "uint16"
+                },
+                {
+                    "name": "numObservations",
+                    "type": "uint16",
+                    "internalType": "uint16"
+                },
+                {
+                    "name": "lastObservationTime",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                },
+                {
+                    "name": "cumulativeObs",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "categoryValueCache",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "value",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "categoryValueMovingAverage",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "movingAverageDuration",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                },
+                {
+                    "name": "nextObsIndex",
+                    "type": "uint16",
+                    "internalType": "uint16"
+                },
+                {
+                    "name": "numObservations",
+                    "type": "uint16",
+                    "internalType": "uint16"
+                },
+                {
+                    "name": "lastObservationTime",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                },
+                {
+                    "name": "cumulativeObs",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "changeKernel",
+            "inputs": [
+                {
+                    "name": "newKernel_",
+                    "type": "address",
+                    "internalType": "contract Kernel"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "configureDependencies",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "dependencies",
+                    "type": "bytes5[]",
+                    "internalType": "Keycode[]"
+                }
+            ],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "decimals",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint8",
+                    "internalType": "uint8"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getAssetMovingAverageData",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "tuple",
+                    "internalType": "struct IAppraiser.MovingAverage",
+                    "components": [
+                        {
+                            "name": "movingAverageDuration",
+                            "type": "uint32",
+                            "internalType": "uint32"
+                        },
+                        {
+                            "name": "nextObsIndex",
+                            "type": "uint16",
+                            "internalType": "uint16"
+                        },
+                        {
+                            "name": "numObservations",
+                            "type": "uint16",
+                            "internalType": "uint16"
+                        },
+                        {
+                            "name": "lastObservationTime",
+                            "type": "uint48",
+                            "internalType": "uint48"
+                        },
+                        {
+                            "name": "cumulativeObs",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "obs",
+                            "type": "uint256[]",
+                            "internalType": "uint256[]"
+                        }
+                    ]
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getAssetValue",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "variant_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Variant"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getAssetValue",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "maxAge_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getAssetValue",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getCategoryMovingAverageData",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "tuple",
+                    "internalType": "struct IAppraiser.MovingAverage",
+                    "components": [
+                        {
+                            "name": "movingAverageDuration",
+                            "type": "uint32",
+                            "internalType": "uint32"
+                        },
+                        {
+                            "name": "nextObsIndex",
+                            "type": "uint16",
+                            "internalType": "uint16"
+                        },
+                        {
+                            "name": "numObservations",
+                            "type": "uint16",
+                            "internalType": "uint16"
+                        },
+                        {
+                            "name": "lastObservationTime",
+                            "type": "uint48",
+                            "internalType": "uint48"
+                        },
+                        {
+                            "name": "cumulativeObs",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "obs",
+                            "type": "uint256[]",
+                            "internalType": "uint256[]"
+                        }
+                    ]
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getCategoryValue",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getCategoryValue",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                },
+                {
+                    "name": "maxAge_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getCategoryValue",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                },
+                {
+                    "name": "variant_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Variant"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getMetric",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                },
+                {
+                    "name": "variant_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Variant"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getMetric",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                },
+                {
+                    "name": "maxAge_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getMetric",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getMetricMovingAverageData",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "tuple",
+                    "internalType": "struct IAppraiser.MovingAverage",
+                    "components": [
+                        {
+                            "name": "movingAverageDuration",
+                            "type": "uint32",
+                            "internalType": "uint32"
+                        },
+                        {
+                            "name": "nextObsIndex",
+                            "type": "uint16",
+                            "internalType": "uint16"
+                        },
+                        {
+                            "name": "numObservations",
+                            "type": "uint16",
+                            "internalType": "uint16"
+                        },
+                        {
+                            "name": "lastObservationTime",
+                            "type": "uint48",
+                            "internalType": "uint48"
+                        },
+                        {
+                            "name": "cumulativeObs",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "obs",
+                            "type": "uint256[]",
+                            "internalType": "uint256[]"
+                        }
+                    ]
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getObservationFrequency",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "isActive",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool",
+                    "internalType": "bool"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "kernel",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "contract Kernel"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "metricCache",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "value",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "metricMovingAverage",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "movingAverageDuration",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                },
+                {
+                    "name": "nextObsIndex",
+                    "type": "uint16",
+                    "internalType": "uint16"
+                },
+                {
+                    "name": "numObservations",
+                    "type": "uint16",
+                    "internalType": "uint16"
+                },
+                {
+                    "name": "lastObservationTime",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                },
+                {
+                    "name": "cumulativeObs",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "observationFrequency",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "requestPermissions",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "requests",
+                    "type": "tuple[]",
+                    "internalType": "struct Permissions[]",
+                    "components": [
+                        {
+                            "name": "keycode",
+                            "type": "bytes5",
+                            "internalType": "Keycode"
+                        },
+                        {
+                            "name": "funcSelector",
+                            "type": "bytes4",
+                            "internalType": "bytes4"
+                        }
+                    ]
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "storeAssetObservation",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "storeAssetValue",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "storeCategoryObservation",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "storeCategoryValue",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "storeMetric",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "storeMetricObservation",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "updateAssetMovingAverage",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "movingAverageDuration_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                },
+                {
+                    "name": "lastObservationTime_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                },
+                {
+                    "name": "observations_",
+                    "type": "uint256[]",
+                    "internalType": "uint256[]"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "updateCategoryMovingAverage",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                },
+                {
+                    "name": "movingAverageDuration_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                },
+                {
+                    "name": "lastObservationTime_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                },
+                {
+                    "name": "observations_",
+                    "type": "uint256[]",
+                    "internalType": "uint256[]"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "updateMetricMovingAverage",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                },
+                {
+                    "name": "movingAverageDuration_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                },
+                {
+                    "name": "lastObservationTime_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                },
+                {
+                    "name": "observations_",
+                    "type": "uint256[]",
+                    "internalType": "uint256[]"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "event",
+            "name": "AssetObservation",
+            "inputs": [
+                {
+                    "name": "asset",
+                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address"
+                },
+                {
+                    "name": "value",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "uint48",
+                    "indexed": false,
+                    "internalType": "uint48"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "CategoryObservation",
+            "inputs": [
+                {
+                    "name": "category",
+                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "Category"
+                },
+                {
+                    "name": "value",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "uint48",
+                    "indexed": false,
+                    "internalType": "uint48"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "MetricObservation",
+            "inputs": [
+                {
+                    "name": "metric",
+                    "type": "uint8",
+                    "indexed": true,
+                    "internalType": "enum IAppraiser.Metric"
+                },
+                {
+                    "name": "value",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "uint48",
+                    "indexed": false,
+                    "internalType": "uint48"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_InsufficientTimeElapsed_Asset",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "lastObservation_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_InsufficientTimeElapsed_Category",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                },
+                {
+                    "name": "lastObservation_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_InsufficientTimeElapsed_Metric",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                },
+                {
+                    "name": "lastObservation_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_InvalidParams",
+            "inputs": [
+                {
+                    "name": "index",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "params",
+                    "type": "bytes",
+                    "internalType": "bytes"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsInvalidObservationCount_Asset",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "observationCount_",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "numObservations_",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsInvalidObservationCount_Category",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                },
+                {
+                    "name": "observationCount_",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "numObservations_",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsInvalidObservationCount_Metric",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                },
+                {
+                    "name": "observationCount_",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "numObservations_",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsLastObservationTimeInvalid_Asset",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "lastObservationTime_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                },
+                {
+                    "name": "blockTimestamp_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsLastObservationTimeInvalid_Category",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                },
+                {
+                    "name": "lastObservationTime_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                },
+                {
+                    "name": "blockTimestamp_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsLastObservationTimeInvalid_Metric",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                },
+                {
+                    "name": "lastObservationTime_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                },
+                {
+                    "name": "blockTimestamp_",
+                    "type": "uint48",
+                    "internalType": "uint48"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsMovingAverageDurationInvalid_Asset",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "movingAverageDuration_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                },
+                {
+                    "name": "observationFrequency_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsMovingAverageDurationInvalid_Category",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                },
+                {
+                    "name": "movingAverageDuration_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                },
+                {
+                    "name": "observationFrequency_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsMovingAverageDurationInvalid_Metric",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                },
+                {
+                    "name": "movingAverageDuration_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                },
+                {
+                    "name": "observationFrequency_",
+                    "type": "uint32",
+                    "internalType": "uint32"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsObservationZero_Asset",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "index_",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsObservationZero_Category",
+            "inputs": [
+                {
+                    "name": "category_",
+                    "type": "bytes32",
+                    "internalType": "Category"
+                },
+                {
+                    "name": "index_",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ParamsObservationZero_Metric",
+            "inputs": [
+                {
+                    "name": "metric_",
+                    "type": "uint8",
+                    "internalType": "enum IAppraiser.Metric"
+                },
+                {
+                    "name": "index_",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ValueCallFailed",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Appraiser_ValueZero",
+            "inputs": [
+                {
+                    "name": "asset_",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "KernelAdapter_OnlyKernel",
+            "inputs": [
+                {
+                    "name": "caller_",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Policy_ModuleDoesNotExist",
+            "inputs": [
+                {
+                    "name": "keycode_",
+                    "type": "bytes5",
+                    "internalType": "Keycode"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "Policy_WrongModuleVersion",
+            "inputs": [
+                {
+                    "name": "expected_",
+                    "type": "bytes",
+                    "internalType": "bytes"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,173 @@
+specVersion: 0.0.8
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Range_v2
+    network: mainnet
+    source:
+      address: "0x399cD3685912bb56aAeD0949119dB6cE5Df60FB5"
+      abi: Range_v2
+      startBlock: 18585887 # TODO change to RBS v2 deployment block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - PriceEvent
+        - PricesChanged
+        - SpreadsChanged
+        - ThresholdFactorChanged
+        - RangeSnapshot
+        - OperatorVersion
+      abis:
+        - name: Range_v2
+          file: ./abis/Range_v2.json
+        - name: Operator_v2
+          file: ./abis/Operator_v2.json
+        - name: Treasury
+          file: ./abis/Treasury.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
+      eventHandlers:
+        - event: CushionDown(bool,uint256)
+          handler: handleCushionDown
+        - event: CushionUp(bool,uint256,uint256)
+          handler: handleCushionUp
+        - event: PricesChanged(uint256,uint256,uint256,uint256)
+          handler: handlePricesChanged
+        - event: SpreadsChanged(bool,uint256,uint256)
+          handler: handleSpreadsChanged
+        - event: ThresholdFactorChanged(uint256)
+          handler: handleThresholdFactorChanged
+        - event: WallDown(bool,uint256,uint256)
+          handler: handleWallDown
+        - event: WallUp(bool,uint256,uint256)
+          handler: handleWallUp
+      blockHandlers:
+        - handler: handleBlock
+          filter:
+            kind: polling
+            every: 25 # 5 minutes
+      file: ./src/handleRange.ts
+  - kind: ethereum
+    name: Price_v2
+    network: mainnet
+    source:
+      address: "0xd6C4D723fdadCf0D171eF9A2a3Bfa870675b282f" # TODO change to PRICE v2 address
+      abi: Price_v2
+      startBlock: 17030000 # TODO change to PRICE v2 block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - NewObservation
+        # TODO configuration events
+      abis:
+        - name: Price_v2
+          file: ./abis/Price_v2.json
+        - name: Range_v2
+          file: ./abis/Range_v2.json
+        - name: Treasury
+          file: ./abis/Treasury.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: Operator_v2
+          file: ./abis/Operator_v2.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
+      eventHandlers:
+        - event: PriceStored(indexed address,uint256,uint48)
+          handler: handlePriceStored
+        - event: AssetAdded(indexed address)
+          handler: handleAssetAdded
+        - event: AssetRemoved(indexed address)
+          handler: handleAssetRemoved
+      file: ./src/handlePrice.ts
+  - kind: ethereum
+    name: Heart_v2
+    network: mainnet
+    source:
+      address: "0xD5a0Ae3Bf7309416e70cB14399bDd508fE82C658" # TODO add heart v2 address
+      abi: Heart_v2
+      startBlock: 18585890 # TODO add heart v2 block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Beat
+        - RewardIssued
+        - RewardUpdated
+        - MovingAverageAssetChange
+        - MovingAverageMetricChange
+      abis:
+        - name: Heart_v2
+          file: ./abis/Heart_v2.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
+      eventHandlers:
+        - event: Beat(uint256)
+          handler: handleBeat
+        - event: RewardIssued(address,uint256)
+          handler: handleRewardIssued
+        - event: RewardUpdated(uint256,uint48)
+          handler: handleRewardUpdated
+        - event: MovingAverageAssetAdded(address)
+          handler: handleMovingAverageAssetAdded
+        - event: MovingAverageAssetRemoved(address)
+          handler: handleMovingAverageAssetRemoved
+        - event: MovingAverageMetricAdded(uint8)
+          handler: handleMovingAverageMetricAdded
+        - event: MovingAverageMetricRemoved(uint8)
+          handler: handleMovingAverageMetricRemoved
+      file: ./src/handleHeart.ts
+  - kind: ethereum
+    name: Operator_v2
+    network: mainnet
+    source:
+      address: "0x9Ded6A8B099c57BBEb9F81b76400a5a9C63a6880" # TODO change to OPERATOR v2 address
+      abi: Operator_v2
+      startBlock: 17030000 # TODO change to OPERATOR v2 block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - ManualTargetPriceSet
+      abis:
+        - name: Operator_v2
+          file: ./abis/Operator_v2.json
+      eventHandlers:
+        - event: ManualTargetPriceSet(uint256)
+          handler: handleManualTargetPriceSet
+      file: ./src/handleOperator.ts
+  - kind: ethereum
+    name: Appraiser
+    network: mainnet
+    source:
+      address: "0x9Ded6A8B099c57BBEb9F81b76400a5a9C63a6880" # TODO change to Appraiser address
+      abi: Appraiser
+      startBlock: 17030000 # TODO change to Appraiser block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - AssetObservation
+        - MetricObservation
+      abis:
+        - name: Appraiser
+          file: ./abis/Appraiser.json
+      eventHandlers:
+        - event: AssetObservation(indexed address,uint256,uint48)
+          handler: handleAssetObservation
+        - event: MetricObservation(indexed uint8,uint256,uint48)
+          handler: handleMetricObservation
+      file: ./src/handleAppraiser.ts

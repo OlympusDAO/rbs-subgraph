@@ -1,0 +1,243 @@
+type RangeSnapshot @entity(immutable: true) {
+  id: Bytes! # block
+  blockchain: String!
+  block: BigInt!
+  date: String!
+  timestamp: BigInt!
+  ohmPrice: BigDecimal
+  ohmMovingAveragePrice: BigDecimal
+  # Definitions (from https://github.com/OlympusDAO/bophades2/blob/master/src/modules/RANGE/RANGE.v1.sol)
+  # Capacity: Amount of tokens that can be used to defend the side of the range. Specified in OHM tokens on the high side and Reserve tokens on the low side.
+  # Threshold: Determines how much of the capacity must be spent before the side is taken down.
+  thresholdFactor: BigDecimal! # 10% = 0.1
+
+  highCushionSpread: BigDecimal # 10% = 0.1
+  highWallSpread: BigDecimal # 10% = 0.1
+  lowCushionSpread: BigDecimal # 10% = 0.1
+  lowWallSpread: BigDecimal # 10% = 0.1
+
+  highActive: Boolean!
+  lowActive: Boolean!
+  highLastActiveTimestamp: BigInt! # Milliseconds
+  lowLastActiveTimestamp: BigInt! # Milliseconds
+  highCapacityOhm: BigDecimal!
+  lowCapacityReserve: BigDecimal!
+  highCushionPrice: BigDecimal!
+  lowCushionPrice: BigDecimal!
+  highMarketId: BigInt
+  lowMarketId: BigInt
+  highWallPrice: BigDecimal!
+  lowWallPrice: BigDecimal!
+
+  # TODO consider shifting into own entities
+  # Treasury
+  treasuryReserveAddress: Bytes
+  treasuryReserveBalance: BigDecimal # Without debt
+  treasuryDebtBalance: BigDecimal
+
+  # Operator
+  operatorReserveFactor: BigDecimal
+  operatorCushionFactor: BigDecimal
+}
+
+# Range
+enum PriceEventType {
+  CushionDown
+  CushionUp
+  WallDown
+  WallUp
+}
+
+type PriceEvent @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  type: PriceEventType!
+  isHigh: Boolean!
+  timestamp: BigInt!
+  snapshot: RangeSnapshot!
+}
+
+type PricesChangedEvent @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  snapshot: RangeSnapshot!
+}
+
+type SpreadsChangedEvent @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  high: Boolean # Added in RBS 1.4 with asymmetric spreads
+  cushionSpread: BigDecimal! # > 0.01 && < 1.0
+  wallSpread: BigDecimal! # > 0.01 && < 1.0
+}
+
+type ThresholdFactorChangedEvent @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  thresholdFactor: BigDecimal! # > 0.01 && < 1.0
+}
+
+# Price
+
+type Token @entity(immutable: true) {
+  id: Bytes! # address
+  blockchain: String!
+  name: String!
+  symbol: String!
+  decimals: Int!
+}
+
+type PriceStored @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt! # uint256
+  snapshot: RangeSnapshot!
+
+  asset: Bytes! # address
+  price: BigDecimal!
+}
+
+type AssetAdded @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt! # uint256
+
+  asset: Bytes! # address
+}
+
+type AssetRemoved @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt! # uint256
+
+  asset: Bytes! # address
+}
+
+# Heartbeat
+
+type Beat @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+}
+
+type BeatRewardIssued @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  to: Bytes!
+  rewardToken: Bytes!
+  rewardAmount: BigDecimal!
+}
+
+type BeatRewardUpdated @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  token: Bytes!
+  rewardToken: Bytes!
+  rewardAmount: BigDecimal!
+  auctionDuration: BigInt
+}
+
+type MovingAverageAssetChange @entity(immutable: true) {
+  id: Bytes! # transaction-logIndex
+
+  heart: Bytes! # address
+  asset: Bytes! # address
+  added: Boolean! # true if added, false if removed
+
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+}
+
+type MovingAverageMetricChange @entity(immutable: true) {
+  id: Bytes! # transaction-logIndex
+
+  heart: Bytes! # address
+  metric: String! # metric name
+  added: Boolean! # true if added, false if removed
+
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+}
+
+# Operator
+
+type ManualTargetPriceSet @entity(immutable: true) {
+  id: Bytes! # operator-hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+
+  targetPrice: BigDecimal!
+}
+
+type OperatorVersion @entity {
+  id: ID!
+  version: BigDecimal!
+}
+
+# Appraiser
+
+type AssetObservation @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+
+  asset: Bytes! # address
+  price: BigDecimal!
+}
+
+type MetricObservation @entity(immutable: true) {
+  id: Bytes! # hash-logIndex
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+
+  metric: String!
+  value: BigDecimal!
+}

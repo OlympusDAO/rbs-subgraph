@@ -1,0 +1,35 @@
+{
+  "name": "rbs-subgraph",
+  "version": "1.0.0",
+  "description": "Subgraph to track RBS events",
+  "main": "index.js",
+  "author": "Jem <0x0xjem@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/OlympusDAO/rbs-subgraph",
+  "scripts": {
+    "codegen": "rm -rf generated/ && graph codegen && yarn eslint --config ./.eslintrc.json --fix generated/",
+    "build": "graph build",
+    "deploy:hosted": "source .subgraph-version && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ olympusdao/rbs",
+    "deploy:studio": "source .subgraph-version && source .env && graph deploy --product subgraph-studio --version-label $SUBGRAPH_VERSION --deploy-key $GRAPH_STUDIO_TOKEN olympus-rbs",
+    "test": "graph test --version 0.5.3",
+    "test:force": "yarn test --recompile",
+    "auth:hosted": "source .env && graph auth --product hosted-service $GRAPH_TOKEN",
+    "auth:studio": "source .env && graph auth --product subgraph-studio $GRAPH_STUDIO_TOKEN",
+    "lint": "yarn eslint --config ./.eslintrc.json --fix ."
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.67.0",
+    "@graphprotocol/graph-ts": "^0.32.0",
+    "assemblyscript-json": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
+    "eslint": "^8.16.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "matchstick-as": "^0.5.0",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.4"
+  }
+}
