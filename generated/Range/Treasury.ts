@@ -7,7 +7,8 @@ import {
   Entity,
   ethereum,
   JSONValue,
-  TypedMap} from "@graphprotocol/graph-ts";
+  TypedMap,
+} from "@graphprotocol/graph-ts";
 
 export class DebtIncurred extends ethereum.Event {
   get params(): DebtIncurred__Params {
@@ -234,11 +235,11 @@ export class Treasury__VERSIONResult {
     const map = new TypedMap<string, ethereum.Value>();
     map.set(
       "value0",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0)),
     );
     map.set(
       "value1",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)),
     );
     return map;
   }
@@ -285,7 +286,7 @@ export class Treasury extends ethereum.SmartContract {
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      new Treasury__VERSIONResult(value[0].toI32(), value[1].toI32())
+      new Treasury__VERSIONResult(value[0].toI32(), value[1].toI32()),
     );
   }
 
@@ -308,7 +309,7 @@ export class Treasury extends ethereum.SmartContract {
     const result = super.call(
       "debtApproval",
       "debtApproval(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
 
     return result[0].toBigInt();
@@ -316,12 +317,12 @@ export class Treasury extends ethereum.SmartContract {
 
   try_debtApproval(
     param0: Address,
-    param1: Address
+    param1: Address,
   ): ethereum.CallResult<BigInt> {
     const result = super.tryCall(
       "debtApproval",
       "debtApproval(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -334,7 +335,7 @@ export class Treasury extends ethereum.SmartContract {
     const result = super.call(
       "getReserveBalance",
       "getReserveBalance(address):(uint256)",
-      [ethereum.Value.fromAddress(token_)]
+      [ethereum.Value.fromAddress(token_)],
     );
 
     return result[0].toBigInt();
@@ -344,7 +345,7 @@ export class Treasury extends ethereum.SmartContract {
     const result = super.tryCall(
       "getReserveBalance",
       "getReserveBalance(address):(uint256)",
-      [ethereum.Value.fromAddress(token_)]
+      [ethereum.Value.fromAddress(token_)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -372,7 +373,7 @@ export class Treasury extends ethereum.SmartContract {
     const result = super.call(
       "reserveDebt",
       "reserveDebt(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
 
     return result[0].toBigInt();
@@ -380,12 +381,12 @@ export class Treasury extends ethereum.SmartContract {
 
   try_reserveDebt(
     param0: Address,
-    param1: Address
+    param1: Address,
   ): ethereum.CallResult<BigInt> {
     const result = super.tryCall(
       "reserveDebt",
       "reserveDebt(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -396,7 +397,7 @@ export class Treasury extends ethereum.SmartContract {
 
   totalDebt(param0: Address): BigInt {
     const result = super.call("totalDebt", "totalDebt(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBigInt();
@@ -404,7 +405,7 @@ export class Treasury extends ethereum.SmartContract {
 
   try_totalDebt(param0: Address): ethereum.CallResult<BigInt> {
     const result = super.tryCall("totalDebt", "totalDebt(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -417,7 +418,7 @@ export class Treasury extends ethereum.SmartContract {
     const result = super.call(
       "withdrawApproval",
       "withdrawApproval(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
 
     return result[0].toBigInt();
@@ -425,12 +426,12 @@ export class Treasury extends ethereum.SmartContract {
 
   try_withdrawApproval(
     param0: Address,
-    param1: Address
+    param1: Address,
   ): ethereum.CallResult<BigInt> {
     const result = super.tryCall(
       "withdrawApproval",
       "withdrawApproval(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

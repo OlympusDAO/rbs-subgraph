@@ -7,7 +7,8 @@ import {
   Entity,
   ethereum,
   JSONValue,
-  TypedMap} from "@graphprotocol/graph-ts";
+  TypedMap,
+} from "@graphprotocol/graph-ts";
 
 export class CushionDown extends ethereum.Event {
   get params(): CushionDown__Params {
@@ -192,11 +193,11 @@ export class Range__VERSIONResult {
     const map = new TypedMap<string, ethereum.Value>();
     map.set(
       "value0",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0)),
     );
     map.set(
       "value1",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)),
     );
     return map;
   }
@@ -275,13 +276,13 @@ export class Range__rangeResultValue0HighStruct extends ethereum.Tuple {
 export class Range__rangeResultValue0CushionStruct extends ethereum.Tuple {
   get high(): Range__rangeResultValue0CushionHighStruct {
     return changetype<Range__rangeResultValue0CushionHighStruct>(
-      this[0].toTuple()
+      this[0].toTuple(),
     );
   }
 
   get low(): Range__rangeResultValue0CushionLowStruct {
     return changetype<Range__rangeResultValue0CushionLowStruct>(
-      this[1].toTuple()
+      this[1].toTuple(),
     );
   }
 
@@ -305,7 +306,7 @@ export class Range__rangeResultValue0CushionLowStruct extends ethereum.Tuple {
 export class Range__rangeResultValue0WallStruct extends ethereum.Tuple {
   get high(): Range__rangeResultValue0WallHighStruct {
     return changetype<Range__rangeResultValue0WallHighStruct>(
-      this[0].toTuple()
+      this[0].toTuple(),
     );
   }
 
@@ -354,7 +355,7 @@ export class Range extends ethereum.SmartContract {
     const result = super.call(
       "ONE_HUNDRED_PERCENT",
       "ONE_HUNDRED_PERCENT():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -364,7 +365,7 @@ export class Range extends ethereum.SmartContract {
     const result = super.tryCall(
       "ONE_HUNDRED_PERCENT",
       "ONE_HUNDRED_PERCENT():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -401,13 +402,13 @@ export class Range extends ethereum.SmartContract {
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      new Range__VERSIONResult(value[0].toI32(), value[1].toI32())
+      new Range__VERSIONResult(value[0].toI32(), value[1].toI32()),
     );
   }
 
   active(high_: boolean): boolean {
     const result = super.call("active", "active(bool):(bool)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
 
     return result[0].toBoolean();
@@ -415,7 +416,7 @@ export class Range extends ethereum.SmartContract {
 
   try_active(high_: boolean): ethereum.CallResult<boolean> {
     const result = super.tryCall("active", "active(bool):(bool)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -426,7 +427,7 @@ export class Range extends ethereum.SmartContract {
 
   capacity(high_: boolean): BigInt {
     const result = super.call("capacity", "capacity(bool):(uint256)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
 
     return result[0].toBigInt();
@@ -434,7 +435,7 @@ export class Range extends ethereum.SmartContract {
 
   try_capacity(high_: boolean): ethereum.CallResult<BigInt> {
     const result = super.tryCall("capacity", "capacity(bool):(uint256)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -460,7 +461,7 @@ export class Range extends ethereum.SmartContract {
 
   lastActive(high_: boolean): BigInt {
     const result = super.call("lastActive", "lastActive(bool):(uint256)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
 
     return result[0].toBigInt();
@@ -468,7 +469,7 @@ export class Range extends ethereum.SmartContract {
 
   try_lastActive(high_: boolean): ethereum.CallResult<BigInt> {
     const result = super.tryCall("lastActive", "lastActive(bool):(uint256)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -479,7 +480,7 @@ export class Range extends ethereum.SmartContract {
 
   market(high_: boolean): BigInt {
     const result = super.call("market", "market(bool):(uint256)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
 
     return result[0].toBigInt();
@@ -487,7 +488,7 @@ export class Range extends ethereum.SmartContract {
 
   try_market(high_: boolean): ethereum.CallResult<BigInt> {
     const result = super.tryCall("market", "market(bool):(uint256)", [
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -514,7 +515,7 @@ export class Range extends ethereum.SmartContract {
   price(wall_: boolean, high_: boolean): BigInt {
     const result = super.call("price", "price(bool,bool):(uint256)", [
       ethereum.Value.fromBoolean(wall_),
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
 
     return result[0].toBigInt();
@@ -523,7 +524,7 @@ export class Range extends ethereum.SmartContract {
   try_price(wall_: boolean, high_: boolean): ethereum.CallResult<BigInt> {
     const result = super.tryCall("price", "price(bool,bool):(uint256)", [
       ethereum.Value.fromBoolean(wall_),
-      ethereum.Value.fromBoolean(high_)
+      ethereum.Value.fromBoolean(high_),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -536,7 +537,7 @@ export class Range extends ethereum.SmartContract {
     const result = super.call(
       "range",
       "range():(((bool,uint48,uint256,uint256,uint256),(bool,uint48,uint256,uint256,uint256),((uint256),(uint256),uint256),((uint256),(uint256),uint256)))",
-      []
+      [],
     );
 
     return changetype<Range__rangeResultValue0Struct>(result[0].toTuple());
@@ -546,14 +547,14 @@ export class Range extends ethereum.SmartContract {
     const result = super.tryCall(
       "range",
       "range():(((bool,uint48,uint256,uint256,uint256),(bool,uint48,uint256,uint256,uint256),((uint256),(uint256),uint256),((uint256),(uint256),uint256)))",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<Range__rangeResultValue0Struct>(value[0].toTuple())
+      changetype<Range__rangeResultValue0Struct>(value[0].toTuple()),
     );
   }
 
@@ -574,7 +575,7 @@ export class Range extends ethereum.SmartContract {
 
   spread(wall_: boolean): BigInt {
     const result = super.call("spread", "spread(bool):(uint256)", [
-      ethereum.Value.fromBoolean(wall_)
+      ethereum.Value.fromBoolean(wall_),
     ]);
 
     return result[0].toBigInt();
@@ -582,7 +583,7 @@ export class Range extends ethereum.SmartContract {
 
   try_spread(wall_: boolean): ethereum.CallResult<BigInt> {
     const result = super.tryCall("spread", "spread(bool):(uint256)", [
-      ethereum.Value.fromBoolean(wall_)
+      ethereum.Value.fromBoolean(wall_),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -595,7 +596,7 @@ export class Range extends ethereum.SmartContract {
     const result = super.call(
       "thresholdFactor",
       "thresholdFactor():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -605,7 +606,7 @@ export class Range extends ethereum.SmartContract {
     const result = super.tryCall(
       "thresholdFactor",
       "thresholdFactor():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

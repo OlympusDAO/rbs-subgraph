@@ -7,7 +7,8 @@ import {
   Entity,
   ethereum,
   JSONValue,
-  TypedMap} from "@graphprotocol/graph-ts";
+  TypedMap,
+} from "@graphprotocol/graph-ts";
 
 export class MovingAverageDurationChanged extends ethereum.Event {
   get params(): MovingAverageDurationChanged__Params {
@@ -106,11 +107,11 @@ export class Price__VERSIONResult {
     const map = new TypedMap<string, ethereum.Value>();
     map.set(
       "value0",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0)),
     );
     map.set(
       "value1",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)),
     );
     return map;
   }
@@ -157,7 +158,7 @@ export class Price extends ethereum.SmartContract {
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      new Price__VERSIONResult(value[0].toI32(), value[1].toI32())
+      new Price__VERSIONResult(value[0].toI32(), value[1].toI32()),
     );
   }
 
@@ -171,7 +172,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "cumulativeObs",
       "cumulativeObs():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -199,7 +200,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "getCurrentPrice",
       "getCurrentPrice():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -209,7 +210,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "getCurrentPrice",
       "getCurrentPrice():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -237,7 +238,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "getMovingAverage",
       "getMovingAverage():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -247,7 +248,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "getMovingAverage",
       "getMovingAverage():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -290,7 +291,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "lastObservationTime",
       "lastObservationTime():(uint48)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -300,7 +301,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "lastObservationTime",
       "lastObservationTime():(uint48)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -313,7 +314,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "movingAverageDuration",
       "movingAverageDuration():(uint48)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -323,7 +324,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "movingAverageDuration",
       "movingAverageDuration():(uint48)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -351,7 +352,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "numObservations",
       "numObservations():(uint32)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -361,7 +362,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "numObservations",
       "numObservations():(uint32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -374,7 +375,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "observationFrequency",
       "observationFrequency():(uint48)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -384,7 +385,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "observationFrequency",
       "observationFrequency():(uint48)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -395,7 +396,7 @@ export class Price extends ethereum.SmartContract {
 
   observations(param0: BigInt): BigInt {
     const result = super.call("observations", "observations(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+      ethereum.Value.fromUnsignedBigInt(param0),
     ]);
 
     return result[0].toBigInt();
@@ -405,7 +406,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "observations",
       "observations(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -418,7 +419,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "ohmEthPriceFeed",
       "ohmEthPriceFeed():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -428,7 +429,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "ohmEthPriceFeed",
       "ohmEthPriceFeed():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -441,7 +442,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "ohmEthUpdateThreshold",
       "ohmEthUpdateThreshold():(uint48)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -451,7 +452,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "ohmEthUpdateThreshold",
       "ohmEthUpdateThreshold():(uint48)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -464,7 +465,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "reserveEthPriceFeed",
       "reserveEthPriceFeed():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -474,7 +475,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "reserveEthPriceFeed",
       "reserveEthPriceFeed():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -487,7 +488,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.call(
       "reserveEthUpdateThreshold",
       "reserveEthUpdateThreshold():(uint48)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -497,7 +498,7 @@ export class Price extends ethereum.SmartContract {
     const result = super.tryCall(
       "reserveEthUpdateThreshold",
       "reserveEthUpdateThreshold():(uint48)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
