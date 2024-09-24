@@ -7,7 +7,8 @@ import {
   Entity,
   ethereum,
   JSONValue,
-  TypedMap} from "@graphprotocol/graph-ts";
+  TypedMap,
+} from "@graphprotocol/graph-ts";
 
 export class Beat extends ethereum.Event {
   get params(): Beat__Params {
@@ -120,7 +121,7 @@ export class OlympusHeart extends ethereum.SmartContract {
     const result = super.call(
       "configureDependencies",
       "configureDependencies():(bytes5[])",
-      []
+      [],
     );
 
     return result[0].toBytesArray();
@@ -130,7 +131,7 @@ export class OlympusHeart extends ethereum.SmartContract {
     const result = super.tryCall(
       "configureDependencies",
       "configureDependencies():(bytes5[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -214,18 +215,14 @@ export class OlympusHeart extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  requestPermissions(): Array<
-    OlympusHeart__requestPermissionsResultPermissionsStruct
-  > {
+  requestPermissions(): Array<OlympusHeart__requestPermissionsResultPermissionsStruct> {
     const result = super.call(
       "requestPermissions",
       "requestPermissions():((bytes5,bytes4)[])",
-      []
+      [],
     );
 
-    return result[0].toTupleArray<
-      OlympusHeart__requestPermissionsResultPermissionsStruct
-    >();
+    return result[0].toTupleArray<OlympusHeart__requestPermissionsResultPermissionsStruct>();
   }
 
   try_requestPermissions(): ethereum.CallResult<
@@ -234,16 +231,14 @@ export class OlympusHeart extends ethereum.SmartContract {
     const result = super.tryCall(
       "requestPermissions",
       "requestPermissions():((bytes5,bytes4)[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     const value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTupleArray<
-        OlympusHeart__requestPermissionsResultPermissionsStruct
-      >()
+      value[0].toTupleArray<OlympusHeart__requestPermissionsResultPermissionsStruct>(),
     );
   }
 

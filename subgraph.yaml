@@ -2,8 +2,8 @@ specVersion: 0.0.4
 features:
   - grafting
 graft:
-  base: QmcXTHcqM7BWd9UpNJf3m4f43bqJFpDMb5x7V4kyKSwWpE # 1.4.0
-  block: 18585890 # RBS 1.4 deployment
+  base: QmTyKkEnrkPjXfyFKheuCfxYhD1Gq9DPPv81ebnJWXogrf # 1.5.3
+  block: 20793884 # RBS 1.5 deployment
 schema:
   file: ./schema.graphql
 dataSources:
@@ -293,6 +293,35 @@ dataSources:
       address: "0xD5a0Ae3Bf7309416e70cB14399bDd508fE82C658"
       abi: OlympusHeart_v1_2
       startBlock: 18585890
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Beat
+        - RewardIssued
+        - RewardUpdated
+      abis:
+        - name: OlympusHeart_v1_2
+          file: ./abis/OlympusHeart_v1_2.json
+        # Bophades
+        - name: BophadesKernel
+          file: ./abis/BophadesKernel.json
+      eventHandlers:
+        - event: Beat(uint256)
+          handler: handleBeat
+        - event: RewardIssued(address,uint256)
+          handler: handleRewardIssued
+        - event: RewardUpdated(address,uint256,uint48)
+          handler: handleRewardUpdated_v1_2
+      file: ./src/heartbeat.ts
+  - kind: ethereum
+    name: OlympusHeart_v1_5
+    network: mainnet
+    source:
+      address: "0x39F6AA3d445e6Dd8eC232c6Bd589889A88E3034d"
+      abi: OlympusHeart_v1_2
+      startBlock: 20793884
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
