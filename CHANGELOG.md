@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.7.0 (2024-12-01)
+
+- Add Heart 1.6 contract
+- Add Operator 1.5 contract
+
 ## v1.6.1 (2024-09-23)
 
 - Update Heart to 1.5
