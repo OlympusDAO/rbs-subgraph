@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.8.3 (2025-11-11)
+
+- Add Heart 1.7 contract
+- Reduce block handler to index every hour (instead of every block)
+
 ## v1.7.1 (2024-12-01)
 
 - Add Heart 1.6 contract
