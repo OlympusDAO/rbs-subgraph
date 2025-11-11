@@ -1,9 +1,4 @@
 specVersion: 0.0.4
-features:
-  - grafting
-graft:
-  base: QmUFys1MZUhUfV9oKSynfpyfWHNrFw2b2Cg47deAo6tiHv # 1.7.1
-  block: 23748093 # Heart 1.7 deployment
 schema:
   file: ./schema.graphql
 dataSources:
