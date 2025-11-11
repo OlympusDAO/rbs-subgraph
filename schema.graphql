@@ -1,4 +1,4 @@
-type RangeSnapshot @entity {
+type RangeSnapshot @entity(immutable: true) {
   id: ID!
   blockchain: String!
   block: BigInt!
@@ -147,7 +147,7 @@ type MinimumTargetPriceChanged @entity(immutable: true) {
 
 # Heartbeat
 
-type Beat @entity {
+type Beat @entity(immutable: true) {
   id: ID!
   blockchain: String!
   block: BigInt!
@@ -156,7 +156,7 @@ type Beat @entity {
   timestamp: BigInt!
 }
 
-type BeatRewardIssued @entity {
+type BeatRewardIssued @entity(immutable: true) {
   id: ID!
   blockchain: String!
   block: BigInt!
@@ -168,7 +168,7 @@ type BeatRewardIssued @entity {
   rewardAmount: BigDecimal!
 }
 
-type BeatRewardUpdated @entity {
+type BeatRewardUpdated @entity(immutable: true) {
   id: ID!
   blockchain: String!
   block: BigInt!
@@ -181,7 +181,7 @@ type BeatRewardUpdated @entity {
   auctionDuration: BigInt
 }
 
-type OperatorVersion @entity {
+type OperatorVersion @entity(immutable: true) {
   id: ID!
   version: BigDecimal!
 }
