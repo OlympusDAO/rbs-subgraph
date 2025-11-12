@@ -1,9 +1,9 @@
 # Changelog
 
-## v1.8.3 (2025-11-11)
+## v1.8.4 (2025-11-12)
 
 - Add Heart 1.7 contract
-- Reduce block handler to index every hour (instead of every block)
+- Remove block handler for RangeSnapshot
 
 ## v1.7.1 (2024-12-01)
 
