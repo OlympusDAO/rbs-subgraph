@@ -51,15 +51,6 @@ dataSources:
           handler: handleWallDown
         - event: WallUp(bool,uint256,uint256)
           handler: handleWallUp
-      blockHandlers:
-        - handler: handleBlock
-          filter:
-            kind: polling
-            # Index once every hour
-            # 60 minutes * 60 seconds = 3600 seconds
-            # Block every 12 seconds
-            # 3600 / 12 = 300
-            every: 300
       file: ./src/range.ts
   - kind: ethereum
     name: Range_v2
