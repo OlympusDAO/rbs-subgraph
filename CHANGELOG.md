@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.8.5 (2025-11-13)
+
+- Add Heart 1.7 contract
+- Remove block handler for RangeSnapshot
+
 ## v1.7.1 (2024-12-01)
 
 - Add Heart 1.6 contract
