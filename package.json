@@ -12,7 +12,8 @@
     "deploy:studio": "source .subgraph-version && source .env && graph deploy --version-label $SUBGRAPH_VERSION --deploy-key $GRAPH_STUDIO_TOKEN olympus-rbs",
     "test": "graph test --version 0.5.3",
     "test:force": "yarn test --recompile",
-    "auth:studio": "source .env && graph auth $GRAPH_STUDIO_TOKEN"
+    "auth:studio": "source .env && graph auth $GRAPH_STUDIO_TOKEN",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.98.0",
@@ -28,5 +29,11 @@
     "matchstick-as": "^0.6.0",
     "prettier": "^2.6.2",
     "typescript": "^4.6.4"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "pnpm": "10.33.0",
+    "npm": "use-pnpm",
+    "yarn": "use-pnpm"
   }
 }
