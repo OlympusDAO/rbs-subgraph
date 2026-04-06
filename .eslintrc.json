@@ -54,5 +54,12 @@
     ],
     "@typescript-eslint/no-use-before-define": "warn"
   },
-  "overrides": []
+  "overrides": [
+    {
+      "files": ["src/**/*.ts"]
+    },
+    {
+      "files": ["generated/**/*.ts"]
+    }
+  ]
 }
