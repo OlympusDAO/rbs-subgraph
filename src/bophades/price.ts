@@ -1,5 +1,4 @@
-import { Address,ethereum } from "@graphprotocol/graph-ts";
-
+import { ethereum, Address } from "@graphprotocol/graph-ts";
 import { Price } from "../../generated/PriceV1/Price";
 import { getModuleAddress } from "./kernel";
 
