@@ -5,7 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '''@isaacs/brace-expansion@<=5.0.0''': '>=5.0.1'
+  '@isaacs/brace-expansion@<=5.0.0': '>=5.0.1'
+  '@pnpm/npm-conf': '>=3.0.2'
+  '@pnpm/npm-conf@<3.0.2': '>=3.0.2'
   '@isaacs/brace-expansion': '>=5.0.1'
   ajv: '>=6.14.0'
   ajv@<6.14.0: '>=6.14.0'
@@ -392,8 +394,8 @@ packages:
     resolution: {integrity: sha512-YcPQ8a0jwYU9bTdJDpXjMi7Brhkr1mXsXrUJvjqM2mQDgkRiz8jFaQGOdaLxgjtUfQgZhKy/O3cG/YwmgKaxLA==}
     engines: {node: '>=12.22.0'}
 
-  '@pnpm/npm-conf@2.3.1':
-    resolution: {integrity: sha512-c83qWb22rNRuB0UaVCI0uRPNRr8Z0FWnEIvT47jiHAmOIUHbBOg5XvV7pM5x+rKn9HRpjxquDbXYSXr3fAKFcw==}
+  '@pnpm/npm-conf@3.0.2':
+    resolution: {integrity: sha512-h104Kh26rR8tm+a3Qkc5S4VLYint3FE48as7+/5oCEcKR2idC/pF1G6AhIXKI+eHPJa/3J9i5z0Al47IeGHPkA==}
     engines: {node: '>=12'}
 
   '@rescript/std@9.0.0':
@@ -2364,7 +2366,7 @@ snapshots:
     dependencies:
       graceful-fs: 4.2.10
 
-  '@pnpm/npm-conf@2.3.1':
+  '@pnpm/npm-conf@3.0.2':
     dependencies:
       '@pnpm/config.env-replace': 1.1.0
       '@pnpm/network.ca-file': 1.0.2
@@ -3656,7 +3658,7 @@ snapshots:
 
   registry-auth-token@5.1.0:
     dependencies:
-      '@pnpm/npm-conf': 2.3.1
+      '@pnpm/npm-conf': 3.0.2
 
   require-from-string@2.0.2: {}
 
