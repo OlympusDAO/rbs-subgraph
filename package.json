@@ -7,10 +7,10 @@
   "license": "MIT",
   "homepage": "https://github.com/OlympusDAO/rbs-subgraph",
   "scripts": {
-    "codegen": "rm -rf generated/ && graph codegen && pnpm exec eslint --config ./.eslintrc.json --fix generated/",
+    "codegen": "rm -rf generated/ && graph codegen && eslint --config ./.eslintrc.json --fix generated/",
     "build": "graph build",
     "lint": "eslint --config ./.eslintrc.json src --fix",
-    "lint:check": "eslint --config ./.eslintrc.json src",
+    "lint:check": "eslint --max-warnings 0 --config ./.eslintrc.json src",
     "deploy:studio": "source .subgraph-version && source .env && graph deploy --version-label $SUBGRAPH_VERSION --deploy-key $GRAPH_STUDIO_TOKEN olympus-rbs",
     "test": "graph test --version 0.5.3",
     "test:force": "yarn test --recompile",
