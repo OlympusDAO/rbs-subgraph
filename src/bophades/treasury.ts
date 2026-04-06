@@ -1,6 +1,7 @@
 import { Address, ethereum } from "@graphprotocol/graph-ts";
-import { getModuleAddress } from "./kernel";
+
 import { Treasury } from "../../generated/Range/Treasury";
+import { getModuleAddress } from "./kernel";
 
 /**
  * Returns the currently-active TRSRY contract.
