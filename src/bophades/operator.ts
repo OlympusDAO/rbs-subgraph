@@ -1,7 +1,8 @@
 import { Address, BigDecimal, log } from "@graphprotocol/graph-ts";
+
 import { Operator } from "../../generated/PriceV1/Operator";
-import { OPERATOR_CONTRACT_V1, OPERATOR_CONTRACT_V1_1, OPERATOR_CONTRACT_V1_3, OPERATOR_CONTRACT_V1_4, OPERATOR_CONTRACT_V1_5 } from "../constants";
 import { OperatorVersion } from "../../generated/schema";
+import { OPERATOR_CONTRACT_V1, OPERATOR_CONTRACT_V1_1, OPERATOR_CONTRACT_V1_3, OPERATOR_CONTRACT_V1_4, OPERATOR_CONTRACT_V1_5 } from "../constants";
 
 const OPERATOR_VERSIONS: Map<string, string> = new Map<string, string>();
 OPERATOR_VERSIONS.set("1.0", OPERATOR_CONTRACT_V1);
