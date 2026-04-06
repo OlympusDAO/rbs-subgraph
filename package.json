@@ -7,7 +7,7 @@
   "license": "MIT",
   "homepage": "https://github.com/OlympusDAO/rbs-subgraph",
   "scripts": {
-    "codegen": "rm -rf generated/ && graph codegen && yarn eslint --config ./.eslintrc.json --fix generated/",
+    "codegen": "rm -rf generated/ && graph codegen && pnpm exec eslint --config ./.eslintrc.json --fix generated/",
     "build": "graph build",
     "lint": "eslint --config ./.eslintrc.json src --fix",
     "lint:check": "eslint --config ./.eslintrc.json src",
