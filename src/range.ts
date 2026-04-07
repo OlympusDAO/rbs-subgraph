@@ -14,14 +14,14 @@ import {
     SpreadsChanged as SpreadsChanged_v2
 } from "../generated/Range_v2/Range_v2";
 import { PriceEvent, PricesChangedEvent, RangeSnapshot, SpreadsChangedEvent, ThresholdFactorChangedEvent } from "../generated/schema"
+import { getOperatorContract } from "./bophades/operator";
+import { getPriceContract } from "./bophades/price";
+import { getRangeContract } from "./bophades/range";
+import { getTreasuryContract } from "./bophades/treasury";
 import { getChain } from "./helpers/contractHelper";
 import { getISO8601StringFromTimestamp } from "./helpers/dateHelper";
 import { toDecimal } from "./helpers/decimalHelper";
 import { getUnixTimestamp } from "./helpers/numberHelper";
-import { getPriceContract } from "./bophades/price";
-import { getRangeContract } from "./bophades/range";
-import { getTreasuryContract } from "./bophades/treasury";
-import { getOperatorContract } from "./bophades/operator";
 
 const MAX_INT: BigInt = BigInt.fromString("115792089237316195423570985008687907853269984665640564039457584007913129639935");
 const DECIMALS_OHM = 9;
