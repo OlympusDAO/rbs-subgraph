@@ -13,9 +13,8 @@
     "lint:check": "eslint --max-warnings 0 --ext .ts src generated",
     "deploy:studio": "source .subgraph-version && source .env && graph deploy --version-label $SUBGRAPH_VERSION --deploy-key $GRAPH_STUDIO_TOKEN olympus-rbs",
     "test": "graph test --version 0.5.3",
-    "test:force": "yarn test --recompile",
-    "auth:studio": "source .env && graph auth $GRAPH_STUDIO_TOKEN",
-    "preinstall": "npx only-allow@1.2.2 pnpm"
+    "test:force": "pnpm run test -- --recompile",
+    "auth:studio": "source .env && graph auth $GRAPH_STUDIO_TOKEN"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.98.1",
@@ -35,9 +34,9 @@
   },
   "engines": {
     "node": ">=24",
-    "pnpm": ">=10.33.0",
+    "pnpm": ">=11.13.1",
     "npm": "use-pnpm",
     "yarn": "use-pnpm"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@11.13.1"
 }
