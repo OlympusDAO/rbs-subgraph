@@ -22,7 +22,7 @@ jobs:
       - name: Bootstrap
         uses: ./.github/actions/bootstrap
       - name: Audit pnpm dependencies (fail on moderate+)
-        uses: JamesRobertWiseman/pnpm-audit@ef62519bd4eb8b0b063989599c2ebbf5dd5f5f28 # v3
+        uses: JamesRobertWiseman/pnpm-audit@ef62519bd4eb8b0b063989599c2ebbf5dd5f5f28 # v3.1.0
         with:
           package_json_path: ./
           github_token: ${{ secrets.GITHUB_TOKEN }}

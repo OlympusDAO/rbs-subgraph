@@ -13,7 +13,7 @@
     "lint:check": "eslint --max-warnings 0 --ext .ts src generated",
     "deploy:studio": "source .subgraph-version && source .env && graph deploy --version-label $SUBGRAPH_VERSION --deploy-key $GRAPH_STUDIO_TOKEN olympus-rbs",
     "test": "graph test --version 0.5.3",
-    "test:force": "yarn test --recompile",
+    "test:force": "pnpm run test -- --recompile",
     "auth:studio": "source .env && graph auth $GRAPH_STUDIO_TOKEN"
   },
   "dependencies": {
